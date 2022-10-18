@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- icon thanh địa chỉ -->
+    <title>Thông Tin Tài khoản</title>
+    <link th:href="@{/dashboard/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/dashboard/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/dashboard/css/ruang-admin.min.css}" rel="stylesheet">
+
+    <!-- css customize -->
+    <link th:href="@{/dashboard/css/customer.style.css}" rel="stylesheet">
+
+    <!-- boxicon -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index" style="background-color: #10ac84;">
+                <div class="sidebar-brand-icon">
+                    <img th:src="@{/user/img/logo3.png}" height="33px" >
+                </div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/index">
+                    <i class='bx bxs-home'></i>
+                    <span>Trang chủ</span></a>
+            </li>
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Thông tin khách hàng
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" th:href="@{/user/infor}">
+                    <i class='bx bxs-user-rectangle'></i>
+                    <span>Thông tin cá nhân</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" th:href="@{/user/detailInfor}">
+                    <i class='bx bx-edit'></i>
+                    <span>Chỉnh sửa thông tin</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" th:href="@{/user/change-password}" >
+                    <i class='bx bxs-lock-alt'></i>
+                    <span>Đổi mật khẩu</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-toggle="modal" data-target="#logoutModal">
+                    <i class='bx bx-log-out-circle'></i>
+                    <span>Đăng xuất</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top" style="background-color: #7fad39;">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+	                    <li class="nav-item dropdown no-arrow">
+	                        <a class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()">
+	                            <img class="img-profile rounded-circle" 
+	                            	th:src="@{${account.getPhotosImagePath()}}"
+	                                 style="max-width: 60px">
+	                            <span class="ml-2 d-none d-lg-inline text-white small" sec:authentication="name">Username></span>
+	                        </a>
+	                    </li>
+	                </ul>
+                </nav>
+                <!-- Topbar -->
+
+                <!-- Modal Logout -->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabelLogout">Ohh Không!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc chắn bạn muốn thoát ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary"
+                                        data-dismiss="modal">Trở lại</button>
+                                <a th:href="@{/security/logoff}" class="btn btn-primary">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container Fluid-->
+                <div class="container-fluid customer-information" id="container-wrapper">
+                    <div class="d-sm-flex justify-content-between mb-4 title">
+                        <h1 class="h3 mb-0 text-gray-800">Thông tin cá nhân</h1>
+                    </div>
+
+                    <!-- row info -->
+                    <div class="information-box" >
+                        <!-- intro info -->
+                        <div class="row box">
+                            <div class="col-12" style="text-align: center">
+                                <img th:src="@{${account.getPhotosImagePath()}}"
+                                     alt="" style="width: 200px; height: 200px; border-radius: 50%;">
+                            </div>
+                        </div>
+                        <!-- information -->
+                        <div class="row box box-border" th:each="acc : ${account}">
+                            <h5 class="col-12" style="padding: 20px 0;">Thông tin cơ bản</h5>
+
+                            <div class="col-3" style="text-transform: uppercase; padding: 0; font-weight: 600; font-size: 14px;"><p style="padding-top: 10px;">Tài khoản</p></div>
+                            <div class="col-8"><h5 style="font-weight: 400; padding-top: 5px; color: black;" th:text="${acc.username}"></h5></div>
+                            <div class="col-1"><i class='bx bx-chevron-right' style="padding-top: 15px;"></i></div>
+
+                            <div class="strikethrough"></div>
+                            <div class="col-3" style="text-transform: uppercase; padding: 0; font-weight: 600; font-size: 14px;"><p style="padding-top: 10px;">Họ tên</p></div>
+                            <div class="col-8"><h5 style="font-weight: 400; padding-top: 5px; color: black" th:text="${acc.fullname}"></h5></div>
+                            <div class="col-1"><i class='bx bx-chevron-right' style="padding-top: 15px;"></i></div>
+                        </div>
+
+                        <!-- communications -->
+                        <div class="row box box-border" th:each="acc : ${account}">
+                            <h5 class="col-12" style="padding: 20px 0;">Thông tin liên lạc</h5>
+
+                            <div class="col-3" style="text-transform: uppercase; padding: 0; font-weight: 600; font-size: 14px;"><p style="padding-top: 10px;">email</p></div>
+                            <div class="col-8"><h5 style="font-weight: 400; padding-top: 5px; color: black" th:text="${acc.email}"></h5></div>
+                            <div class="col-1"><i class='bx bx-chevron-right' style="padding-top: 15px;"></i></div>
+
+                            <div class="strikethrough"></div>
+                            <div class="col-3" style="text-transform: uppercase; padding: 0; font-weight: 600; font-size: 14px;"><p style="padding-top: 10px;">Địa chỉ</p></div>
+                            <div class="col-8"><h5 style="font-weight: 400; padding-top: 5px; color: black" th:text="${acc.address}"></h5></div>
+                            <div class="col-1"><i class='bx bx-chevron-right' style="padding-top: 15px;"></i></div>
+
+                            <div class="strikethrough"></div>
+                            <div class="col-3" style="text-transform: uppercase; padding: 0; font-weight: 600; font-size: 14px;"><p style="padding-top: 10px;">Số điện thoại</p></div>
+                            <div class="col-8"><h5 style="font-weight: 400; padding-top: 5px; color: black" th:text="${acc.phone}"></h5></div>
+                            <div class="col-1"><i class='bx bx-chevron-right' style="padding-top: 15px;"></i></div>
+                        </div>
+
+                    </div>
+                    <!-- end row info -->
+                </div>
+                <!---Container Fluid-->
+            </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>copyright &copy; <script>
+                                document.write(new Date().getFullYear());
+                            </script> - developed by
+                            <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+
+            <!-- Modal Logout -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabelLogout">Ohh Không!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có chắc mình muốn thoát?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Trở
+                                lại</button>
+                            <a th:href="@{/security/logoff}" class="btn btn-primary">Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script th:src="@{/dashboard/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/dashboard/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <script th:src="@{/dashboard/js/ruang-admin.min.js}"></script>
+    <script th:src="@{/dashboard/vendor/chart.js/Chart.min.js}"></script>
+    <!--   <script th:src="@{/admin/js/demo/chart-area-demo.js}"></script>   -->
+  
+</body>
+
+</html>

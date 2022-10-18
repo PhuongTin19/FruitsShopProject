@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<body>
+<main th:object="${item}">
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Chi Tiết Sản Phẩm</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Trang Chủ</a>
+                            <span>Chi Tiết Sản Phẩm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                           <img class="product__details__pic__item--large" th:src="@{|/user/img/product/*{image}|}" alt="">
+                        </div>
+                        <div  class="product__details__pic__slider owl-carousel">
+                            <img th:each="i:${image}" 
+                                th:src="@{|/user/img/product/${i.name}|}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>[[${item.name}]]</h3>
+                        <span class="badge badge-danger">Danh mục : [[${item.category.name}]]</span>
+                        <h4>Giá hiện tại</h4>
+                        <div class="product__details__price font-weight-bold">[[${#numbers.formatInteger(item.price - ((item.discount.discount * item.price)/100),3,'POINT')}]]<sup>đ</div>
+                        <p></p>
+                        <!--<div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                        </div>-->
+                        <a th:attr="ng-click=@{|cart.add(${item.product_id})|}" class="primary-btn">Thêm vào giỏ</a>
+                        <!-- table -->
+                        <table class="table table-borderless">
+						  <tbody>
+						    <tr>
+						      <td class="col-4 font-weight-bold">Giao hàng</td>
+						      <td class="col8">Giao hàng trong ngày. <samp class="text-danger">Miễn phí vẫn chuyển với hóa đơn trên 500.000 vnđ</samp></span></td>
+						    </tr>
+						    <tr>
+						      <td class="col-4 font-weight-bold">Trọng lượng</td>
+						      <td class="col8">[[${item.weight}]] kg</td>
+						    </tr>
+						    <tr>
+						      <td class="col-4 font-weight-bold">Mô tả sản phẩm</td>
+						      <td class="col8"><span >[[${item.description}]]</span></td>
+						    </tr>
+						  </tbody>
+						</table>
+                        <!-- table -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+    <!-- Related Product Section Begin -->
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>Sản phẩm liên quan đến [[${item.category.name}]]</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div th:each="p:${listProduct}" class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg">
+                        	<img th:src="@{ |/user/img/product/${p.image}| }" height=190px alt="">
+                            <ul class="product__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}">
+	                           [[${#strings.capitalizeWords(p.name)}]]
+	                            </a>
+	                        </h6>
+							<h5 class="text-danger">[[${#numbers.formatInteger(p.price - ((p.discount.discount * p.price)/100),3,'POINT')}]]<sup>đ</sup>
+								<th:block th:unless="${p.discount.discount==0}">
+									<strike class="text-dark ml-3">[[${#numbers.formatInteger(p.price,3,'POINT')}]]<sup>đ</sup></strike>
+								</th:block>
+							</h5>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+    <!-- Js Plugins -->
+    <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/user/js/bootstrap.min.js}"></script>
+    <script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/user/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/user/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/user/js/mixitup.min.js}"></script>
+    <script th:src="@{/user/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/user/js/main.js}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<!--<th:block th:include="user/fragments/slide2"></th:block>-->
+		<section>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+
+					</div>
+					<div class="col-lg-9">
+						<div class="hero__search">
+							<div class="hero__search__form">
+								<form th:action="@{/user/product}" method="post">
+									<input name="keywords" th:value="${keywords}" type="text" placeholder="">
+									<button type="submit" class="site-btn">Tìm Kiếm</button>
+								</form>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Five House Shop</h2>
+							<div class="breadcrumb__option">
+								<a href="./index.html">Trang chủ</a>
+								<span>Mặt Hàng</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Product Section Begin -->
+		<section class="product spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-5">
+						<div class="sidebar">
+							<div class="sidebar__item">
+								<h4>Phân Loại</h4>
+								<ul th:each="cates : ${listCate}">
+									<li><a th:href="@{|/user/product/${cates.category_id}|}">[(${cates.name})]</a></li>
+								</ul>
+							</div>
+							<div class="sidebar__item">
+								<h4>Giá</h4>
+								<div class="price-range-wrap">
+									<div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+										data-min="0" data-max="500000">
+										<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+										<span tabindex="0"
+											class="ui-slider-handle ui-corner-all ui-state-default"></span>
+										<span tabindex="0"
+											class="ui-slider-handle ui-corner-all ui-state-default"></span>
+									</div>
+									<div class="range-slider">
+										<div class="price-input">
+											<form th:action="@{/user/discount/fillterByPrice}" method="post">
+												<input name="max" type="text" id="minamount">
+												<input name="min" type="text" id="maxamount">
+												<button class="btn btn-danger text-white">Tìm</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="sidebar__item">
+								<div class="latest-product__text">
+									<h4>Sản Phẩm Mới</h4>
+									<div class="latest-product__slider owl-carousel">
+										<div class="latest-prdouct__slider__item">
+											<a th:each="fruits : ${listFruits}" class="latest-product__item">
+												<a
+													th:href="@{|/index/product/detail/${fruits.product_id}/${fruits.category.category_id}|}">
+													<div class="latest-product__item__pic">
+														<img th:src="@{ |/user/img/product/${fruits.image}| }"
+															height="70px" alt="">
+													</div>
+													<div class="latest-product__item__text">
+														<h6 th:text="${fruits.name}"></h6>
+														<span>[(${#numbers.formatInteger(fruits.price,3,'POINT')})]<sup>đ</sup></span>
+													</div>
+												</a>
+											</a>
+										</div>
+										<div class="latest-prdouct__slider__item">
+											<a th:each="vegetables : ${listVegetables}" href="#"
+												class="latest-product__item">
+												<a
+													th:href="@{|/index/product/detail/${vegetables.product_id}/${vegetables.category.category_id}|}">
+													<div class="latest-product__item__pic">
+														<img th:src="@{ |/user/img/product/${vegetables.image}| }"
+															height="70px" alt="">
+													</div>
+													<div class="latest-product__item__text">
+														<h6 th:text="${vegetables.name}"></h6>
+														<span>[(${#numbers.formatInteger(vegetables.price,3,'POINT')})]<sup>đ</sup></span>
+													</div>
+												</a>
+											</a>
+										</div>
+										<div class="latest-prdouct__slider__item">
+											<a th:each="bean : ${listBean}" href="#" class="latest-product__item">
+												<a
+													th:href="@{|/index/product/detail/${bean.product_id}/${bean.category.category_id}|}">
+													<div class="latest-product__item__pic">
+														<img th:src="@{ |/user/img/product/${bean.image}| }"
+															height="70px" alt="">
+													</div>
+													<div class="latest-product__item__text">
+														<h6 th:text="${bean.name}"></h6>
+														<span>[(${#numbers.formatInteger(bean.price,3,'POINT')})]<sup>đ</sup></span>
+													</div>
+												</a>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-7">
+						<div class="section-title product__discount__title">
+							<h2>Mặt Hàng</h2>
+						</div>
+						<div class="filter__item">
+
+						</div>
+						<div class="row">
+							<div th:each="d : ${discountList.content}" th:object="${session.currentUser}"
+								class="col-lg-4 col-md-6 col-sm-6">
+								<div class="product__item">
+									<div class="product__item__pic set-bg product__discount__item__pic">
+										<img th:src="@{ |/user/img/product/${d.image}| }" height=190px alt="">
+										<th:block th:unless="${d.discount.discount==0}">
+											<div class="product__discount__percent">
+												-[(${#numbers.formatDecimal(d.discount.discount, 0,
+												'COMMA',0,'POINT')})]%
+											</div>
+										</th:block>
+										<ul class="product__item__pic__hover">
+											<li th:if="${session.currentUser!=null}">
+												<a
+													th:href="@{|/user/favorite/like?pid=${d.product_id}&id=*{account_id}|}"><i
+														class="fa fa-heart"></i></a>
+											</li>
+											<li><a th:attr="ng-click=@{|cart.add(${d.product_id})|}"><i class="fa fa-shopping-cart"></i></a></li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<a
+											th:href="@{|/index/product/detail/${d.product_id}/${d.category.category_id}|}">
+											<h6 th:text="${d.name}"></h6>
+										</a>
+										<h5 class="text-danger">[(${#numbers.formatInteger(d.price -
+											((d.discount.discount * d.price)/100) ,3,'POINT')})]<sup>đ</sup>
+											<th:block th:unless="${d.discount.discount==0}">
+												<strike class="text-dark ml-3"> [(${#numbers.formatInteger(d.price,3,
+													'POINT')})]<sup>đ</sup></strike>
+											</th:block>
+										</h5>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="product__pagination blog__pagination">
+								<a th:href="@{/user/product?page=0}"><i>
+										<<< /i></a>
+								<a th:href="@{'/user/product?page='+${discountList.number-1}}"><i>
+										<< /i></a>
+								<a th:href="@{'/user/product?page='+${discountList.number+1}}"><i>></i></a>
+								<a th:href="@{'/user/product?page='+${discountList.totalPages-1}}"><i>>></i></a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<!-- Product Section End -->
+
+	</main>
+	<!-- Js Plugins -->
+	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/user/js/bootstrap.min.js}"></script>
+	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+	<script th:src="@{/user/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/user/js/jquery.slicknav.js}"></script>
+	<script th:src="@{/user/js/mixitup.min.js}"></script>
+	<script th:src="@{/user/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/user/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

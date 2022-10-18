@@ -1,0 +1,106 @@
+<div>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Header Section Begin -->
+	<header class="header">
+		<div class="header__top">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="header__top__left">
+							<ul>
+								<li sec:authorize="isAuthenticated()">
+									<i class="fa fa-envelope"></i>Welcome,
+									<!----><span sec:authentication="name"></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 ">
+						<div class="header__top__right">
+							<div class="header__top__right__language">
+
+								<img th:src="@{/user/img/language.png}" alt="">
+								<div>Tiếng Anh</div>
+								<span class="arrow_carrot-down"></span>
+								<ul>
+									<li><a href="#">Tiếng Việt</a></li>
+									<li><a href="#">Tiếng Anh</a></li>
+								</ul>
+							</div>
+							<div class="header__top__right__language">
+								<div sec:authorize="!isAuthenticated()">
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/login}">Đăng
+										Nhập</a>
+								</div>
+								<div sec:authorize="isAuthenticated()">
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/logoff}">Đăng
+										Xuất</a>
+								</div>
+							</div>
+							<div class="header__top__right__language">
+								<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/register}">Đăng Ký</a>
+							</div>
+							<div class="header__top__right__language">
+								<div sec:authorize="isAuthenticated()">
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/infor}"><i
+											class="fa fa-user"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="header__logo">
+				<a th:href="@{/index}"><img th:src="@{/user/img/logo3.png}" height="38px" width="190px" alt=""></a>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<nav class="header__menu">
+				<ul>
+					<li class="active"><a th:href="@{/index}">Trang Chủ</a></li>
+					<li><a th:href="@{/user/product}">Mặt Hàng</a></li>
+					<li><a th:href="@{/user/blog}">Blog</a></li>
+					<li><a th:href="@{/contact}">Liên Hệ</a></li>
+				</ul>
+				<ul sec:authorize="isAuthenticated()">
+					<li>
+						<a style="margin-left:100px" th:href="@{/order/list}">Lịch Sử Mua Hàng</a>
+					</li>
+					<li>
+						<a th:href="@{/tracking}">Theo Dõi Đơn Hàng</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-lg-3">
+			<div class="header__cart">
+				<ul>
+					<!--'+*{username}}" -->
+					<li th:if="${session.currentUser!=null}" th:object="${session.currentUser}"
+						sec:authorize="isAuthenticated()">
+						<a th:href="@{'/user/favorite?id='+*{account_id}}"><i class="fa fa-heart"></i>
+							<span>[[${countLike}]]</span></a>
+					</li>
+					<li><a th:href="@{/cart}"><i class="fa fa-shopping-bag"></i> <span>{{cart.count}} </span></a></li>
+				</ul>
+				<div class="header__cart__price">Tổng tiền: <span>{{cart.amount|number:0}} <sup>đ</sup> </span></div>
+			</div>
+		</div>
+	</div>
+	<div class="humberger__open">
+		<i class="fa fa-bars"></i>
+	</div>
+</div>
+</header>
+<!-- Header Section End -->
+
+
+</div>

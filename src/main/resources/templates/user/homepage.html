@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<th:block th:include="user/fragments/slide"></th:block>
+		<section class="categories">
+			<div class="container">
+				<div class="row">
+					<div class="categories__slider owl-carousel">
+						<div th:each="s:${slideCategory}" class="col-lg-3">
+							<div class="categories__item ">
+								<img th:src="@{|/user/img/product/${s.image}|}" height="190px" alt="">
+								<h5><a th:href="@{|/user/product/${s.category.category_id}|}">[[${s.category.name}]]</a></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Categories Section End -->
+
+		<!-- Featured Section Begin -->
+		<section class="featured spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="section-title">
+							<h2>Sản Phẩm Nổi Bật</h2>
+						</div>
+						<div class="featured__controls">
+							<ul>
+								<li class="active" data-filter="*">All</li>
+								<li data-filter=".oranges">Oranges</li>
+								<li data-filter=".fresh-meat">Fresh Meat</li>
+								<li data-filter=".vegetables">Vegetables</li>
+								<li data-filter=".fastfood">Fastfood</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row featured__filter">
+					<div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges" th:each="p:${items}"
+						th:object="${session.currentUser}">
+						<div class="product__item">
+							<div class="product__item__pic set-bg product__discount__item__pic">
+								<img th:src="@{|/user/img/product/${p.image}|}" height=190px alt="">
+								<th:block th:unless="${p.discount.discount==0}">
+									<div class="product__discount__percent">
+										-[(${#numbers.formatDecimal(p.discount.discount, 0, 'COMMA',0,
+										'POINT')})]%
+									</div>
+								</th:block>
+								<ul class="product__item__pic__hover">
+									<li th:if="${session.currentUser!=null}" sec:authorize="isAuthenticated()">
+										<a th:href="@{|/user/favorite/like?pid=${p.product_id}&id=*{account_id}|}"><i
+												class="fa fa-heart"></i></a>
+									</li>
+									<li><a th:attr="ng-click=@{|cart.add(${p.product_id})|}"><i class="fa fa-shopping-cart"></i></a></li>
+								</ul>
+							</div>
+							<div class="product__item__text">
+								<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}">
+									<h6>[[${#strings.capitalizeWords(p.name)}]]</h6>
+								</a>
+								<h5 class="text-danger">[[${#numbers.formatInteger(p.price - ((p.discount.discount * p.price)/100),3,'POINT')}]]<sup>đ</sup>
+									<th:block th:unless="${p.discount.discount==0}">
+										<strike class="text-dark ml-3">[[${#numbers.formatInteger(p.price,3,'POINT')}]]<sup>đ</sup></strike>
+									</th:block>
+								</h5>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<!-- Featured Section End -->
+
+
+		<!-- Latest Product Section Begin -->
+		<section class="latest-product spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4 col-md-6">
+						<div class="latest-product__text">
+							<h4 class="text-uppercase ">Sản phẩm mới nhất</h4>
+							<div class="latest-product__slider owl-carousel ">
+								<div class="latest-prdouct__slider__item">
+									<div th:each="p:${listProduct}">
+										<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}"
+											class="latest-product__item">
+											<div class="latest-product__item__pic">
+												<img th:src="@{|/user/img/product/${p.image}|}" height="70px" alt="">
+											</div>
+											<div class="latest-product__item__text">
+												<h6>[[${p.name}]]</h6>
+											</div>
+											<h5 class="text-danger">[[${#numbers.formatInteger(p.price - ((p.discount.discount * p.price)/100),3,'POINT')}]]<sup>đ</sup>
+												<th:block th:unless="${p.discount.discount==0}">
+													<strike class="text-dark ml-3">[[${#numbers.formatInteger(p.price,3,'POINT')}]]<sup>đ</sup></strike>
+												</th:block>
+											</h5>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6">
+						<div class="latest-product__text">
+							<h4 class="text-uppercase ">Sản phẩm thích nhất</h4>
+							<div class="latest-product__slider owl-carousel ">
+								<div class="latest-prdouct__slider__item">
+									<div th:each="f:${listProductFavorite}">
+										<a th:href="@{|/index/product/detail/${f[3]}/${f[5]}|}"
+											class="latest-product__item">
+											<div class="latest-product__item__pic">
+												<img th:src="@{|/user/img/product/${f[2]}|}" height="70px" alt="">
+											</div>
+											<div class="latest-product__item__text">
+												<h6>[[${f[0]}]]</h6>
+												
+											</div>
+											<h5 class="text-danger">[[${#numbers.formatInteger(f[1] - ((f[5] * f[1])/100),3,'POINT')}]]<sup>đ</sup>
+												<th:block th:unless="${f[5]==0}">
+													<strike class="text-dark ml-3">[[${#numbers.formatInteger(f[1],3,'POINT')}]]<sup>đ</sup></strike>
+												</th:block>
+											</h5>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6">
+						<div class="latest-product__text">
+							<h4 class="text-uppercase ">Nhiều lượt mua nhất</h4>
+							<div class="latest-product__slider owl-carousel ">
+								<div class="latest-prdouct__slider__item">
+									<div th:each="c:${countMostBuys}">
+										<a th:href="@{|/index/product/detail/${c[3]}/${c[4]}|}"
+											class="latest-product__item">
+											<div class="latest-product__item__pic">
+												<img th:src="@{|/user/img/product/${c[2]}|}" height="70px" alt="">
+											</div>
+											<div class="latest-product__item__text">
+												<h6>[[${c[0]}]]</h6>
+											</div>
+											<h5 class="text-danger">[[${#numbers.formatInteger(c[1] - ((c[5] * c[1])/100),3,'POINT')}]]<sup>đ</sup>
+												<th:block th:unless="${c[5]==0}">
+													<strike class="text-dark ml-3">[[${#numbers.formatInteger(c[1],3,'POINT')}]]<sup>đ</sup></strike>
+												</th:block>
+											</h5>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+		<!-- Latest Product Section End -->
+
+		<!-- Blog Section Begin -->
+		<section class="from-blog spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="section-title from-blog__title">
+							<h2>Blog</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div th:each="b:${blog}" class="col-lg-4 col-md-4 col-sm-6">
+						<div class="blog__item">
+							<div class="blog__item__pic">
+								<img th:src="@{ |/user/img/blog/${b.image}| }" alt="">
+							</div>
+							<div class="blog__item__text">
+								<ul>
+									<li><i class="fa fa-calendar-o"></i> [[${#dates.format(b.createdate,'dd-MM-yyyy')}]]
+									</li>
+								</ul>
+								<h5><a th:href="@{|/user/blog/${b.blog_id}|}">[[${b.title}]]</a></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+	</main>
+	<!-- Js Plugins -->
+	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/user/js/bootstrap.min.js}"></script>
+	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+	<script th:src="@{/user/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/user/js/jquery.slicknav.js}"></script>
+	<script th:src="@{/user/js/mixitup.min.js}"></script>
+	<script th:src="@{/user/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/user/js/main.js}"></script>
+</body>
+
+</html>

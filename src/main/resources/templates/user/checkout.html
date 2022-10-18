@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<body>
+<main>
+    
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Thủ tục đặt hàng</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Trang chủ</a>
+                            <span>Đặt hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+            </div>
+            <div class="checkout__form">
+                <h4>CHI TIẾT ĐƠN HÀNG CỦA BẠN</h4>
+                <h1>{{order.orderdate | date:'dd-MM-yyyy HH: mm: ss'}}</h1>
+                <form action="#" th:object="${session.currentUser}">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-4">
+                            <div class="row">
+                                <div style="display:none" class="col-lg-12">
+                                    <div class="checkout__input">
+                                        <p>Mã người mua hàng<span>*</span></p>
+                                        <input id="account_id" th:value="*{account_id}" type="text">
+                                    </div>
+                                </div>
+                                <div style="display:none" class="col-lg-12">
+                                    <div class="checkout__input">
+                                        <p>payment<span>*</span></p>
+                                        <input id="payment_method_id" th:value="1" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="checkout__input" >
+                                        <p>Họ tên<span>*</span></p>
+                                        <input id="fullname" th:value="*{fullname}" type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="checkout__input" >
+                                        <p>Địa chỉ<span>*</span></p>
+                                        <input th:field="${orderValidate.address}" ng-model="order.address" id="address"  type="text" placeholder="Toà Inovation Phần Mềm Quang Trung, Quận 12">
+                                    	<i class="text-danger" th:errors="${orderValidate.address}"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Số điện thoại<span>*</span></p>
+                                        <input ng-model="order.phone" id="phone"  type="text">
+                                        <i class="text-danger" th:errors="${orderValidate.phone}"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Địa chỉ Email<span>*</span></p>
+                                        <input id="email" th:value="*{email}" type="text" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Ghi chú thêm<span>*</span></p>
+                                <input ng-model="order.notes" type="text"
+                                    placeholder="Ví dụ: Giao hàng giờ hành chính">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-8">
+                            <div class="checkout__order">
+                                <h4>Hóa Đơn Của Bạn</h4>
+								<table class="table table-borderless">
+								  <thead>
+								    <tr>
+								      <th scope="col">Sản phẩm</th>
+								      <th scope="col">Số lượng</th>
+								      <th scope="col">Giá</th>
+								    </tr>
+								  </thead>
+								  <tbody>
+								    <tr ng-repeat="item in cart.items">
+								      <td>{{item.name}}</td>
+								      <td>{{item.qty}}</td>
+								      <td>{{item.price - ((item.discount.discount * item.price)/100)|number:0}} <sup>đ</sup></td>
+								    </tr>
+								   </tbody>
+								  </table> 
+                                <div class="checkout__order__subtotal">Tạm tính <span>{{cart.amount|number:0}}<sup>đ</sup></span></div>
+                                <div class="checkout__order__subtotal">Phí vận chuyển <span>{{order.shippingFee|number:0}}<sup>đ</sup></span></div>
+                                <div class="checkout__order__total">Tổng <span>{{cart.amount + order.shippingFee|number:0}}<sup>đ</sup></span></div>
+                                <!-- <div class="checkout__input__checkbox">
+                                    <label for="acc-or">
+                                        Ship COD
+                                        <input type="checkbox" id="acc-or">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <p>Thanh toán khi nhận hàng</p>
+                                <div class="checkout__input__checkbox">
+                                    <label for="payment">
+                                        Thanh toán MoMo
+                                        <input type="checkbox" id="payment">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="checkout__input__checkbox">
+                                    <label for="paypal">
+                                        Thanh toán Paypal
+                                        <input type="checkbox" id="paypal">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div> -->
+                                <a  ng-click="order.purchase()" class="primary-btn">Đặt hàng</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+</main>
+    <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/user/js/bootstrap.min.js}"></script>
+    <script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/user/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/user/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/user/js/mixitup.min.js}"></script>
+    <script th:src="@{/user/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/user/js/main.js}"></script>
+
+ 
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!-- Hero Section Begin -->
+    <section >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Danh mục</span>
+                        </div>
+                        <ul>
+                        <li>
+                     		<a th:each="c:${cates}" th:href="@{|/user/product/${c.category_id}|}">[[${c.name}]]</a>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form th:action="@{/user/product}" method="post">
+                                <input name="keywords" type="text" placeholder="">
+                                <button type="submit" class="site-btn"><i class="bi bi-search"></i> Tìm Kiếm</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__text">
+                                <h5><i class="bi bi-telephone-fill"></i> 0901301277</h5>
+                                <span>Hỗ trợ 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__item set-bg" data-setbg="/user/img/hero/banner.jpg">
+                        <div class="hero__text">
+                            <span>TRÁI CÂY TƯƠI</span>
+                            <h2>RAU CỦ QUẢ TƯƠI <br />100% Hữu Cơ</h2>
+                            <p>Free Pickup and Delivery Available</p>
+                            <a href="#" class="primary-btn">MUA SẮM NGAY</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

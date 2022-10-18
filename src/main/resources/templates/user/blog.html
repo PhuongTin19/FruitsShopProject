@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<head>
+	<title>Blog</title>
+</head>
+
+<body>
+	<main>
+
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Blog</h2>
+							<div class="breadcrumb__option">
+								<a th:href="@{/index}">Trang chủ</a>
+								<span>Blog</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Blog Section Begin -->
+		<section class="blog spad">
+			<div class="container">
+				<!---->
+				<div class="row">
+					<div class="col-lg-4 col-md-5">
+						<div class="blog__sidebar">
+							<div class="blog__sidebar__item ">
+								<h4>Tin Mới nhất</h4>
+								<div th:each="b : ${newBlog}" class="blog__sidebar__recent ">
+									<a th:href="@{|/user/blog/${b.blog_id}|}" class="blog__sidebar__recent__item">
+										<div class="blog__sidebar__recent__item__pic">
+											<img th:src="@{ |/user/img/blog/${b.image}| }" alt="" height=70px>
+										</div>
+										<div class="blog__sidebar__recent__item__text">
+											<h6 class="text-dark" th:text="${b.title}"></h6>
+											<span th:text="${#dates.format(b.createdate, 'dd-MMM-yyyy')}"></span>
+										</div>
+								</div>
+								</a>
+							</div>
+							<div class="blog__sidebar__item ">
+								<h4>Mặt Hàng Mới</h4>
+								<div th:each="p : ${listProduct}" class="blog__sidebar__recent ">
+									<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}"
+										class="blog__sidebar__recent__item">
+										<div class="blog__sidebar__recent__item__pic">
+											<img th:src="@{ |/user/img/product/${p.image}| }" alt="" height=80px>
+										</div>
+										<div class="blog__sidebar__recent__item__text ">
+											<h6 th:text=${p.name} class="text-dark"></h6>
+											<span style="font-size:15px"
+												th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA',0, 'POINT')}"></span>
+										</div>
+								</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!-- </div>-->
+					<div class="col-lg-8 col-md-7">
+						<!---->
+						<div class="row">
+							<div th:each="blog : ${blogs.content}" class="col-lg-6 col-md-6 col-sm-6">
+								<div class="blog__item">
+									<div class="blog__item__pic">
+										<a th:href="@{|/user/blog/${blog.blog_id}|}">
+											<img th:src="@{ |/user/img/blog/${blog.image}| }" alt="">
+										</a>
+									</div>
+									<div class="blog__item__text">
+										<ul>
+											<li><i class="fa fa-calendar-o"></i> [[${#dates.format(blog.createdate,
+												'dd-MM-yyyy')}]]</li>
+										</ul>
+										<a th:href="@{|/user/blog/${blog.blog_id}|}">
+											<h5 th:text="${blog.title}"></h5>
+										</a>
+										<p th:text="${blog.description}"> </p>
+										<a th:href="@{|/user/blog/${blog.blog_id}|}" class="blog__btn">ĐỌC TIẾP<span
+												class="arrow_right"></span></a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="product__pagination blog__pagination">
+									<a th:href="@{/user/blog?p=0}"><i class="bi bi-arrow-bar-left"></i></a>
+									<a th:href="@{'/user/blog?p='+${blogs.number-1}}"><i class="fa fa-long-arrow-left"></i></a>
+									<a th:href="@{'/user/blog?p='+${blogs.number+1}}"><i
+											class="fa fa-long-arrow-right"></i></a>
+									<a th:href="@{'/user/blog?p='+${blogs.totalPages-1}}"><i
+											class="bi bi-arrow-bar-right"></i></a>
+								</div>
+							</div>
+							<!-- </div>-->
+						</div>
+
+					</div>
+				</div>
+		</section>
+	</main>
+
+
+
+	<!-- Js Plugins -->
+	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/user/js/bootstrap.min.js}"></script>
+	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+	<script th:src="@{/user/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/user/js/jquery.slicknav.js}"></script>
+	<script th:src="@{/user/js/mixitup.min.js}"></script>
+	<script th:src="@{/user/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/user/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

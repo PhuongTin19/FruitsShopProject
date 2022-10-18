@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<body>
+<main>
+    <section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Giỏ hàng</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Trang chủ</a>
+                            <span>Giỏ hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng cộng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in cart.items">
+                                    <td class="shoping__cart__item">
+                                        <img th:src="@{/user/img/product/{{item.image}}}" alt="" height="50px" width="50px">
+                                        <h5>{{item.name}}</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        {{item.price - ((item.discount.discount * item.price)/100)|number:0}} <sup>đ</sup>
+                                    </td>
+									<td>
+										<input ng-change="cart.saveToLocalStorage()" ng-model="item.qty" type="number" min="1" style="width:60px;"/>
+									</td>
+                                    <td class="shoping__cart__total">
+                                        {{item.qty*(item.price - ((item.discount.discount * item.price)/100)) |number:0}}<sup>đ</sup>
+                                    </td>
+                                    <td ng-click="cart.remove(item.product_id)" class="shoping__cart__item__close">
+                                        <span class="icon_close"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+<a th:href="@{|user/product|}" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <h5>Tổng tiền giỏ hàng</h5>
+                        <ul>
+                            <li>Tạm tính <span>{{cart.amount|number:0}}<sup>đ</sup></span></li>
+                            <li>Phí giao hàng <span >{{order.shippingFee|number:0}}<sup>đ</sup></span></li>
+                            <li>Tổng <span>{{cart.amount+order.shippingFee|number:0}}<sup>đ</sup></span></li>
+                        </ul>
+                        <a href="/order/checkout" class="primary-btn">Thanh toán</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+    <!-- Js Plugins -->
+    <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/user/js/bootstrap.min.js}"></script>
+    <script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/user/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/user/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/user/js/mixitup.min.js}"></script>
+    <script th:src="@{/user/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/user/js/main.js}"></script>
+
+
+</body>
+
+</html>

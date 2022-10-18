@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</head>
+
+<body>
+<!-- 	<main id="LoginForm">
+		<div class="container">
+			<h1 class="form-heading">Quên Mật Khẩu</h1>
+			<div class="login-form">
+				<div style="height:280px;" class="main-div">
+					<div class="panel">
+						<h2 style="margin-bottom:30px">Quên Mật Khẩu</h2>
+						<div style="text-align: center" th:if="${error != null}">
+							<p id="form-message" class="text-danger form-message">[[${error}]]</p>
+						</div>
+						<div style="text-align: center" th:if="${message != null}">
+							<p class="text-success">[[${message}]]</p>
+						</div>
+					</div>
+
+					<form th:action="@{/forgot_password}" method="post">
+						<div class="form-group">
+							<input name="email" type="email" class="form-control" id="inputEmail"
+								placeholder="Email Address">
+						</div>
+						<button type="submit" class="btn btn-primary">Gửi</button>
+					</form>
+				</div>
+				<p class="botto-text"> Designed by Sunil Rajput</p>
+			</div>
+		</div>
+	</main> -->
+<main id="LoginForm">
+<form th:action="@{/forgot_password}" method="post">
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+          
+			<!--<div th:text="${message}" class="alert alert-danger" role="alert"></div>-->
+			<div class="alert alert-danger" role="alert" th:if="${error != null}">
+				<p id="form-message" class="text-danger form-message">[[${error}]]</p>
+			</div>
+			<div style="text-align: center" th:if="${message != null}">
+				<p class="text-success">[[${message}]]</p>
+			</div>
+          
+            <h2 class="text-uppercase text-center mb-5">Quên mật khẩu</h2>
+
+            <div class="form-outline mb-4">
+              	<input name="email" type="email" class="form-control" id="inputEmail"placeholder="địa chỉ Email của bạn">
+            </div>
+			<button class="btn btn-lg btn-block btn-primary" type="submit"> gửi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</form>
+</main>
+</body>
+
+</html>

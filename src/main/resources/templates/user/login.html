@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" th:href="@{/user/css/login.css}" type="text/css">
+	//jquery
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/
+    jquery/3.3.1/jquery.min.js">
+	</script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/
+    popper.js/1.12.9/umd/popper.min.js">
+
+	</script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<main id="LoginForm">
+		<form th:action="@{/security/login}" method="post" th:object="${userRequest}" id="form1">
+			<section class="vh-100" style="background-color: #508bfc;">
+				<div class="container py-5 h-100">
+					<div class="row d-flex justify-content-center align-items-center h-100">
+						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+							<div class="card shadow-2-strong" style="border-radius: 1rem;">
+								<div class="card-body p-5 text-center">
+									<div th:if="${message!=null}">
+										<div th:text="${message}" class="alert alert-danger" role="alert"></div>
+									</div>
+									<h2 class="text-uppercase text-center mb-5">Đăng nhập</h2>
+
+									<div class="form-outline mb-4">
+										<input th:field="*{username}" type="text" name="username" id="username"
+											placeholder="Nhập tên tài khoản" class="form-control form-control-lg" />
+										<i style="margin-right:183px" class="text-danger" th:errors="*{username}"></i>
+									</div>
+
+									<div class="form-outline mb-4">
+										<input th:field="*{password}" type="password" name="password" placeholder="Nhập mật khẩu"
+											class="form-control form-control-lg" />
+										 <i style="margin-right:180px" class="text-danger" th:errors="*{password}"></i>
+									</div>
+
+									<div style="margin-right:233px">
+										<label>
+											<a href="/forgot_password" class="text-body"><u>Quên Mật Khẩu?</u></a>
+										</label>
+									</div>
+									<button id="submitbtn" class="btn btn-lg btn-block btn-primary" type="submit"> Đăng
+										Nhập</button>
+									<div class="form-check d-flex justify-content-center mb-5">
+										<label class="form-check-label" for="form2Example3g">
+											Bạn chưa có tài khoản ? <a href="/user/register" class="text-body">
+												<u>Đăng ký</u></a>
+										</label>
+									</div>
+									<hr class="my-4">
+
+									<a th:href="@{/oauth2/authorization/google}"
+										class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;"
+										type="submit"><i class="bi bi-google"></i> Đăng nhập với google</a>
+									<a th:href="@{/oauth2/authorization/facebook}"
+										class="btn btn-lg btn-block btn-primary mb-2" style="background-color: #3b5998;"
+										type="submit"><i class="bi bi-facebook"></i> Đăng nhập với facebook</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</form>
+	</main>
+	
+	
+</body>
+
+</html>
