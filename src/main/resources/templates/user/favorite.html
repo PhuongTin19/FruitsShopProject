@@ -30,7 +30,7 @@
 								<img th:src="@{ |/user/img/product/${f[2]}| }" height=190px alt="">
 								<ul class="product__item__pic__hover">
 									<li><a th:href="@{|/user/favorite/unlike/${f[3]}?id=*{account_id}}|"><i class="fa fa-heartbeat"></i></a></li>
-									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+									<li><a th:attr="ng-click=@{|cart.add(${f[3]})|}"><i class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>
 							<div class="featured__item__text">

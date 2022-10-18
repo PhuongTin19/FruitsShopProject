@@ -75,10 +75,13 @@
                         <h5>Tổng tiền giỏ hàng</h5>
                         <ul>
                             <li>Tạm tính <span>{{cart.amount|number:0}}<sup>đ</sup></span></li>
-                            <li>Phí giao hàng <span >{{order.shippingFee|number:0}}<sup>đ</sup></span></li>
-                            <li>Tổng <span>{{cart.amount+order.shippingFee|number:0}}<sup>đ</sup></span></li>
+                          	<!--<li>Phí giao hàng <span ng-if ="shippingFee >= 5">{{order.shippingFee|number:0}}<sup>đ</sup></span></li>-->
+                          	<li ng-if ="cart.amount>500000?shippingFee=0000000.1:shippingFee=35000">Phí giao hàng 
+                          		<span >{{shippingFee|number:0}}<sup>đ</sup></span>
+                          	</li>
+                            <li>Tổng <span>{{cart.amount+shippingFee|number:0}}<sup>đ</sup></span></li>
                         </ul>
-                        <a href="/order/checkout" class="primary-btn">Thanh toán</a>
+                        <a ng-if = "cart.amount!=0 && cart.amount!=null && cart.amount>0"  href="/order/checkout" class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>

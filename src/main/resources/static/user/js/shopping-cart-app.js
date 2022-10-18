@@ -86,7 +86,7 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		notes: "",
 		phone:"",
 		address:"",
-		shippingFee:$scope.cart.amount<500000?shippingFee=0:shippingFee=35000,
+		shippingFee:$scope.cart.amount>500000?shippingFee=0:shippingFee=35000,
 		get orderDetails() {
 			return $scope.cart.items.map(item => {
 			return {
