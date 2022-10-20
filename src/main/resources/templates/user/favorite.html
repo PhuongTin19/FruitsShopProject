@@ -27,7 +27,9 @@
 					<div th:each="f:${favorite}" th:object="${session.currentUser}" class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 						<div class="product__item">
 							<div class="product__item__pic set-bg product__discount__item__pic">
+							<a th:href="@{|/index/product/detail/${f[3]}/${f[3]}|}">
 								<img th:src="@{ |/user/img/product/${f[2]}| }" height=190px alt="">
+								</a>
 								<ul class="product__item__pic__hover">
 									<li><a th:href="@{|/user/favorite/unlike/${f[3]}?id=*{account_id}}|"><i class="fa fa-heartbeat"></i></a></li>
 									<li><a th:attr="ng-click=@{|cart.add(${f[3]})|}"><i class="fa fa-shopping-cart"></i></a></li>

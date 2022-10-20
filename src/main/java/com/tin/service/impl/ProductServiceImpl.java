@@ -100,4 +100,10 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.countMostBuys();
 	}
 
+	@Override
+	@Transactional
+	public void updateQuantity(Integer newQuantity, Integer productId) {
+		productRepo.updateQuantity(newQuantity, productId);
+	}
+
 }

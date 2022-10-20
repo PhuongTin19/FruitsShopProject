@@ -68,4 +68,9 @@ public interface ProductRepo extends JpaRepository<Product,Integer> {
 				+ "group by p.name,p.price,p.image,p.product_id,p.category_id,d.discount\r\n"
 				+ "order by count(od.product_id) desc",nativeQuery=true)
 		List<Object[]> countMostBuys();
+	//update số lượng
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE products SET quantity = ? WHERE product_id = ?", nativeQuery = true)
+	void updateQuantity(Integer newQuantity, Integer productId);
 }

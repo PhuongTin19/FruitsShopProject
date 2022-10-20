@@ -10,7 +10,9 @@
 					<div class="categories__slider owl-carousel">
 						<div th:each="s:${slideCategory}" class="col-lg-3">
 							<div class="categories__item ">
+							<a th:href="@{|/user/product/${s.category.category_id}|}">
 								<img th:src="@{|/user/img/product/${s.image}|}" height="190px" alt="">
+							</a>
 								<h5><a th:href="@{|/user/product/${s.category.category_id}|}">[[${s.category.name}]]</a></h5>
 							</div>
 						</div>
@@ -44,7 +46,9 @@
 						th:object="${session.currentUser}">
 						<div class="product__item">
 							<div class="product__item__pic set-bg product__discount__item__pic">
-								<img th:src="@{|/user/img/product/${p.image}|}" height=190px alt="">
+								<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}">
+									<img th:src="@{|/user/img/product/${p.image}|}" height=190px alt="">
+								</a>
 								<th:block th:unless="${p.discount.discount==0}">
 									<div class="product__discount__percent">
 										-[(${#numbers.formatDecimal(p.discount.discount, 0, 'COMMA',0,
@@ -176,7 +180,9 @@
 				</div>
 				<div class="card-group">
 				  <div class="card" th:each="b:${blog}">
+				  <a class="text-info" th:href="@{|/user/blog/${b.blog_id}|}">
 				    <img th:src="@{ |/user/img/blog/${b.image}| }" class="card-img-top" alt="...">
+				    </a>
 				    <div class="card-header text-uppercase font-weight-bold text-center">
 				    	<a class="text-info" th:href="@{|/user/blog/${b.blog_id}|}">[[${b.title}]]</a>
 				    </div>

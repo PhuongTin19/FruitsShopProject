@@ -84,12 +84,12 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		deliveryDate: "",
 		orderStatus: "Đang vận chuyển",
 		notes: "",
-		phone:"",
-		address:"",
-		shippingFee:$scope.cart.amount>500000?shippingFee=0:shippingFee=35000,
+		phone: "",
+		address: "",
+		shippingFee: $scope.cart.amount > 500000 ? shippingFee = 0 : shippingFee = 35000,
 		get orderDetails() {
 			return $scope.cart.items.map(item => {
-			return {
+				return {
 					product: { product_id: item.product_id },
 					totalPrice: (item.price - (item.discount.discount * item.price) / 100),
 					totalQuantity: item.qty,

@@ -40,4 +40,6 @@ public interface ProductService {
 	
 	List<Object[]> countMostBuys();
 	
+	void updateQuantity(Integer newQuantity, Integer productId);
+	
 }

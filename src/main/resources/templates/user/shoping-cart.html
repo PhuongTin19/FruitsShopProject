@@ -81,7 +81,7 @@
                           	</li>
                             <li>Tổng <span>{{cart.amount+shippingFee|number:0}}<sup>đ</sup></span></li>
                         </ul>
-                        <a ng-if = "cart.amount!=0 && cart.amount!=null && cart.amount>0"  href="/order/checkout" class="primary-btn">Thanh toán</a>
+                        <a ng-if = "cart.amount!=null && cart.amount>0"  href="/order/checkout" class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>

@@ -145,7 +145,9 @@
 								class="col-lg-4 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg product__discount__item__pic">
+									<a th:href="@{|/index/product/detail/${d.product_id}/${d.category.category_id}|}">
 										<img th:src="@{ |/user/img/product/${d.image}| }" height=190px alt="">
+									</a>
 										<th:block th:unless="${d.discount.discount==0}">
 											<div class="product__discount__percent">
 												-[(${#numbers.formatDecimal(d.discount.discount, 0,
