@@ -12,7 +12,7 @@
 						<div class="header__top__left">
 							<ul>
 								<li sec:authorize="isAuthenticated()">
-									<i class="fa fa-envelope"></i>Welcome,
+									<i class="bi bi-person-circle"></i>Welcome,
 									<!----><span sec:authentication="name"></span>
 								</li>
 							</ul>
@@ -41,12 +41,12 @@
 								</div>
 							</div>
 							<div class="header__top__right__language">
-								<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/register}">Đăng Ký</a>
+								<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/register}"><i class="bi bi-person-plus-fill"></i> Đăng Ký</a>
 							</div>
 							<div class="header__top__right__language">
 								<div sec:authorize="isAuthenticated()">
-									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/infor}"><i
-											class="fa fa-user"></i></a>
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/infor}">
+									<i class="bi bi-person-badge-fill"></i></a>
 								</div>
 							</div>
 						</div>

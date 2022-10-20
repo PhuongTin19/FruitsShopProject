@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Order List</h2>
+                        <h2>Lịch Sử Mua Hàng</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Order List</span>
+                            <a href="./index.html">Trang Chủ</a>
+                            <span>Lịch Sử Mua Hàng</span>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                                 <tr>
                                     <th class="shoping__product">Đơn Hàng</th>
                                     <th class="shoping__product">Mã đơn hàng</th>
-                                    <th>Ngày Đặt Hàng</th>
+                                    <th>Thời Gian Đặt Hàng</th>
                                     <th>Địa Chỉ</th>
                                     <th>Hình Thức Thanh Toán</th>
                                     <th></th>
@@ -40,11 +40,11 @@
                                 <tr th:each="order,state:${orders}">
                                     <td>[[${state.index + 1}]]</td>
                                     <td>[[${order.order_id}]]</td>
-                                    <td>[[${order.orderdate}]]</td>
+                                    <td><h4><span class="badge badge-success">[[${#dates.format(order.orderdate,"dd-MM-yyyy hh:mm:ss")}]]</span></h4></td>
                                     <td>[[${order.account.address}]]</td>
                                     <td>[[${order.payment_method.name}]]</td>
                                     <td>
-                                    	<a th:href="@{|/order/detail/${order.order_id}|}" class="btn btn-danger">Chi Tiết</a>
+                                    	<a th:href="@{|/order/detail/${order.order_id}|}" class="btn btn-danger"><i class="bi bi-search"></i> Chi Tiết</a>
                                     </td>
                                 </tr>
                             </tbody>

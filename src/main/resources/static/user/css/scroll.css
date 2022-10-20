@@ -1,0 +1,30 @@
+.scroll-button {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+
+  outline: none;
+  border: none;
+  border-radius: 100%;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+  user-select: none;
+
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scroll-button > img {
+  width: 70px;
+  height: 70px;
+}
+
+.show-btn {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
