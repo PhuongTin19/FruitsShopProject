@@ -1,89 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
 <body>
-    <main th:object="${order}">
-    <section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Chi tiết đơn hàng</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Trang chủ</a>
-                            <span>Đặt hàng</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
- 		<div class="card">
-            <div  class="card-header text-white bg-primary">
-                THÔNG TIN MUA HÀNG
-            </div>
-            <div class="card-body w-50 m-auto">
-                <form  method="post">
-                    <div class="form-group">
-                        <div >Mã Đơn Hàng</div>
-                        <input th:field="*{order_id}" class="form-control" readonly>
-                    </div>
-                    <div class="form-group">
-                        <div>Tên Người Mua</div>
-                        <input th:field="*{account.fullname}" class="form-control" readonly>
-                    </div>
-                    <div class="form-group">
-                        <div>Thời Gian Mua Hàng</div>
-                        <input th:field="*{orderdate}" class="form-control" readonly>
-                    </div>
-                    <div class="form-group">
-                        <div>Địa Chỉ</div>
-                        <textarea th:field="*{address}" class="form-control" readonly></textarea>
-                    </div>
-                </form>
-            </div>
-        </div>
-    <!-- Shoping Cart Section Begin -->
-    <section class="shoping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__table ">
-                        <table>
-                            <thead class="bg-warning">
-                                <tr>
-                                    <th class="shoping__product">Mã Hàng</th>
-                                    <th>Tên Mặt Hàng</th>
-                                    <th>Giá</th>
-                                    <th>Số Lượng</th>
-                                    <th>Tổng Giá</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="detail:*{orderDetails}" th:object="${detail}">
-                                    <td class="shoping__product">[[*{product.product_id}]]</td>
-				                    <td>[[*{product.name}]]</td>
-				                    <td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
-				                    <td>[[*{totalQuantity}]]</td>
-				                    <td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-    <!-- Js Plugins -->
-    <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/user/js/bootstrap.min.js}"></script>
-    <script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
-    <script th:src="@{/user/js/jquery-ui.min.js}"></script>
-    <script th:src="@{/user/js/jquery.slicknav.js}"></script>
-    <script th:src="@{/user/js/mixitup.min.js}"></script>
-    <script th:src="@{/user/js/owl.carousel.min.js}"></script>
-    <script th:src="@{/user/js/main.js}"></script>
+	<main th:object="${order}">
+
+		<section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Chi tiết đơn hàng</h2>
+							<div class="breadcrumb__option">
+								<a href="./index.html">Trang chủ</a>
+								<span>Đặt hàng</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<form method="post" th:action="@{/thanh-toan}">
+			<input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
+			<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
+			<div class="card col-lg-12">
+				<div class="card-header text-white bg-primary">
+					THÔNG TIN MUA HÀNG
+				</div>
+				<div class="card-body w-50 m-auto">
+					<!--<form>-->
+					<div class="form-group">
+						<div>Mã Đơn Hàng</div>
+						<input th:field="*{order_id}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Tên Người Mua</div>
+						<input th:field="*{account.fullname}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Thời Gian Mua Hàng</div>
+						<input th:field="*{orderdate}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Địa Chỉ</div>
+						<textarea th:field="*{address}" class="form-control" readonly></textarea>
+					</div>
+					<!--</form>-->
+				</div>
+			</div>
+			<!-- Shoping Cart Section Begin -->
+
+			<section class="shoping-cart spad">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 ">
+							<div class="shoping__cart__table ">
+								<table>
+									<thead class="bg-warning">
+										<tr>
+											<th class="shoping__product">Mã Hàng</th>
+											<th>Tên Mặt Hàng</th>
+											<th>Giá</th>
+											<th>Số Lượng</th>
+											<th>Tổng Giá</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="detail:*{orderDetails}" th:object="${detail}">
+											<td class="shoping__product">[[*{product.product_id}]]</td>
+											<td>[[*{product.name}]]</td>
+											<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
+											<td>[[*{totalQuantity}]]</td>
+											<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
+										</tr>
+									</tbody>
+								</table>
+								<button th:if="${order.orderStatus == 'Chưa thanh toán'}" type="submit" class="btn btn-danger" style="width:16%;margin-left:960px;margin-top:10px">
+									THANH TOÁN PAYPAL
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</form>
+	</main>
+	<!-- Js Plugins -->
+	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/user/js/bootstrap.min.js}"></script>
+	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+	<script th:src="@{/user/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/user/js/jquery.slicknav.js}"></script>
+	<script th:src="@{/user/js/mixitup.min.js}"></script>
+	<script th:src="@{/user/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/user/js/main.js}"></script>
 </body>
 
 </html>

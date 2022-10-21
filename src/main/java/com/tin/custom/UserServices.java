@@ -1,5 +1,6 @@
 package com.tin.custom;
 
+import com.tin.entity.Account;
 import com.tin.entity.*;
 import com.tin.repository.AccountRepo;
 //import com.nicetravel.repository.RoleRepository;

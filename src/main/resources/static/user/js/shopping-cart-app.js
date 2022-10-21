@@ -82,11 +82,12 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		payment_method: { payment_method_id: $("#payment_method_id").val() },
 		orderdate: "",
 		deliveryDate: "",
-		orderStatus: "Đang vận chuyển",
+		orderStatus: "Chưa thanh toán",
 		notes: "",
 		phone: "",
 		address: "",
 		shippingFee: $scope.cart.amount > 500000 ? shippingFee = 0 : shippingFee = 35000,
+		totalPrice:$scope.cart.amount + shippingFee,
 		get orderDetails() {
 			return $scope.cart.items.map(item => {
 				return {
@@ -98,16 +99,24 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		},
 		//gửi thông tin order lên server
 		purchase() {
+			if(document.getElementById("phone").value == ""){
+				alert("Chưa nhập số điện thoại")
+				return;
+			}if(document.getElementById("address").value == ""){
+				alert("Chưa nhập địa chỉ")
+				return;
+			}
 			var order = angular.copy(this);
 			//Thực hiện đặt hàng
 			$http.post("/rest/orders", order).then(resp => {
 				alert("Đặt hàng thành công!");
-				$scope.cart.clear();
+				//$scope.cart.clear();
 				location.href = "/order/detail/" + resp.data.order_id;
 			}).catch(error => {
 				alert("Đặt hàng lỗi!")
 				console.log(error)
 			})
+			$scope.cart.clear();
 		}
 	}
 });

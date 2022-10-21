@@ -16,6 +16,9 @@ public interface OrderRepo extends JpaRepository<Order,Integer> {
 	@Query("SELECT o FROM Order o WHERE o.account.username=?1")
 	List<Order> findByUsername(String username);
 	
+	@Query("SELECT o FROM Order o WHERE o.account.username=?1 Order by o.order_id DESC")
+	List<Order> findByUsernameTracking(String username);
+	
 	//Tổng lượt mua hàng
 //	@Query(value="select count(*) from Orders",nativeQuery=true)
 //	Integer countCustomer();

@@ -32,17 +32,17 @@
                                     <th>Ngày Đặt Hàng</th>
                                     <th>Địa Chỉ</th>
                                     <th>TT Thanh Toán</th>
-                                    <th>TT Vận Chuyển</th>
+                                   <!-- <th>TT Vận Chuyển</th>-->
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="order,state:${ordersTracking}">
+                                    <td>[[${order.order_id}]]</td>
+                                    <td><h4><span class="badge badge-success">[[${#dates.format(order.orderdate,"dd-MM-yyyy hh:mm:ss")}]]</span></h4></td>
+                                    <td>[[${order.account.address}]]</td>
+                                    <td><h4><span class="badge badge-success">[[${order.orderStatus}]]</span></h4></td>
+                                 <!--   <td></td>-->
                                     <td>
                                     	<button class="btn btn-danger">Hủy</button>
                                     </td>

@@ -62,4 +62,22 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepo.findByUsername(username);
 	}
 
+	@Override
+	public List<Order> findByUsernameTracking(String username) {
+		return orderRepo.findByUsernameTracking(username);
+	}
+
+	@Override
+	public Order updateOrder(Order order) {
+		order.setAccount(order.getAccount());
+		order.setAddress(order.getAddress());
+		order.setDeliveryDate(order.getDeliveryDate());
+		order.setNotes(order.getNotes());
+		order.setOrderdate(order.getOrderdate());
+		order.setOrderStatus(order.getOrderStatus());
+		order.setPhone(order.getPhone());
+		order.setShippingFee(order.getShippingFee());
+		return orderRepo.save(order);
+	}
+
 }

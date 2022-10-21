@@ -78,6 +78,8 @@ public class Order {
 	@Type(type="org.hibernate.type.StringNVarcharType")
 	private String address;
 	
+	@Column(name = "totalprice")
+	private Double totalPrice;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "order")

@@ -12,4 +12,8 @@ public interface OrderService {
 	public Order findById(Integer id) ;
 
 	public List<Order> findByUsername(String username) ;
+	
+	List<Order> findByUsernameTracking(String username);
+	
+	Order updateOrder(Order order);
 }

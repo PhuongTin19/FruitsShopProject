@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh toán thành công | Nice Travel</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/logoNiceIco.ico}">
+
+    <!-- date jquery -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+    <!-- remixicon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- css -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.nicetravel.css}" />
+
+    <!-- slick sdn css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+
+    <!-- css responsive -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.responsive.css}">
+
+    <link rel="stylesheet" th:href="@{/assets/css/style.payment-success-fail.css}">
+</head>
+<body>
+	<!-- ------------------------------ main ------------------------------ -->
+    <main class="main">
+        <div class="payment-success">
+            <div class="img">
+                <img src="/assets/img/icon-noel/icon-noel-header.png" alt="">
+            </div>
+            <div class="payment-success__text">
+                <div class="payment-success__text__img">
+                    <img src="/assets/img/payment-success.png" alt="">
+                </div>
+                <h3>Thanh toán thành công !</h3>
+                <h3><a href="/" class="btn">Trang chủ</a></h3>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

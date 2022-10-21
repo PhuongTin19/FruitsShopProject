@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
+import org.hibernate.validator.constraints.Mod11Check.ProcessingDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,6 +46,7 @@ import com.tin.custom.CustomOAuth2User;
 import com.tin.custom.FileUploadUtil;
 import com.tin.custom.UserServices;
 import com.tin.entity.Account;
+import com.tin.entity.Provider;
 import com.tin.repository.AccountRepo;
 import com.tin.service.AccountService;
 import com.tin.service.FavoriteService;
@@ -55,6 +56,7 @@ import javassist.expr.NewArray;
 
 @Controller
 public class AuthController {
+
 
 	@Autowired
 	UserServices userServices;
@@ -185,6 +187,7 @@ public class AuthController {
 				account.setRole(roleService.findByRoleName("User"));
 				account.setImage("user.png");
 				account.setIs_enable(true);
+				account.setProvider(Provider.DATABASE);
 				accountService.createAccount(account);
 				model.addAttribute("message", "Đăng ký thành công");
 			}

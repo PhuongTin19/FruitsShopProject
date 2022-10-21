@@ -71,10 +71,10 @@ public class test {
 //	public String test10() {
 //		return "user/favorite";
 //	}
-	@RequestMapping("/tracking")
-	public String test11() {
-		return "user/trackingorder";
-	}
+//	@RequestMapping("/tracking")
+//	public String test11() {
+//		return "user/trackingorder";
+//	}
 	@RequestMapping("/detailorder")
 	public String test12() {
 		return "user/detailorder";
