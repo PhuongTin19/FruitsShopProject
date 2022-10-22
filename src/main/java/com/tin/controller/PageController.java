@@ -97,8 +97,8 @@ public class PageController {
 		String min = request.getParameter("min");
 		String max = request.getParameter("max");
 		// Xóa kí tự đô la
-		min = min.replace("$", "");
-		max = max.replace("$", "");
+		min = min.replace("đ", "");
+		max = max.replace("đ", "");
 		Page<Product> fillterByPrice = productService.filterByPrice(Double.parseDouble(max), Double.parseDouble(min),pageable);
 		model.addAttribute("discountList", fillterByPrice);
 		return "/user/shop-grid";

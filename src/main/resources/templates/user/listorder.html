@@ -26,13 +26,15 @@
                 <div class="col-lg-12">
                     <div class="shoping__cart__table">
                         <table>
-                            <thead>
+                            <thead class="bg-warning">
                                 <tr>
-                                    <th class="shoping__product">Đơn Hàng</th>
+                                    <th class="shoping__product">STT</th>
                                     <th class="shoping__product">Mã đơn hàng</th>
-                                    <th>Thời Gian Đặt Hàng</th>
+                                    <th>Thời Gian</th>
                                     <th>Địa Chỉ</th>
-                                    <th>Hình Thức Thanh Toán</th>
+                                    <th>Hình Thức TT</th>
+                                    <th>Tình Trạng TT</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -40,11 +42,15 @@
                                 <tr th:each="order,state:${orders}">
                                     <td>[[${state.index + 1}]]</td>
                                     <td>[[${order.order_id}]]</td>
-                                    <td><h4><span class="badge badge-success">[[${#dates.format(order.orderdate,"dd-MM-yyyy hh:mm:ss")}]]</span></h4></td>
+                                    <td><h4><span class="badge badge-primary">[[${#dates.format(order.orderdate,"dd-MM-yyyy hh:mm:ss")}]]</span></h4></td>
                                     <td>[[${order.account.address}]]</td>
                                     <td>[[${order.payment_method.name}]]</td>
+                                    <td><h4><span class="badge badge-success">[[${order.orderStatus}]]</span></h4></td>
                                     <td>
-                                    	<a th:href="@{|/order/detail/${order.order_id}|}" class="btn btn-danger"><i class="bi bi-search"></i> Chi Tiết</a>
+                                    	<a th:href="@{|/order/detail/${order.order_id}|}" class="btn btn-danger"><i class="bi bi-search"></i></a>
+                                    </td>
+                                    <td>
+                                    	<button class="btn btn-danger"> <span class="icon_close"></span></button>
                                     </td>
                                 </tr>
                             </tbody>
