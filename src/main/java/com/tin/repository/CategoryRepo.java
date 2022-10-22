@@ -15,4 +15,15 @@ public interface CategoryRepo extends JpaRepository<Category,Integer> {
 
 	@Query(value= "select * from categories where is_enable = 1", nativeQuery = true)
 	List<Category>FillterListCate(); 
+	
+	/*ADMIN*/
+	
+	@Query(value = "select c from Category c where c.is_enable = true")
+	List<Category> findAllByIsEnable();
+	
+	@Query(value = "select c from Category c where c.category_id = ?1")
+	Category findCategoryById(int id);
+	
+	@Query(value = "update categories  set name = ?2, is_enable = ?3 where category_id = ?1", nativeQuery = true)
+	Category updateCategory(int id, String name, Boolean is_enable);
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/fragments :: header">
+  
+</head>
+<!--
+`body` tag options:
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+  * sidebar-collapse
+  * sidebar-mini
+-->
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside th:replace="/admin/fragments :: sidebar">
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+         	<!-- WRITE TITLE OF PAGE IN FUTURE -->
+         	
+         	
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- WRITE LINK OF PAGE IN FUTURE -->
+              
+           		 
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        
+        <!-- CONTENT -->
+        	<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
+        		th:if="${size <= 0}">
+  				<p th:text="${message}"></p>
+			</div>
+			<div class="alert alert-primary h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
+				th:if="${success}">
+  				<p th:text="${success}"></p>
+			</div>
+			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
+				th:if="${error}">
+  				<p th:text="${error}"></p>
+			</div>
+			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
+				th:if="${fail}">
+  				<p th:text="${fail}"></p>
+			</div>
+			
+		<div class="row">	
+			<!-- button add new category -->
+			<div class="h-15 my-4 mx-1">			
+				<a th:href="@{/add-category}">
+					<p class="btn btn-lg btn-success" >Add New Category</p>
+				</a>
+			</div>
+        	
+        	<!-- table category -->
+	        <table class="table table-striped" th:if="${size > 0}">
+			  <thead>
+			    <tr class="h4">
+			      <th class="align-middle" scope="col">#</th>
+			      <th class="align-middle" scope="col">Name</th>
+			      <th class="align-middle" scope="col">Status</th>
+			      <th class="align-middle" scope="col">Edit</th>
+			    </tr>
+			  </thead>
+			  <tbody th:each="category : ${categories}">
+			    <tr class="h5">
+			      <th class="align-middle" scope="row" th:text="${category.category_id}"></th>
+			      <td class="align-middle" th:text="${category.name}"></td>
+			      <td class="align-middle" th:if="${category.is_enable == true}" th:text="'Is available'"></td>
+			      <td class="align-middle" th:if="${category.is_enable == false}" >Is not available</td>
+			      <td>
+			      	<a class="btn btn-primary my-2" th:href="@{/edit-category/{id}(id=${category.category_id})}"
+			      		th:text="'Edit'"></a>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+   
+            
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.2.0
+    </div>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+	
+<div th:replace="/admin/fragments :: scripts">
+</div>
+
+</body>
+</html>

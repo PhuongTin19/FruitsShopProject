@@ -38,4 +38,10 @@ public class Category implements Serializable{
 	
 	@Column(name = "is_enable")
 	private Boolean is_enable;
+	
+	public Category(String name, Boolean is_enable) {
+		super();
+		this.name = name;
+		this.is_enable = is_enable;
+	}
 }

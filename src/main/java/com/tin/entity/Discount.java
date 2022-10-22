@@ -2,6 +2,7 @@ package com.tin.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,14 +43,11 @@ public class Discount implements Serializable{
 	private String name;
 	
 	@Column(name = "start_time")
-	@CreationTimestamp
-	private Timestamp start_time;
+	private Date start_time;
 
 	@Column(name = "end_time")
-	@CreationTimestamp
-	private Timestamp end_time;
+	private Date end_time;
 
-	
 	@Column(name = "is_enable")
 	private Boolean is_enable;
 	

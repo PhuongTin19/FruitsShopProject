@@ -53,11 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	    	
+	    	Account account;
 	        http.csrf().disable();
 	        http.authorizeRequests()
 	        		.antMatchers("/order/**").authenticated()
-	                .antMatchers("/admin/**").hasAnyRole("USER")
+	                //.antMatchers("/admin-index").hasRole("User")
 	                .anyRequest().permitAll();
 	        
 	        http.formLogin()

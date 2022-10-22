@@ -105,5 +105,15 @@ public class ProductServiceImpl implements ProductService {
 	public void updateQuantity(Integer newQuantity, Integer productId) {
 		productRepo.updateQuantity(newQuantity, productId);
 	}
-
+	
+	/*ADMIN*/
+	@Override
+	public void save(Product product) {
+		productRepo.save(product);
+	}
+	
+	@Override
+	public Product findByProductId(Integer id) {
+		return productRepo.findByProductId(id);
+	}
 }

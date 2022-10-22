@@ -3,8 +3,10 @@ package com.tin.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,17 +40,17 @@ public class Product implements Serializable{
     @Column(name = "product_id")
 	private Integer product_id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Category category;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Brand brand;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "discount_id", referencedColumnName = "discount_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Discount discount;
@@ -62,7 +64,7 @@ public class Product implements Serializable{
 	
 	@Column(name = "createddate")
 	@CreationTimestamp
-	private Timestamp createdate;
+	private Timestamp createdate = null;
 	
 	@Column(name = "is_enable")
 	private Boolean is_enable;
