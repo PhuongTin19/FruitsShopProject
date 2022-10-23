@@ -24,7 +24,7 @@ import com.tin.entity.Discount;
 import com.tin.entityDto.CategoryDto;
 import com.tin.service.CategoryService;
 import com.tin.service.DiscountService;
-
+ 
 @Controller
 public class adminHomeController {
 	@Autowired
@@ -48,13 +48,13 @@ public class adminHomeController {
 		model.addAttribute("message","Discount List is empty!!!");
 		model.addAttribute("discounts", discounts);
 		model.addAttribute("title", "Manage Discounts");
-		return "admin/discounts";
+		return "admin/Discount/discounts";
 	}
 	
 	@GetMapping("/add-discount")
 	public String goFormAddDiscount(Model model) {
 		model.addAttribute("title", "Add Discount");
-		return "admin/add-discount";
+		return "admin/Discount/add-discount";
 	}
 	
 	@RequestMapping(value = "/add-new-discount", method = RequestMethod.POST)
@@ -80,12 +80,12 @@ public class adminHomeController {
 			if (discountSave.getStart_time().after(discountSave.getEnd_time())) {
 				model.addAttribute("error", "Your start time must early than end time!");
 				model.addAttribute("discount", discountSave);
-				return "admin/edit-discount";
+				return "admin/Discount/edit-discount";
 			}
 			if (discountSave.getDiscount() < 0 || discountSave.getDiscount() > 100) {
 				model.addAttribute("error", "Your discount must between 0 to 100 percent!");
 				model.addAttribute("discount", discountSave);
-				return "admin/edit-discount";
+				return "admin/Discount/edit-discount";
 			}
 			discountService.save(discountSave);
 			attributes.addFlashAttribute("success", "Added Successfully !");
@@ -104,7 +104,7 @@ public class adminHomeController {
 		try {
 			Discount discount = discountService.findByDiscount_id(id);
 			model.addAttribute("discount", discount);
-			return "admin/edit-discount";
+			return "admin/Discount/edit-discount";
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", "Have some wrong, please try again!");
 			return "redirect:/admin-discounts";
@@ -131,7 +131,7 @@ public class adminHomeController {
 						&& (discount2.getDiscount_id() == discountSave.getDiscount_id())) {
 					model.addAttribute("error", "Your discount's name is duplicate with another discount!");
 					model.addAttribute("discount", discountSave);
-					return "admin/edit-discount";
+					return "admin/Discount/edit-discount";
 				}
 			}
 			
@@ -145,12 +145,12 @@ public class adminHomeController {
 			if (discountSave.getStart_time().after(discountSave.getEnd_time())) {
 				model.addAttribute("error", "Your start time must early than end time!");
 				model.addAttribute("discount", discountSave);
-				return "admin/edit-discount";
+				return "admin/Discount/edit-discount";
 			}
 			if (discountSave.getDiscount() < 0 || discountSave.getDiscount() > 100) {
 				model.addAttribute("error", "Your discount must between 0 to 100 percent!");
 				model.addAttribute("discount", discountSave);
-				return "admin/edit-discount";
+				return "admin/Discount/edit-discount";
 			}
 			
 			discountService.updateDiscountById(id, discountSave.getName(), discountSave.getDiscount(), 

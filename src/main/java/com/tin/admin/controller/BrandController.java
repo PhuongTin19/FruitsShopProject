@@ -26,13 +26,13 @@ public class BrandController {
 		model.addAttribute("size", brands.size());
 		model.addAttribute("title", "Manage Brands");
 		model.addAttribute("message", "List brands is empty!");
-		return "admin/brands";
+		return "admin/Brand/brands";
 	}
 	
 	@GetMapping(value = "/add-brand")
 	public String formAddBrand(Model model) {
 		model.addAttribute("title", "Add Brand");
-		return "admin/add-brand";
+		return "admin/Brand/add-brand";
 	}
 	
 	@PostMapping(value = "/add-brand")
@@ -58,7 +58,7 @@ public class BrandController {
 	public String formUpdateBrand(@PathVariable("id") Integer id, Model model) {
 		Brand brand = brandService.findByBrandId(id);
 		model.addAttribute("brand", brand);
-		return "admin/edit-brand";
+		return "admin/Brand/edit-brand";
 	}
 	
 	@PostMapping(value = "/update-brand/{id}")

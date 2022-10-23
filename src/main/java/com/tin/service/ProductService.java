@@ -42,6 +42,7 @@ public interface ProductService {
 	
 	void updateQuantity(Integer newQuantity, Integer productId);
 	
+	
 	/*ADMIN*/
 	void save(Product product);
 	Product findByProductId(Integer id);

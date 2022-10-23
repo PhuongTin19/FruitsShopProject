@@ -35,13 +35,13 @@ public class CategoryController {
 		model.addAttribute("size", categories.size());
 		model.addAttribute("message","Categories List is empty!!!");
 		model.addAttribute("title", "Manage Categories");
-		return "admin/categories";
+		return "admin/Category/categories";
 	}
 	
 	@RequestMapping(value = "/add-category")
 	public String goFormAddCategory(Model model) {
 		model.addAttribute("title", "Add Category");
-		return "admin/add-category";
+		return "admin/Category/add-category";
 	}
 	
 	@PostMapping(value = "/add-new-category")
@@ -81,7 +81,7 @@ public class CategoryController {
 			Category category = categoryService.findCategoryById(id);
 			model.addAttribute("title", "Edit Category");
 			model.addAttribute("category", category);
-			return "admin/edit-category";
+			return "admin/Category/edit-category";
 			
 		} catch (Exception e) {
 			e.printStackTrace();

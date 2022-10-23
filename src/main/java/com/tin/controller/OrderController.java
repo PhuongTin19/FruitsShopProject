@@ -1,12 +1,17 @@
 package com.tin.controller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +24,9 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.tin.entity.Account;
+import com.tin.entity.Blog;
 import com.tin.entity.Order;
+import com.tin.entity.Product;
 import com.tin.service.AccountService;
 import com.tin.service.OrderService;
 import com.tin.service.PaymentService;
@@ -55,11 +62,13 @@ public class OrderController {
 		return "user/trackingorder";
 	}
 	@RequestMapping("/order/list")
-	public String list(Model model,HttpServletRequest request) {
-		String username = request.getRemoteUser();
-		model.addAttribute("orders", orderService.findByUsername(username));
+	public String list(Model model,HttpServletRequest request, @RequestParam("page") Optional<Integer> p) {
+		Pageable pageable = PageRequest.of(p.orElse(0), 5);
+		Page<Order> orderList = orderService.findByUsername(request.getRemoteUser(), pageable);
+		model.addAttribute("orders", orderList);
 		return "user/listorder";
 	}
+
 	@RequestMapping("/order/detail/{id}")
 	public String detail(@PathVariable("id") Integer id,Model model) {
 		model.addAttribute("order", orderService.findById(id));
