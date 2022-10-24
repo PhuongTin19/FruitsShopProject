@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<main style="margin-left:400px;margin-right:400px;margin-bottom:30px">
+		<form method="post" th:action="@{/process-cancel-order}" th:object="${order}">
+			<div style="margin-top:40px" class="card col-lg-12 m-auto">
+				<div class="card-header text-white bg-primary">
+					THÔNG TIN MUA HÀNG
+				</div>
+				<div class="card-body ">
+					<div class="form-group">
+						<div>Tên Khách Hàng</div>
+						<input th:field="*{account.fullname}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Số Điện Khách</div>
+						<input th:field="*{phone}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Email</div>
+						<input th:field="*{account.email}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Tổng giá</div>
+						<input th:field="*{totalPrice}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<div>Lý do hủy đơn</div>
+						<textarea id="notes" th:field="*{notes}" class="form-control" cols="690" rows="5" required>
+						</textarea>
+					</div>
+					<div style="display:none">
+						<div class="form-group">
+							<div>Mã Đơn Hàng</div>
+							<input th:field="*{order_id}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Mã Khách Hàng</div>
+							<input th:field="*{account.account_id}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Phương Thức Thanh Toán</div>
+							<input th:field="*{payment_method.payment_method_id}" class="form-control" readonly>
+						</div>
+
+						<div class="form-group">
+							<div>Thời Gian Mua Hàng</div>
+							<input th:field="*{orderdate}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Ngày Mua</div>
+							<input th:field="*{deliveryDate}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Tiền Ship</div>
+							<input th:field="*{shippingFee}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Trạng Thái Thanh Toán</div>
+							<input th:field="*{orderStatus}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Địa Chỉ</div>
+							<textarea th:field="*{address}" class="form-control" readonly></textarea>
+						</div>
+
+					</div>
+					<button onclick="validate()" type="submit" class="btn btn-danger" style="margin-left:510px">Xác
+						Nhận</button>
+				</div>
+			</div>
+		</form>
+		<script>
+			function validate() {
+				if (document.getElementById("notes").value == "") {
+					alert("Vui Lòng Cho Chúng Tôi Biết Lý Do");
+					return;
+				} else {
+					alert("Vui Lòng Kiểm tra email");
+					return;
+				}
+			}
+
+		</script>
+	</main>
+
+</body>
+
+</html>

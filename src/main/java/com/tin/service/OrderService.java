@@ -17,9 +17,9 @@ public interface OrderService {
 
 	public Page<Order> findByUsername(String username,Pageable pageable) ;
 	
-	List<Order> findByUsernameTracking(String username);
+	Order findByUsernameTracking(String username);
 	
 	Order updateOrder(Order order);
 	
-	
+	public Order findByVerificationCode(String code);
 }

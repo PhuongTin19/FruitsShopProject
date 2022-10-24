@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
 
 <body>
-	<main th:object="${order}">
-
+	<main th:object="${order}" >
 		<section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
 			<div class="container">
 				<div class="row">
@@ -20,73 +19,77 @@
 			</div>
 		</section>
 		<!-- Breadcrumb Section End -->
-		<form method="post" th:action="@{/thanh-toan}">
+		<form method="post" th:action="@{/thanh-toan}" style="margin-top:100px;margin-bottom:100px">
 			<input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
 			<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
-			<div class="card col-lg-12">
-				<div class="card-header text-white bg-primary">
-					THÔNG TIN MUA HÀNG
+			<div class="row">
+				<div class="card col-lg-5" style="margin-left:100px">
+					<div class="card-header text-white bg-primary">
+						THÔNG TIN MUA HÀNG
+					</div>
+					<div class="card-body w-100 ">
+						<!--<form>-->
+						<div class="form-group">
+							<div>Mã Đơn Hàng</div>
+							<input th:field="*{order_id}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Tên Khách Hàng</div>
+							<input th:field="*{account.fullname}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Số Điện Khách</div>
+							<input th:field="*{phone}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Thời Gian Mua Hàng</div>
+							<input th:field="*{orderdate}" class="form-control" readonly>
+						</div>
+						<div class="form-group">
+							<div>Địa Chỉ</div>
+							<textarea th:field="*{address}" class="form-control" readonly></textarea>
+						</div>
+						<!--</form>-->
+					</div>
 				</div>
-				<div class="card-body w-50 m-auto">
-					<!--<form>-->
-					<div class="form-group">
-						<div>Mã Đơn Hàng</div>
-						<input th:field="*{order_id}" class="form-control" readonly>
+				<div class="col-lg-5">
+					<div class="shoping__cart__table ">
+						<table>
+							<thead class="bg-warning">
+								<tr>
+									<th class="shoping__product">Mã Hàng</th>
+									<th>Tên Mặt Hàng</th>
+									<th>Giá</th>
+									<th>Số Lượng</th>
+									<th>Tổng Giá</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="detail:*{orderDetails}" th:object="${detail}">
+									<td class="shoping__product">[[*{product.product_id}]]</td>
+									<td>[[*{product.name}]]</td>
+									<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
+									<td>[[*{totalQuantity}]]</td>
+									<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="form-group">
-						<div>Tên Khách Hàng</div>
-						<input th:field="*{account.fullname}" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<div>Số Điện Khách</div>
-						<input th:field="*{account.phone}" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<div>Thời Gian Mua Hàng</div>
-						<input th:field="*{orderdate}" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<div>Địa Chỉ</div>
-						<textarea th:field="*{address}" class="form-control" readonly></textarea>
-					</div>
-					<!--</form>-->
+					<button th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" class="btn btn-success" 
+					style="width:30%;margin-left:400px;margin-top:10px">
+						ĐÃ THANH TOÁN
+					</button>
+					<button th:if="${order.orderStatus == 'Đã hủy đơn'}" type="button" class="btn btn-danger" 
+					style="width:20%;margin-left:460px;margin-top:10px">
+						ĐÃ HỦY ĐƠN
+					</button>
+					<button th:if="${order.orderStatus == 'Chưa thanh toán'}" type="submit" class="btn btn-warning text-white"
+						style="width:30%;margin-left:400px;margin-top:10px">
+						THANH TOÁN PAYPAL
+					</button>
+					
 				</div>
 			</div>
-			<!-- Shoping Cart Section Begin -->
-
-			<section class="shoping-cart spad">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12 ">
-							<div class="shoping__cart__table ">
-								<table>
-									<thead class="bg-warning">
-										<tr>
-											<th class="shoping__product">Mã Hàng</th>
-											<th>Tên Mặt Hàng</th>
-											<th>Giá</th>
-											<th>Số Lượng</th>
-											<th>Tổng Giá</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="detail:*{orderDetails}" th:object="${detail}">
-											<td class="shoping__product">[[*{product.product_id}]]</td>
-											<td>[[*{product.name}]]</td>
-											<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
-											<td>[[*{totalQuantity}]]</td>
-											<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
-										</tr>
-									</tbody>
-								</table>
-								<button th:if="${order.orderStatus == 'Chưa thanh toán'}" type="submit" class="btn btn-danger" style="width:16%;margin-left:960px;margin-top:10px">
-									THANH TOÁN PAYPAL
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
 		</form>
 	</main>
 	<!-- Js Plugins -->

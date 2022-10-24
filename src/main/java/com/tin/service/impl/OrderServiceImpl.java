@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> findByUsernameTracking(String username) {
+	public Order findByUsernameTracking(String username) {
 		return orderRepo.findByUsernameTracking(username);
 	}
 
@@ -82,6 +82,11 @@ public class OrderServiceImpl implements OrderService {
 		order.setPhone(order.getPhone());
 		order.setShippingFee(order.getShippingFee());
 		return orderRepo.save(order);
+	}
+
+	@Override
+	public Order findByVerificationCode(String code) {
+		return orderRepo.findByVerificationCode(code);
 	}
 
 }

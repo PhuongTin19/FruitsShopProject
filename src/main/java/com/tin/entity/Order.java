@@ -57,7 +57,7 @@ public class Order {
 	@Column(name = "deliverydate")
 	@CreationTimestamp
 	private Timestamp deliveryDate;
-
+ 
 	
 	@Column(name = "shippingfee")
 	private Double shippingFee;
@@ -80,6 +80,9 @@ public class Order {
 	
 	@Column(name = "totalprice")
 	private Double totalPrice;
+	
+	@Column(name = "verification_code")
+    private String verificationCode;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "order")
