@@ -53,54 +53,74 @@
         <div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
 				th:if="${error}">
   				<p th:text="${error}"></p>
-			</div>
+		</div>
         	
         	<!-- form add category -->
-        	<div class="mx-3">
-	        	<form th:action="@{/add-new-discount}" method="post">
-				  <div class="form-group">
-				    <label for="inputAddress">Name</label>
-				    <input type="text" class="form-control" id="inputAddress" name="name"
-				    	placeholder="Discount Name">
-				  </div>
-				  <div class="form-group">
-				    <label for="inputAddress2">Discount</label>
-				    <input type="number" class="form-control" id="inputAddress2" min="0" max="100"
-				    	name="discount" placeholder="Discount, from 0% to 100%">
-				  </div>
-				  
-				  <div class="form-row">
-				    <div class="form-group col-md-6">
-				      <label for="inputEmail4">Start time</label>
-				      <input type="date" class="form-control" id="inputEmail4" name="start_time">
-				    </div>
-				    <div class="form-group col-md-6">
-				      <label for="inputEmail4">End time</label>
-				      <input type="date" class="form-control" id="inputEmail4" name="end_time">
-				    </div>
-				  </div>
-				  <fieldset class="form-group row">
-				    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:</legend>
-				    <div class="col-sm-8 ml-3">
-				      <div class="form-check">
-				        <input class="form-check-input" type="radio" id="gridRadios1" value="true" checked
-				        	name="is_enable">
-				        <label class="form-check-label" for="gridRadios1">
-				          Enable
-				        </label>
-				      </div>
-				      <div class="form-check">
-				        <input class="form-check-input" type="radio" id="gridRadios2" value="false"
-				        	name="is_enable">
-				        <label class="form-check-label" for="gridRadios2">
-				          Unenable
-				        </label>
-				      </div>
-				    </div>
-				  </fieldset>
-				  <button type="submit" class="btn btn-primary">Sign in</button>
-				</form>
-        	</div>
+        	<div class="col-12">
+							<!-- general form elements -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">User Details</h3>
+								</div>
+								<form th:action="@{/add-new-discount}" th:object="${discount}"  method="post">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+												<div class="form-group">
+													<label for="inputName">Name</label>
+													<input type="text" class="form-control" id="inputAddress"
+														name="name" placeholder="Discount Name">
+												</div>
+												<div class="form-group">
+													<label for="inputDiscount">Discount</label>
+													<input type="number" class="form-control" id="inputDiscount"
+														name="discount" min="0" max="100" placeholder="Discount from 1 to 100%">
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6">
+														<label for="inputTime1">Start Time</label>
+														<input type="date" class="form-control" id="inputTime1"
+															name="start_time">
+													</div>
+													<div class="form-group col-md-6">
+														<label for="inputTime2">End Time</label>
+														<input type="date" class="form-control" id="inputTime2"
+															name="end_time">
+													</div>
+												</div>
+												<fieldset class="form-group row">
+													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
+													</legend>
+													<div class="col-sm-8 ml-3">
+														<div class="form-check">
+															<input class="form-check-input" type="radio"
+																id="gridRadios1" value="true" checked name="is_enable">
+															<label class="form-check-label" for="gridRadios1">
+																Enable
+															</label>
+														</div>
+														<div class="form-check">
+															<input class="form-check-input" type="radio"
+																id="gridRadios2" value="false" name="is_enable">
+															<label class="form-check-label" for="gridRadios2">
+																Unenable
+															</label>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									</div>
+									<div class="form-row p-2">
+										<button type="submit" class="btn btn-primary mx-2">Add</button>
+										<a th:href="@{/admin-discounts}" class="btn btn-danger mx-2">Cancel</a>
+									</div>
+								</form>
+
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
    
             
         </div>

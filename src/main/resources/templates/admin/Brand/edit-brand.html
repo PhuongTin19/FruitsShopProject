@@ -50,43 +50,58 @@
         <div class="row">
         
         <!-- CONTENT -->
-        <div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
+			<!-- ----------- -->
+			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
 				th:if="${error}">
   				<p th:text="${error}"></p>
 			</div>
-        	
-        	<!-- form add category -->
-        	<div class="mx-3">
-	        	<form th:action="@{/update-brand/{id}(id = ${brand.brand_id})}" method="post" th:object="${brand}">
-				  <div class="form-group">
-				    <label for="inputAddress">Name</label>
-				    <input type="text" class="form-control" id="inputAddress" name="name"
-				    	placeholder="Brand Name" th:field="*{name}">
-				  </div>
-				  <fieldset class="form-group row">
-				    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:</legend>
-				    <div class="col-sm-8 ml-3">
-				      <div class="form-check">
-				        <input class="form-check-input" type="radio" id="gridRadios1" value="true" checked
-				        	name="is_enable" th:field="*{is_enable}">
-				        <label class="form-check-label" for="gridRadios1">
-				          Enable
-				        </label>
-				      </div>
-				      <div class="form-check">
-				        <input class="form-check-input" type="radio" id="gridRadios2" value="false"
-				        	name="is_enable" th:field="*{is_enable}">
-				        <label class="form-check-label" for="gridRadios2">
-				          Unenable
-				        </label>
-				      </div>
-				    </div>
-				  </fieldset>
-				  <button type="submit" class="btn btn-primary">Update</button>
-				</form>
-        	</div>
-   
-            
+        	<div class="col-12">
+				<!-- general form elements -->
+				<div class="card card-primary">
+					<div class="card-header">
+						<h3 class="card-title">User Details</h3>
+					</div>
+					<form th:action="@{/update-brand/{id} (id=${brand.brand_id})}" th:object="${brand}"  method="post">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-8">
+									<div class="form-group">
+										<label for="inputName">Name</label>
+										<input type="text" class="form-control" id="inputAddress"
+											th:field="*{name}" placeholder="Discount Name">
+									</div>
+									<fieldset class="form-group row">
+										<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
+										</legend>
+										<div class="col-sm-8 ml-3">
+											<div class="form-check">
+												<input class="form-check-input" type="radio"
+													id="gridRadios1" value="true" th:field="*{is_enable}">
+												<label class="form-check-label" for="gridRadios1">
+													Enable
+												</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type="radio"
+													id="gridRadios2" value="false" th:field="*{is_enable}">
+												<label class="form-check-label" for="gridRadios2">
+													Unenable
+												</label>
+											</div>
+											</div>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+						<div class="form-row p-2">
+							<button type="submit" class="btn btn-primary mx-2">Save</button>
+							<a th:href="@{/admin-brands}" class="btn btn-danger mx-2">Cancel</a>
+						</div>
+					</form>
+				</div>			
+			</div>
+			<!-- ----------- -->
+			</div>        
         </div>
         <!-- /.row -->
       </div>

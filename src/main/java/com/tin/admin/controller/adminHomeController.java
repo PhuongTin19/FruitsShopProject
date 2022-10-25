@@ -80,7 +80,7 @@ public class adminHomeController {
 			if (discountSave.getStart_time().after(discountSave.getEnd_time())) {
 				model.addAttribute("error", "Your start time must early than end time!");
 				model.addAttribute("discount", discountSave);
-				return "admin/Discount/edit-discount";
+				return "admin/Discount/add-discount";
 			}
 			if (discountSave.getDiscount() < 0 || discountSave.getDiscount() > 100) {
 				model.addAttribute("error", "Your discount must between 0 to 100 percent!");
@@ -128,7 +128,7 @@ public class adminHomeController {
 			List<Discount> discounts = discountService.findAll();
 			for (Discount discount2 : discounts) {
 				if(discount2.getName().equalsIgnoreCase(discountSave.getName()) 
-						&& (discount2.getDiscount_id() == discountSave.getDiscount_id())) {
+						&& (discount2.getDiscount_id() != discountSave.getDiscount_id())) {
 					model.addAttribute("error", "Your discount's name is duplicate with another discount!");
 					model.addAttribute("discount", discountSave);
 					return "admin/Discount/edit-discount";
@@ -142,7 +142,7 @@ public class adminHomeController {
 //				return "admin/edit-discount";
 //			}
 			
-			if (discountSave.getStart_time().after(discountSave.getEnd_time())) {
+			if (discountSave.getStart_time().before(discountSave.getEnd_time())) {
 				model.addAttribute("error", "Your start time must early than end time!");
 				model.addAttribute("discount", discountSave);
 				return "admin/Discount/edit-discount";
@@ -153,14 +153,14 @@ public class adminHomeController {
 				return "admin/Discount/edit-discount";
 			}
 			
-			discountService.updateDiscountById(id, discountSave.getName(), discountSave.getDiscount(), 
-					discountSave.getStart_time() , discountSave.getEnd_time(), discountSave.getIs_enable());
+//			discountService.updateDiscountById(id, discountSave.getName(), discountSave.getDiscount(), 
+//					discountSave.getStart_time() , discountSave.getEnd_time(), discountSave.getIs_enable());
+			discountService.save(discountSave);
 			
 			attributes.addFlashAttribute("success", "Updated successfully!");
 			return "redirect:/admin-discounts";
 			
 		} catch (Exception e) {
-			attributes.addFlashAttribute("error", "Have wrong, please try again!");
 			return "redirect:/admin-discounts";
 		}
 		

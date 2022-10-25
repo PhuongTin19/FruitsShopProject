@@ -63,7 +63,6 @@ public class Product implements Serializable{
 	private Double price;
 	
 	@Column(name = "createddate")
-	@CreationTimestamp
 	private Timestamp createdate = null;
 	
 	@Column(name = "is_enable")

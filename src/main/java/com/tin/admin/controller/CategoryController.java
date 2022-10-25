@@ -45,21 +45,22 @@ public class CategoryController {
 	}
 	
 	@PostMapping(value = "/add-new-category")
-	public String saveNewCategory(@RequestParam("name") String name, 
+	public String saveNewCategory(@ModelAttribute("category") Category category, 
 									Model model, 
 									RedirectAttributes attributes) {
 		
 		try {
 			Category categorySave = new Category();
-			categorySave.setName(name);
-			categorySave.setIs_enable(true);
+			categorySave.setName(category.getName());
+			categorySave.setIs_enable(category.getIs_enable());
 			
 			/*Check duplicate category*/
 			List<Category> categories = categoryService.findAll();
-			for (Category category : categories) {
-				if (categorySave.getName().equalsIgnoreCase(category.getName())) {
-					attributes.addFlashAttribute("error", "Duplicate category, add failed.");
-					return "redirect:/admin-categories";
+			for (Category category1 : categories) {
+				if (categorySave.getName().equalsIgnoreCase(category1.getName())) {
+					//attributes.addFlashAttribute("error", "Duplicate category, add failed.");
+					model.addAttribute("error", "Duplicate category, add failed.");
+					return "admin/Category/add-category";
 				}
 			}
 			

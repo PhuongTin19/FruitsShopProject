@@ -60,13 +60,17 @@
 					</div><!-- /.row -->
 				</div><!-- /.container-fluid -->
 			</div>
+			
+			<!-- CONTENT -->
 			<section class="content">
 				<div class="container-fluid">
-					<div class="row">
-						<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert"
+					
+					<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert"
 							th:if="${error}">
 							<p th:text="${error}"></p>
 						</div>
+					<div class="row">
+						
 						<!-- left column -->
 						<div class="col-12">
 							<!-- general form elements -->
@@ -171,7 +175,10 @@
 											</div>
 										</div>
 									</div>
-									<button type="submit" class="btn btn-primary">Add</button>
+									<div class="form-row p-2">
+										<button type="submit" class="btn btn-primary mx-2">Add</button>
+										<a th:href="@{/admin-products}" class="btn btn-danger mx-2">Cancel</a>
+									</div>
 								</form>
 
 							</div>

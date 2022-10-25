@@ -89,6 +89,23 @@ public class ProductsController {
 		System.out.println(product.getName());
 		Product productSave = new Product();
 		productSave.setName(product.getName());
+		
+		List<Product> products = productService.findAll();
+		for (Product product2 : products) {
+			if(product2.getName().equalsIgnoreCase(productSave.getName()) &&
+					(product2.getProduct_id() != productSave.getProduct_id())) {
+				model.addAttribute("error", "Your product has duplivate name with another product!");
+				model.addAttribute("productRequest", productRequest);
+				return "admin/Product/add-product";
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
 		productSave.setPrice(product.getPrice());
 
 		productSave.setDescription(product.getDescription());

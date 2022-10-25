@@ -47,7 +47,7 @@ public class Blog implements Serializable{
 	@Type(type="org.hibernate.type.StringNVarcharType")
 	private String title;
 	
-	@Column(name = "description")
+	@Column(name = "description", nullable = false, columnDefinition = "varchar(max)" )
 	@Type(type="org.hibernate.type.StringNVarcharType")
 	private String description;
 	
