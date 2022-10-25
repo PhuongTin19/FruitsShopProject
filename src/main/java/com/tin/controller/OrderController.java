@@ -99,7 +99,7 @@ public class OrderController {
 	@RequestMapping("/order/detail/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("order", orderService.findById(id));
-		return "user/detailorder2";
+		return "user/detailorder";
 	}
 
 	@PostMapping("/thanh-toan")
