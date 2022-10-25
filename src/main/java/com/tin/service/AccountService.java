@@ -36,6 +36,10 @@ public interface AccountService {
     void updateProviderType(String username, Provider provider);
     //
     void update(Account account) throws Exception;
+
+    /*ADMIN*/
+    List<Account> findAll();
+    void save(Account account);
 }
 
 

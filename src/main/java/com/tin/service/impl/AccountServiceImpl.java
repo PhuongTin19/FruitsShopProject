@@ -115,7 +115,15 @@ public class AccountServiceImpl implements AccountService {
             account.setPassword(bcrypt.encode(account.getPassword()));
             accDao.update(account.getFullname(), account.getEmail(), account.getPassword(), account.getPhone(),account.getAddress(), account.getImage(), account.getUsername());
         }
-		
-		
+	}
+
+	@Override
+	public List<Account> findAll() {
+		return accDao.findAll();
+	}
+
+	@Override
+	public void save(Account account) {
+		accDao.save(account);
 	}
 }

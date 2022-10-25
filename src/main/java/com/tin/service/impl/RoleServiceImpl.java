@@ -7,6 +7,8 @@ import com.tin.entity.Role;
 import com.tin.repository.RoleRepo;
 import com.tin.service.RoleService;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService{
 
@@ -18,4 +20,8 @@ public class RoleServiceImpl implements RoleService{
 		return roleRepo.findByRoleName(roleName);
 	}
 
+	@Override
+	public List<Role> findAll() {
+		return roleRepo.findAll();
+	}
 }
