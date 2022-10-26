@@ -22,4 +22,6 @@ public interface OrderService {
 	Order updateOrder(Order order);
 	
 	public Order findByVerificationCode(String code);
+	
+	List<Order> findByUsernameList(String username);
 }

@@ -157,7 +157,7 @@ public class UserServices {
     		order.setDeliveryDate(order.getDeliveryDate());
     		order.setNotes(order.getNotes());
     		order.setOrderdate(order.getOrderdate());
-    		order.setOrderStatus("Đã hủy đơn");
+    		order.setOrderStatus("Chờ xác nhận hủy");
     		order.setPhone(order.getPhone());
     		order.setShippingFee(order.getShippingFee());
     		order.setVerificationCode(null);

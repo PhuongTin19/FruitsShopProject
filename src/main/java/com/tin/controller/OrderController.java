@@ -91,7 +91,7 @@ public class OrderController {
 		}
 		model.addAttribute("userRequest", accountService.findByUsername(username));
 		//Danh sách đơn hàng đã đặt
-		Page<Order> orderList = orderService.findByUsername(username, PageRequest.of(p.orElse(0), 5));
+		Page<Order> orderList = orderService.findByUsername(username, PageRequest.of(p.orElse(0), 10));
 		model.addAttribute("orders", orderList);
 		return "user/listorder";
 	}
@@ -134,7 +134,7 @@ public class OrderController {
 			Payment payment = paymentService.executePayment(paymentId, payerId);
 			// upadate booking
 			Order order = orderService.findById(Integer.parseInt(payment.getTransactions().get(0).getDescription()));
-			order.setOrderStatus("Đã thanh toán");
+			order.setOrderStatus("Chờ xác nhận");
 			orderService.updateOrder(order);
 
 			if (payment.getState().equals("approved")) {

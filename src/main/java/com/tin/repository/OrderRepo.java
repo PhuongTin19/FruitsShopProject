@@ -18,6 +18,9 @@ public interface OrderRepo extends JpaRepository<Order,Integer> {
 	@Query("SELECT o FROM Order o WHERE o.account.username=?1 Order by o.order_id DESC")
 	Page<Order> findByUsername(String username,Pageable pageable);
 	
+	@Query("SELECT o FROM Order o WHERE o.account.username=?1 Order by o.order_id DESC")
+	List<Order> findByUsernameList(String username);
+	
 	@Query("SELECT o FROM Order o WHERE o.account.username=?1 and o.order_id=?2")
 	Order findByUsernameTracking(String username);
 	

@@ -83,7 +83,7 @@
 					style="width:20%;margin-left:460px;margin-top:10px">
 						ĐÃ HỦY ĐƠN
 					</button>
-					<button th:if="${order.orderStatus == 'Chưa thanh toán'}" type="submit" class="btn btn-warning text-white"
+					<button th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-warning text-white"
 						style="width:30%;margin-left:400px;margin-top:10px">
 						THANH TOÁN PAYPAL
 					</button>

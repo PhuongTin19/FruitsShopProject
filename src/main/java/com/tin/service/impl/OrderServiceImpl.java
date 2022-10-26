@@ -89,4 +89,9 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepo.findByVerificationCode(code);
 	}
 
+	@Override
+	public List<Order> findByUsernameList(String username) {
+		return orderRepo.findByUsernameList(username);
+	}
+
 }

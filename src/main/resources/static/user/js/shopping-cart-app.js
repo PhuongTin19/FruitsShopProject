@@ -2,6 +2,7 @@
 const app = angular.module("shopping-cart-app", []);
 
 app.controller("shopping-cart-ctrl", function($scope, $http) {
+
 	/*
 	* Quản lý giỏ hàng
 	*/
@@ -78,8 +79,10 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 	$scope.cart.loadFromLocalStorage();
 	//đặt hàng		
 	$scope.order = {
+		 
 		account: { account_id: $("#account_id").val() },
-		payment_method: { payment_method_id: $("#payment_method_id").val() },
+		//payment_method: { payment_method_id:$("#payment_method_id").val()},
+		payment_method: { payment_method_id: "" },
 		orderdate: "",
 		deliveryDate: "",
 		orderStatus: "Chưa thanh toán",
@@ -105,6 +108,9 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 			}if(document.getElementById("address").value == ""){
 				alert("Chưa nhập địa chỉ")
 				return;
+			}if(document.getElementById("acc-or").checked === false && document.getElementById("paypal").checked === false){
+				alert("Vui lòng chọn phương thức thanh toán")
+				return;
 			}
 			var order = angular.copy(this);
 			//Thực hiện đặt hàng
@@ -119,4 +125,7 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 			$scope.cart.clear();
 		}
 	}
+	
+	
+	
 });

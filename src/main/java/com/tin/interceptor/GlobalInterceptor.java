@@ -51,6 +51,8 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		request.setAttribute("cates",categoryService.findAll());
 		//load sản phẩm được yêu thích
 		request.setAttribute("countLike", favoriteService.countLike(request.getRemoteUser()));
+		//Tên user admin
+		request.setAttribute("nameAdmin",request.getRemoteUser() );
 
 	}
 }

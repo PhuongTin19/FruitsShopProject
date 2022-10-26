@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -159,11 +160,26 @@ public class ProductsController {
 	@PostMapping(value = "/update-product/{id}")
 	public String doUpdateProduct(@PathVariable("id") Integer id, 
 			@ModelAttribute("product") Product product, 
-			Model model,
+			Model model,@RequestParam("imageFile") MultipartFile image,
 			RedirectAttributes attributes) {
 		try {
 			Product productSave = new Product();
+			//Validate
+			String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+			Product product2 = productService.findById(id);
+			if (fileName.equals("") || fileName.length() == 0 || fileName == null) {
+				productSave.setImage(product2.getImage());
+			}else if(fileName.equalsIgnoreCase(product2.getImage())) {
+				System.out.println("Trùng hình");
+			}else {
+				productSave.setImage(fileName);
+			}	
+			
+			
+			//Set giá trị mới
 			productSave.setProduct_id(id);
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			productSave.setCreatedate(timestamp);
 			productSave.setName(product.getName());
 			productSave.setPrice(product.getPrice());
 			productSave.setDescription(product.getDescription());
@@ -174,6 +190,21 @@ public class ProductsController {
 			productSave.setWeight(product.getWeight());
 			productSave.setQuantity(product.getQuantity());
 			productService.save(productSave);
+		
+			
+			//Lưu hình vào thư mục
+			String uploadDir = "C:\\Users\\USUS\\eclipse-workspace\\FruitsShopProject\\src\\main\\resources\\static\\user\\img\\product\\";
+			
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			try (InputStream inputStream = image.getInputStream()) {
+				Path filePath = uploadPath.resolve(fileName);
+				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			return "redirect:/admin-products";
 		} catch (Exception e) {
