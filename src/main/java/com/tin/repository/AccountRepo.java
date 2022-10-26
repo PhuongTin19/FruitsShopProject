@@ -46,6 +46,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     @Modifying(clearAutomatically =true)
     @Query(value="UPDATE Accounts SET fullname = ?1, email = ?2,password = ?3, phone = ?4, address = ?5, image = ?6 WHERE username = ?7", nativeQuery = true)
     void update (String fullname, String email,String password, String phone,String address, String img, String username);
-	
+
+	@Query(value = "select a from Account a where a.account_id = ?1")
+	Account findByAccountId(Integer id);
 }
 

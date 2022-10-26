@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -125,5 +126,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void save(Account account) {
 		accDao.save(account);
+	}
+
+	@Override
+	public Account findById(Integer id) {
+		return accDao.findByAccountId(id);
 	}
 }

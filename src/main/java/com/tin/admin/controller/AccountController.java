@@ -10,10 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -101,4 +98,53 @@ public class AccountController {
         attributes.addFlashAttribute("success", "added successfully");
         return "redirect:/admin-accounts";
     }
+
+    @GetMapping("/update-account/{id}")
+    public String updateAccountForm(@PathVariable("id") Integer id, Model model) {
+        Account account = accountService.findById(id);
+        List<Role> roles = roleService.findAll();
+        model.addAttribute("title", "Update Account");
+        model.addAttribute("account", account);
+        model.addAttribute("roles", roles);
+        return "admin/Account/update-account";
+    }
+
+    @PostMapping("/update-account/{id}")
+    public String updateAccount(@PathVariable("id") Integer id,
+                                @ModelAttribute("account") Account account,
+                                Model model, RedirectAttributes attributes,
+                                @RequestParam("imageFile") MultipartFile image){
+        Account account1 = new Account();
+        Account account2 = accountService.findById(id);
+        account1.setAccount_id(id);
+        account1.setUsername(account2.getUsername());
+        account1.setPassword(account2.getPassword());
+        account1.setFullname(account.getFullname());
+        account1.setPhone(account.getPhone());
+        account1.setEmail(account.getEmail());
+        account1.setAddress(account.getAddress());
+        account1.setRole(account.getRole());
+        account1.setProvider(account2.getProvider());
+        account1.setIs_enable(account.getIs_enable());
+        String fileName = image.getOriginalFilename();
+        //Check image
+        if (fileName.equals("")) {
+            account1.setImage(account2.getImage());
+            accountService.save(account1);
+        } else {
+            account1.setImage(fileName);
+            accountService.save(account1);
+
+            String uploadFolder = "D:\\fruisShop1\\photos\\tinnp";
+            try {
+                Files.copy(image.getInputStream(),Paths.get(uploadFolder + File.separator,
+                        image.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        attributes.addFlashAttribute("success", "Updated successfully!");
+        return "redirect:/admin-accounts";
+    }
+
 }

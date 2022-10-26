@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -40,6 +41,7 @@ public interface AccountService {
     /*ADMIN*/
     List<Account> findAll();
     void save(Account account);
+    Account findById(Integer id);
 }
 
 
