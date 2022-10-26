@@ -47,6 +47,16 @@ public class BrandController {
 				attributes.addFlashAttribute("error", "Must have brand name!");
 				return "redirect:/add-brand";
 			}
+			List<Brand> brands = brandService.findAll();
+			for (Brand brand1 : brands) {
+				if (brand1.getName().equalsIgnoreCase(brand.getName())
+						&& (brand.getBrand_id() != brand1.getBrand_id())) {
+					model.addAttribute("error","Your brand name has duplicate with " +
+							"another brand name!");
+					model.addAttribute("brand", brand);
+					return "admin/Brand/add-brand";
+				}
+			}
 			brandService.save(brand);
 			return "redirect:/admin-brands";
 		} catch (Exception e) {
@@ -78,7 +88,7 @@ public class BrandController {
 						&& brandLoop.getBrand_id() != brand.getBrand_id()) {
 					model.addAttribute("brand", brand);
 					model.addAttribute("error", "Your new brand name is duplicate another brand name");
-					return "admin/edit-brand";
+					return "admin/Brand/edit-brand";
 				}
 			}
 			brandService.save(brand);
