@@ -24,4 +24,8 @@ public interface OrderService {
 	public Order findByVerificationCode(String code);
 	
 	List<Order> findByUsernameList(String username);
+	
+	Integer getCountOrderInDay();
+	
+	Double getRevenue();
 }

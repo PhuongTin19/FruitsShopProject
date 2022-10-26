@@ -132,4 +132,9 @@ public class AccountServiceImpl implements AccountService {
 	public Account findById(Integer id) {
 		return accDao.findByAccountId(id);
 	}
+
+	@Override
+	public Integer getCountCustomerInDay() {
+		return accDao.getCountCustomerInDay();
+	}
 }

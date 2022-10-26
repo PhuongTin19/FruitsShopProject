@@ -4,8 +4,7 @@ import com.tin.entity.Account;
 
 import com.tin.entity.*;
 import com.tin.repository.AccountRepo;
-//import com.nicetravel.repository.RoleRepository;
-//import com.nicetravel.security.auth.CustomOAuth2User;
+
 import com.tin.service.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -88,7 +88,7 @@ public class UserServices {
         order.setAddress(order.getAddress());
 		order.setNotes(order.getNotes());
 		order.setOrderdate(order.getOrderdate());
-		order.setOrderStatus("Chưa thanh toán");
+		order.setOrderStatus("Đã hủy đơn");
 		order.setPhone(order.getPhone());
 		order.setShippingFee(order.getShippingFee());
 		String random = RandomString.make(64);
@@ -111,14 +111,13 @@ public class UserServices {
         String senderName = "Five House";
         String subject = "Xác nhận hủy đơn đã đặt";
         String content = "Thân chào <b>[[name]]</b>,<br>"
-                + "Bạn có chắc muốn hủy đơn hàng đã đặt:<br>"
-//                + "<h4>[[TourName]]</h4>"
-                + "<span style='font-weight: 600'>Tổng tiền: </span><span style='color: red; font-weight: 600'>[[TotalPrice]] đ</span>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">XÁC NHẬN</a></h3>"
-                + "Bỏ qua email nếu bạn không muốn hủy<br><br>"
+                + "Bạn đã xác nhận hủy đơn hàng bạn đã đặt vào lúc [[orderDate]]. <br>"
+                + "<span style='font-weight: 600'>Tổng tiền: </span><span style='color: red; font-weight: 600'>[[TotalPrice]] đ</span><br>"
+                + "Với lý do bạn đưa ra với chúng tôi là '[[notes]]' <br>"
+      //          + "<h3><a href=\"[[URL]]\" target=\"_self\">XÁC NHẬN</a></h3>"
                 + "Cảm ơn bạn,<br>"
                 + "Five House.<br>"
-                + "<a href='http://localhost:8081'><img style='width: 96px, height: 55px' src='file:///C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
+                + "<a href='http://localhost:8081'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -129,15 +128,19 @@ public class UserServices {
  
         content = content.replace("[[name]]", order.getAccount().getFullname());
 
-//        content = content.replace("[[TourName]]", order);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String strDate = formatter.format(order.getOrderdate());
+        content = content.replace("[[orderDate]]", strDate);
+        
+        content = content.replace("[[notes]]",order.getNotes());
 
         NumberFormat vn = NumberFormat.getInstance(new Locale("vi", "VI"));
 
         content = content.replace("[[TotalPrice]]", vn.format(order.getTotalPrice()));
 
-        String verifyURL = siteURL + "/verify?code=" + order.getVerificationCode();
+       // String verifyURL = siteURL + "/verify?code=" + order.getVerificationCode();
 
-        content = content.replace("[[URL]]", verifyURL);
+        //content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
  
@@ -146,26 +149,25 @@ public class UserServices {
         System.out.println("Email đã được gửi");
     }
 
-    public boolean verifyCancelOrder(String verificationCode) {
-        Order order = orderService.findByVerificationCode(verificationCode);
-        if (order == null) {
-            System.out.println("update fail");
-            return false;
-        } else {
-        	order.setAccount(order.getAccount());
-        	order.setAddress(order.getAddress());
-    		order.setDeliveryDate(order.getDeliveryDate());
-    		order.setNotes(order.getNotes());
-    		order.setOrderdate(order.getOrderdate());
-    		order.setOrderStatus("Chờ xác nhận hủy");
-    		order.setPhone(order.getPhone());
-    		order.setShippingFee(order.getShippingFee());
-    		order.setVerificationCode(null);
-            System.out.println("update success");
-
-            return true;
-        }
-
-    }
+//    public boolean verifyCancelOrder(String verificationCode) {
+//        Order order = orderService.findByVerificationCode(verificationCode);
+//        if (order == null) {
+//            System.out.println("update fail");
+//            return false;
+//        } else {
+//        	order.setAccount(order.getAccount());
+//        	order.setAddress(order.getAddress());
+//    		order.setDeliveryDate(order.getDeliveryDate());
+//    		order.setNotes(order.getNotes());
+//    		order.setOrderdate(order.getOrderdate());
+//    		order.setOrderStatus("Chờ xác nhận hủy");
+//    		order.setPhone(order.getPhone());
+//    		order.setShippingFee(order.getShippingFee());
+//    		order.setVerificationCode(null);
+//            System.out.println("update success");
+//
+//            return true;
+//        }
+//    }
 
 }

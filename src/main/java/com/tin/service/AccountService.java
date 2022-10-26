@@ -42,6 +42,7 @@ public interface AccountService {
     List<Account> findAll();
     void save(Account account);
     Account findById(Integer id);
+    Integer getCountCustomerInDay();
 }
 
 

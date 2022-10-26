@@ -59,7 +59,7 @@ public class AdminOrderController {
 	public String adminVerifyOrder(@PathVariable("id") Integer id, Model model,
 			HttpServletRequest request, Authentication authentication) {
 		Order order = orderService.findById(id);
-		order.setOrderStatus("Đang vận chuyển");
+		order.setOrderStatus("Hoàn thành");
 		orderService.updateOrder(order);
 		//
 		Account account = accountService.findByUsername(request.getRemoteUser());
@@ -101,27 +101,27 @@ public class AdminOrderController {
 		return "admin/Order/Order";
 	}
 	//Xác nhận hoàn thành
-	@RequestMapping("/admin-successOrder/{id}")
-	public String adminSuccessOrder(@PathVariable("id") Integer id, Model model,
-			HttpServletRequest request, Authentication authentication) {
-		Order order = orderService.findById(id);
-		order.setOrderStatus("Hoàn thành");
-		orderService.updateOrder(order);
-		//
-		Account account = accountService.findByUsername(request.getRemoteUser());
-		String username = null;
-		if (account == null) {
-			CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
-			Account accountOauth = accountService.findByEmail(oauth2User.getEmail());
-			username = accountOauth.getUsername();
-		} else {
-			username = account.getUsername();
-		}
-		model.addAttribute("userRequest", accountService.findByUsername(username));
-		//Danh sách đơn hàng đã đặt
-		List<Order> orderList = orderService.findByUsernameList(username);
-		model.addAttribute("orders", orderList);
-		return "admin/Order/Order";
-	}
+//	@RequestMapping("/admin-successOrder/{id}")
+//	public String adminSuccessOrder(@PathVariable("id") Integer id, Model model,
+//			HttpServletRequest request, Authentication authentication) {
+//		Order order = orderService.findById(id);
+//		order.setOrderStatus("Hoàn thành");
+//		orderService.updateOrder(order);
+//		//
+//		Account account = accountService.findByUsername(request.getRemoteUser());
+//		String username = null;
+//		if (account == null) {
+//			CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
+//			Account accountOauth = accountService.findByEmail(oauth2User.getEmail());
+//			username = accountOauth.getUsername();
+//		} else {
+//			username = account.getUsername();
+//		}
+//		model.addAttribute("userRequest", accountService.findByUsername(username));
+//		//Danh sách đơn hàng đã đặt
+//		List<Order> orderList = orderService.findByUsernameList(username);
+//		model.addAttribute("orders", orderList);
+//		return "admin/Order/Order";
+//	}
 	
 }

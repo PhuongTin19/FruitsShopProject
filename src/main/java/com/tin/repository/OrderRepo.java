@@ -26,6 +26,13 @@ public interface OrderRepo extends JpaRepository<Order,Integer> {
 	
 	@Query("SELECT u FROM Order u WHERE u.verificationCode = ?1")
 	public Order findByVerificationCode(String code);
+	
+	//Thống kê tổng lượt order
+	@Query(value = "{CALL sp_getCountOrderInDay()}", nativeQuery = true)
+	Integer getCountOrderInDay();
+	//Thống kê tổng doanh thu
+	@Query(value = "{CALL sp_getRevenue()}", nativeQuery = true)
+	Double getRevenue();
 	//Tổng lượt mua hàng
 //	@Query(value="select count(*) from Orders",nativeQuery=true)
 //	Integer countCustomer();

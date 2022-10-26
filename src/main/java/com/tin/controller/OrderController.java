@@ -132,9 +132,8 @@ public class OrderController {
 	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paymentService.executePayment(paymentId, payerId);
-			// upadate booking
 			Order order = orderService.findById(Integer.parseInt(payment.getTransactions().get(0).getDescription()));
-			order.setOrderStatus("Chờ xác nhận");
+			order.setOrderStatus("Hoàn thành");
 			orderService.updateOrder(order);
 
 			if (payment.getState().equals("approved")) {
@@ -176,15 +175,15 @@ public class OrderController {
 		return siteURL.replace(request.getServletPath(), "");
 	}
 
-	@GetMapping("/verify")
-	public String verifyUser(@Param("code") String code, Model model) {
-		System.out.println("code: " + code);
-		if (userServices.verifyCancelOrder(code)) {
-			model.addAttribute("message", "Xác nhận hủy đơn thành công");
-			return "forward:/order/list";
-		} else {
-			return "/index";
-		}
-	}
+//	@GetMapping("/verify")
+//	public String verifyUser(@Param("code") String code, Model model) {
+//		System.out.println("code: " + code);
+//		if (userServices.verifyCancelOrder(code)) {
+//			model.addAttribute("message", "Xác nhận hủy đơn thành công");
+//			return "forward:/order/list";
+//		} else {
+//			return "/index";
+//		}
+//	}
 
 }

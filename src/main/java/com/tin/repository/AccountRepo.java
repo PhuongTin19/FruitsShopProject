@@ -49,5 +49,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 
 	@Query(value = "select a from Account a where a.account_id = ?1")
 	Account findByAccountId(Integer id);
+	//Thống kê tổng số khách hàng
+    @Query(value = "{CALL sp_getCountCustomerInDay()}", nativeQuery = true)
+	Integer getCountCustomerInDay();
 }
 
