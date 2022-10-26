@@ -24,128 +24,142 @@
     <!-- Breadcrumb Section End -->
 
     <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <div class="row">
-            </div>
-            
-            <div class="checkout__form">
-                <h4>CHI TIẾT ĐƠN HÀNG CỦA BẠN</h4>
-                <h1>{{order.orderdate | date:'dd-MM-yyyy HH: mm: ss'}}</h1>
-                <form name="checkout" action="#" th:object="${session.currentUser}" onsubmit="return validateform()">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-4">
-                            <div class="row">
-                                <div style="display:none" class="col-lg-12">
-                                    <div class="checkout__input">
-                                        <p>Mã người mua hàng<span>*</span></p>
-                                        <input id="account_id" th:value="*{account_id}" type="text">
-                                    </div>
-                                </div>
-                                <div  class="col-lg-12">
-                                   <div class="checkout__input">
-                                        <p>payment<span>*</span></p>
-                                        <!--
-                                        <input id="payment_method_id" ng-model="order.payment_method.payment_method_id" 
-                                        type="text">
-                                         <input id="payment_method_id" type="number">
-                                         <input  ng-model="order.payment_method.payment_method_id" type="text" >-->
-                                   </div>
-                                </div>
-                                <div style="display:none" class="col-lg-12">
-                                    <div class="checkout__input">
-                                        <p>Tổng giá<span>*</span></p>
-                                        <input id="totalPrice2" ng-model="order.totalPrice" ng-value="cart.amount + order.shippingFee"  type="text">
-                                        <span id="totalPrice" ng-model="order.totalPrice">{{cart.amount + order.shippingFee}}</span>
-                                    </div>
-                                </div>
+    <section class="h-100 h-custom" style="background-color: #c4c4c4;">
+			<div class="container py-5 h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+				<h4 class="mb-3">CHI TIẾT ĐƠN HÀNG</h4>
+					<div class="col-12">
+						<div class="card card-registration card-registration-2"
+							style="border-radius: 25px;">
+							<div class="card-body p-0">
+								<div class="row g-0">
+									<div class="col-lg-8">
+										<div class="p-5">
+											<!-- product -->
+											<div class="d-flex justify-content-between mb-1">
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase">Thông tin của bạn</h3>
+											</div>
+											<hr class="my-4 bg-dark">	
+											<form name="checkout" action="#" th:object="${session.currentUser}" onsubmit="return validateform()">
+											  <div class="form-group" style="display:none">
+											    <label for="account_id">Mã Người Mua Hàng</label><span class="text-danger">*</span>
+											    <input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
+											  </div>
+											  <div class="form-row">
+											    <div class="form-group col-md-6">
+											      <label for="fullname">Họ Tên</label><span class="text-danger">*</span>
+                                       			  <input th:value="*{fullname}" type="text" class="form-control" id="fullname" disabled>
+											  	</div>
+											  	<div class="form-group col-md-6">
+											      <label for="email">Email</label><span class="text-danger">*</span>
+											      <input th:value="*{email}" type="email" class="form-control" id="email">
+											    </div>
+											  </div>
+  											  <div class="form-group">
+											    <label for="phone">Số Điện Thoại</label><span class="text-danger">*</span>
+											    <input name="phone" ng-model="order.phone" placeholder="Nhập số điện thoại của bạn" id="phone"  type="text" required class="form-control w-50">
+											  </div>
+											  <div class="form-group">
+											    <label for="address">Địa chỉ</label><span class="text-danger">*</span>
+                                       			<input class="form-control" name="address" th:field="${orderValidate.address}" placeholder="Nhập địa chỉ của bạn" ng-model="order.address" id="address"  type="text" required>
+											  </div>
+											  <div class="form-group">
+											    <label for="exampleFormControlTextarea1">Ghi Chú Thêm</label>
+											    <textarea class="form-control" ng-model="order.notes" type="text"
+                                    			placeholder="Ví dụ: Giao hàng giờ hành chính" id="exampleFormControlTextarea1" rows="3"></textarea>
+											  </div>											  
+											</form>
+											<!-- end product -->
 
-                                <div class="col-lg-12">
-                                    <div class="checkout__input" >
-                                        <p>Họ tên<span>*</span></p>
-                                        <input id="fullname" th:value="*{fullname}" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="checkout__input" >
-                                        <p>Địa chỉ<span>*</span></p>
-                                        <input name="address" th:field="${orderValidate.address}" placeholder="Nhập địa chỉ của bạn" ng-model="order.address" id="address"  type="text" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Số điện thoại<span>*</span></p>
-                                        <input name="phone" ng-model="order.phone" placeholder="Nhập số điện thoại của bạn" id="phone"  type="text" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Địa chỉ Email<span>*</span></p>
-                                        <input id="email" th:value="*{email}" type="text" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Ghi chú thêm<span>*</span></p>
-                                <input ng-model="order.notes" type="text"
-                                    placeholder="Ví dụ: Giao hàng giờ hành chính">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-8">
-                            <div class="checkout__order">
-                                <h4>Hóa Đơn Của Bạn</h4>
-								<table class="table table-borderless">
-								  <thead>
-								    <tr>
-								      <th scope="col">Sản phẩm</th>
-								      <th scope="col">Số lượng</th>
-								      <th scope="col">Giá</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								    <tr ng-repeat="item in cart.items">
-								      <td>{{item.name}}</td>
-								      <td>{{item.qty}}</td>
-								      <td>{{item.price - ((item.discount.discount * item.price)/100)|number:0}} <sup>đ</sup></td>
-								    </tr>
-								   </tbody>
-								  </table> 
- 								<div>
-                                    <label for="acc-or">
-                                        Ship COD
-                                        <input ng-model="order.payment_method.payment_method_id" type="radio" name="payment" th:value="1" id="acc-or">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <p>Thanh toán khi nhận hàng</p>
-                              <!--  <div>
-                                    <label for="payment">
-                                        Thanh toán MoMo
-                                        <input type="radio" name="payment" id="momo">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>-->
-                                <div>
-                                    <label for="paypal">
-                                        Thanh toán Paypal
-                                        <input ng-model="order.payment_method.payment_method_id" type="radio" name="payment" th:value="2" id="paypal">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="checkout__order__subtotal">Tạm tính <span>{{cart.amount|number:0}}<sup>đ</sup></span></div>
-                                <div class="checkout__order__subtotal">Phí vận chuyển <span>{{order.shippingFee|number:0}}<sup>đ</sup></span></div>
-                                <div class="checkout__order__total">Tổng <span ng-model="order.totalPrice">{{cart.amount + order.shippingFee|number:0}}<sup>đ</sup></span></div>
-                               
-                                <a  ng-click="order.purchase()" class="primary-btn">Đặt hàng</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+											<div class="pt-5">
+											<hr class="my-4 bg-dark">
+												<h5 class="mb-0 btn btn-info text-white">
+													<a th:href="@{|/cart|}" class="">
+													 <i class="bi bi-arrow-left-short"></i> 
+														Quay về giỏ hàng
+													</a>
+												</h5>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4"
+										style="background-color: #7fad39; border-radius: 25px">
+										<div class="p-5">
+											<div class="d-flex justify-content-between mb-1">
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase">Hóa Đơn của bạn</h3>
+											</div>
+										<hr class="my-4">			
+										<table class="table table-borderless">
+										  <thead>
+										    <tr>
+										      <th class="fw-bold mb-1 mt-2 pt-1">SP</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">SL</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Giá</th>
+										    </tr>
+										  </thead>
+										  <tbody>
+										    <tr ng-repeat="item in cart.items">
+										      <td>{{item.name}}</td>
+										      <td>{{item.qty}}</td>
+										      <td>{{item.price - ((item.discount.discount * item.price)/100)|number:0}} <sup>đ</sup></td>
+										    </tr>
+										   </tbody>
+										  </table> 
+											<hr class="my-4">
+											<!-- chọn hình thức thanh toán -->
+												<div class="d-flex justify-content-between mb-2 text-center">
+													<h5 class="text-uppercase">Phương thức thanh toán</h5>
+												</div>
+												<hr class="my-4">
+                							<div class="payment-info">
+											<div>
+												<label class="radio">
+												  <input id="acc-or" th:value="1" ng-model="order.payment_method.payment_method_id" type="radio" name="card"> 
+												  <span class="checkmark"><img width="30" src="https://cdn1.iconfinder.com/data/icons/e-commerce-315/64/delivery_-shipping-_package-cod-truck-512.png"/> Thanh Toán Khi Nhận Hàng</span> 
+												</label>
+											</div>
+											<div>
+												 <label class="radio">
+												 <input id="paypal" th:value="2" ng-model="order.payment_method.payment_method_id" type="radio" name="card"> 
+												 <span class="checkmark"><img width="30" src="https://th.bing.com/th/id/OIP.QQeSPhhrF5uPeVQ1aISL-AAAAA?pid=ImgDet&w=300&h=190&rs=1"/></span> Thanh Toán Online Paypal</label>
+											</div> 
+											<hr class="my-4">
+											<!-- Tính tiền hóa đơn -->
+											<div class="d-flex justify-content-between mb-2">
+												<h5 class="text-uppercase">Tạm tính</h5>
+												<h5>
+													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
+												</h5>
+											</div>
+											<div class="d-flex justify-content-between ">
+												<h5
+													ng-if="cart.amount>500000?shippingFee=0000000.1:shippingFee=35000"
+													class="text-uppercase">Phí Giao Hàng</h5>
+												<h5>
+													<span>{{shippingFee|number:0}}<sup>đ</sup></span>
+												</h5>
+											</div>
+											<hr class="my-4">
+
+											<div class="d-flex justify-content-between mb-5">
+												<h5 class="text-uppercase">Tổng tiền</h5>
+												<h5>
+													<span>{{cart.amount+shippingFee|number:0}}<sup>đ</sup></span>
+												</h5>
+											</div>
+											<div>
+												<a ng-click="order.purchase()" class="btn btn-dark w-100 h-25 text-white">Đặt Hàng</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</section>
 </main>
     <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/user/js/bootstrap.min.js}"></script>
