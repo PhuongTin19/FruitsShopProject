@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tin.entity.Account;
 import com.tin.entity.Category;
 import com.tin.entity.Product;
 import com.tin.service.AccountService;
@@ -47,6 +49,9 @@ public class GlobalInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		//info user
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		request.setAttribute("account", account);
 		//blog mới - Trang blog
 		request.setAttribute("newBlog", blogService.ListNewBlogs());
 		//sản phẩm mới nhất - Trang blog
@@ -74,4 +79,5 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		//Thống kê hàng tồn kho
 		request.setAttribute("Inventory", reportService.getInventoryByCategory());
 	}
+	
 }

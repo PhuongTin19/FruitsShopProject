@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.tin.entity.Account;
 import com.tin.entity.Blog;
 import com.tin.entity.Images;
 import com.tin.entity.OrderDetail;
 import com.tin.entity.Product;
+import com.tin.service.AccountService;
 import com.tin.service.BlogService;
 import com.tin.service.FavoriteService;
 import com.tin.service.ImageService;
@@ -38,9 +40,13 @@ public class HomeController {
 	HttpServletRequest request;
 	@Autowired
 	SessionService sessionService;
+	@Autowired
+	AccountService accountService;
 	
 	@GetMapping("/index")
 	public String list(Model model,HttpServletRequest request) {
+ 		
+		
 		// load sản phẩm
 		List<Product> list = productService.findProductOutstanding();
 		model.addAttribute("items", list);

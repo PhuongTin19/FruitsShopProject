@@ -69,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
 			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
 		}
 		//
+		System.out.println(order.getOrder_id());
 		Calendar now = Calendar.getInstance();
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
@@ -79,6 +80,11 @@ public class OrderServiceImpl implements OrderService {
 					System.out.println("Đang chạy timer if");
 					order.setOrderStatus("Đã hủy đơn");
 					updateOrder(order);
+					try {
+						userServices.sendMailCancelOrderOnline(order);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				} else {
 					System.out.println("Đang chạy timer else");
 				}
@@ -86,9 +92,6 @@ public class OrderServiceImpl implements OrderService {
 		}, 120000);
 		//
 		try {
-//			Account a = accountService.findById(order.getAccount().getAccount_id());
-//			order.getAccount().setEmail(a.getEmail());
-//			order.getAccount().setFullname(a.getFullname());
 			userServices.purchaseOrder(order);
 		} catch (Exception e) {
 			e.printStackTrace();

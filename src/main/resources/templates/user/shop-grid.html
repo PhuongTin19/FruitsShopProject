@@ -141,7 +141,7 @@
 
 						</div>
 						
-						<center>
+						<center th:if="${noKW}!=null" >
 				        	<img  th:src="@{/photos/keyword.png}" height="100px"/>
 				        	<h3>[[${noKW}]]</h3>
 			        	</center>

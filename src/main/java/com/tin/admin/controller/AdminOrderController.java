@@ -83,7 +83,7 @@ public class AdminOrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "admin/Order/Order";
+		return "redirect:/admin-order";
 	}
 	//Hủy đơn
 	@RequestMapping("/admin-cancelOrder/{id}")

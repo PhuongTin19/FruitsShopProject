@@ -30,7 +30,7 @@ import java.util.Locale;
 @Service
 @Transactional
 public class UserServices {
-
+ 
 	@Autowired
 	private AccountService accountService;
 
@@ -102,13 +102,8 @@ public class UserServices {
         sendMailCancelOrder(order, siteURL);
     }
 
-
+	//Hủy đơn ship cod
     private void sendMailCancelOrder(Order order, String siteURL) throws MessagingException, UnsupportedEncodingException{
-
-        System.out.println("order id: " + order.getOrder_id());
-        System.out.println("totalPrice: " + order.getTotalPrice());
-//        Product product = productService.find
-
         String toAddress = order.getAccount().getEmail();
         String fromAddress = "gfthotel12@gmail.com";
         String senderName = "Five House";
@@ -117,7 +112,45 @@ public class UserServices {
                 + "Bạn đã xác nhận hủy đơn hàng bạn đã đặt vào lúc [[orderDate]]. <br>"
                 + "<span style='font-weight: 600'>Tổng tiền: </span><span style='color: red; font-weight: 600'>[[TotalPrice]] đ</span><br>"
                 + "Với lý do bạn đưa ra với chúng tôi là '[[notes]]' <br>"
-      //          + "<h3><a href=\"[[URL]]\" target=\"_self\">XÁC NHẬN</a></h3>"
+                + "Cảm ơn bạn,<br>"
+                + "Five House.<br>"
+                + "<a href='http://localhost:8081'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+ 
+        content = content.replace("[[name]]", order.getAccount().getFullname());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String strDate = formatter.format(order.getOrderdate());
+        content = content.replace("[[orderDate]]", strDate);
+        
+        content = content.replace("[[notes]]",order.getNotes());
+
+        NumberFormat vn = NumberFormat.getInstance(new Locale("vi", "VI"));
+
+        content = content.replace("[[TotalPrice]]", vn.format(order.getTotalPrice()));
+        
+        helper.setText(content, true);
+ 
+        mailSender.send(message);
+
+        System.out.println("Email đã được gửi");
+    }
+    //Hủy đơn tự động
+    public void sendMailCancelOrderOnline(Order order) throws MessagingException, UnsupportedEncodingException{
+        String toAddress = order.getAccount().getEmail();
+        String fromAddress = "gfthotel12@gmail.com";
+        String senderName = "Five House";
+        String subject = "Đơn hàng đã bị hủy";
+        String content = "Thân chào <b>[[name]]</b>,<br>"
+                + "Rất tiếc phải thông báo cho bạn,đơn hàng bạn đặt vào lúc [[orderDate]]. <br>"
+                + "<span style='font-weight: 600'>Tổng tiền: </span><span style='color: red; font-weight: 600'>[[TotalPrice]] đ</span> đã bị hủy.<br>"
+                + "Với lý do bạn không tiến hành thanh toán đơn hàng theo quy định của shop<br>"
                 + "Cảm ơn bạn,<br>"
                 + "Five House.<br>"
                 + "<a href='http://localhost:8081'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
@@ -141,10 +174,6 @@ public class UserServices {
 
         content = content.replace("[[TotalPrice]]", vn.format(order.getTotalPrice()));
 
-       // String verifyURL = siteURL + "/verify?code=" + order.getVerificationCode();
-
-        //content = content.replace("[[URL]]", verifyURL);
-
         helper.setText(content, true);
  
         mailSender.send(message);
@@ -162,14 +191,21 @@ public class UserServices {
   		order.setOrderStatus("Chưa thanh toán");
   		order.setPhone(order.getPhone());
   		order.setShippingFee(order.getShippingFee());
+  		order.setPayment_method(order.getPayment_method());
   		String random = RandomString.make(64);
   		order.setVerificationCode(random);
   		Account a = accountService.findById(order.getAccount().getAccount_id());
 		order.getAccount().setEmail(a.getEmail());
 		order.getAccount().setFullname(a.getFullname());
         orderService.updateOrder(order);
-        sendMailPurchase(order);
+        if(order.getPayment_method().getPayment_method_id() == 1) {
+        	sendMailPurchaseShip(order);
+        }else if(order.getPayment_method().getPayment_method_id() == 2) {
+        	sendMailPurchase(order);
+        }
+        
       }
+  	//online
     public void sendMailPurchase(Order order) throws MessagingException, UnsupportedEncodingException{
         String toAddress = order.getAccount().getEmail();
         String fromAddress = "gfthotel12@gmail.com";
@@ -212,14 +248,52 @@ public class UserServices {
 
         System.out.println("Email đã được gửi");
     }
+    //Ship cod
+    public void sendMailPurchaseShip(Order order) throws MessagingException, UnsupportedEncodingException{
+        String toAddress = order.getAccount().getEmail();
+        String fromAddress = "gfthotel12@gmail.com";
+        String senderName = "Five House";
+        String subject = "Xác nhận đơn hàng đã đặt";
+        String content = "Thân chào <b>[[name]]</b>,<br>"
+                + "Bạn đã đặt đơn hàng vào lúc [[orderDate]]. <br>"
+                + "<span style='font-weight: 600'>Tổng tiền: </span><span style='color: red; font-weight: 600'>[[TotalPrice]] đ</span><br>"
+                + "Đơn hàng sẽ được chuyển đến bạn sớm.Mọi thông tin liên lạc xin liên hệ đến số 0901301277<br>"
+      //          + "<h3><a href=\"[[URL]]\" target=\"_self\">XÁC NHẬN</a></h3>"
+                + "Cảm ơn bạn,<br>"
+                + "Five House.<br>"
+                + "<a href='http://localhost:8081'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
 
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+ 
+        content = content.replace("[[name]]", order.getAccount().getFullname());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String strDate = formatter.format(order.getOrderdate());
+        content = content.replace("[[orderDate]]", strDate);
+        
+
+        NumberFormat vn = NumberFormat.getInstance(new Locale("vi", "VI"));
+
+        content = content.replace("[[TotalPrice]]", vn.format(order.getTotalPrice()));
+
+       // String verifyURL = siteURL + "/verify?code=" + order.getVerificationCode();
+
+        //content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+ 
+        mailSender.send(message);
+
+        System.out.println("Email đã được gửi");
+    }
+    
     //Xử lý đặt hàng thành công
     public void sendMailPurchaseSuccess(Order order) throws MessagingException, UnsupportedEncodingException{
-
-        System.out.println("order id: " + order.getOrder_id());
-        System.out.println("totalPrice: " + order.getTotalPrice());
-//        Product product = productService.find
-
         String toAddress = order.getAccount().getEmail();
         String fromAddress = "gfthotel12@gmail.com";
         String senderName = "Five House";

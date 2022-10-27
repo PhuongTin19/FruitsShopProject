@@ -84,8 +84,7 @@
 			<div class="header__cart">
 				<ul>
 					<!--'+*{username}}" -->
-					<li th:if="${session.currentUser!=null}" th:object="${session.currentUser}"
-						sec:authorize="isAuthenticated()">
+					<li sec:authorize="isAuthenticated()" th:object="${account}">
 						<a th:href="@{'/user/favorite?id='+*{account_id}}"><i class="fa fa-heart"></i>
 							<span>[[${countLike}]]</span></a>
 					</li>

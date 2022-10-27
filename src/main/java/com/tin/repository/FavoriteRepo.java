@@ -17,9 +17,12 @@ import com.tin.entity.Favorite;
 public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	
 	//Những sản phẩm đc thích bởi account nào đó - Trang Yêu Thích
-	@Query("Select distinct f.product.name,f.product.price,f.product.image,f.product.product_id from Favorite f where f.account.account_id = ?1")
+	@Query("Select distinct f.product.name,f.product.price,f.product.image,f.product.product_id,f.product.category.category_id, "
+			+ "f.product.discount.discount "
+			+ "from Favorite f "
+			+ "where f.account.account_id = ?1")
 	List<Object[]>findAllFavorite(Integer id);
-	
+	 
 	//Sản phẩm được thích nhất
 	@Query(value="select TOP 3 p.name,p.price,p.image,p.product_id,Categories.name as 'cates',Categories.category_id,p.discount_id "
 			+ "from Favorites f\r\n"
