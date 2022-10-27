@@ -171,11 +171,6 @@ public class UserServices {
         sendMailPurchase(order);
       }
     public void sendMailPurchase(Order order) throws MessagingException, UnsupportedEncodingException{
-
-        System.out.println("order id: " + order.getOrder_id());
-        System.out.println("totalPrice: " + order.getTotalPrice());
-//        Product product = productService.find
-
         String toAddress = order.getAccount().getEmail();
         String fromAddress = "gfthotel12@gmail.com";
         String senderName = "Five House";

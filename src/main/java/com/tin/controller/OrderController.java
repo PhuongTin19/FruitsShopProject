@@ -1,9 +1,12 @@
 package com.tin.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -93,6 +96,9 @@ public class OrderController {
 		//Danh sách đơn hàng đã đặt
 		Page<Order> orderList = orderService.findByUsername(username, PageRequest.of(p.orElse(0), 10));
 		model.addAttribute("orders", orderList);
+		if(orderList.isEmpty()) {
+			model.addAttribute("noOrder","Chưa có đơn hàng"); 
+		}
 		return "user/listorder";
 	}
 
@@ -180,6 +186,22 @@ public class OrderController {
 		return siteURL.replace(request.getServletPath(), "");
 	}
 
+//	public void cancelOrderAuto() {
+//		Order order = orderService.findById(null);
+//		Calendar now = Calendar.getInstance();
+//		Timer t = new Timer();
+//		t.schedule(new TimerTask() {
+//			public void run() {
+//				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
+//					System.out.println("Đang chạy timer if");
+//					order.setOrderStatus("Đã hủy đơn");
+//					orderService.updateOrder(order);
+//				} else {
+//					System.out.println("Đang chạy timer else");
+//				}
+//			}
+//		}, 60000);
+//	}
 //	@GetMapping("/verify")
 //	public String verifyUser(@Param("code") String code, Model model) {
 //		System.out.println("code: " + code);

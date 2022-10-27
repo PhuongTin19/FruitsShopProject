@@ -68,19 +68,23 @@ public class OrderServiceImpl implements OrderService {
 			Integer newQuanity = product.getQuantity() - details.get(i).getTotalQuantity();
 			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
 		}
-//		Calendar now = Calendar.getInstance();
-//		Timer t = new Timer();
-//		t.schedule(new TimerTask() {
-//			public void run() {
-//				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
-//					System.out.println("Đang chạy timer if");
-//					order.setOrderStatus("Đã hủy đơn");
-//					updateOrder(order);
-//				} else {
-//					System.out.println("Đang chạy timer else");
-//				}
-//			}
-//		}, 60000);
+		//
+		Calendar now = Calendar.getInstance();
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				Order order2 = orderRepo.findById(order.getOrder_id()).get();
+				if (!order2.getOrderStatus().equalsIgnoreCase("Hoàn thành") && 
+						order2.getPayment_method().getPayment_method_id() == 2) {
+					System.out.println("Đang chạy timer if");
+					order.setOrderStatus("Đã hủy đơn");
+					updateOrder(order);
+				} else {
+					System.out.println("Đang chạy timer else");
+				}
+			}
+		}, 120000);
+		//
 		try {
 //			Account a = accountService.findById(order.getAccount().getAccount_id());
 //			order.getAccount().setEmail(a.getEmail());
@@ -144,6 +148,25 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Double getRevenue() {
 		return orderRepo.getRevenue();
+	}
+
+	@Override
+	public void cancelOrderAuto(Integer id) {
+		Order order = orderRepo.findById(id).get();
+		Calendar now = Calendar.getInstance();
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
+					System.out.println("Đang chạy timer if");
+					order.setOrderStatus("Đã hủy đơn");
+					updateOrder(order);
+				} else {
+					System.out.println("Đang chạy timer else");
+				}
+			}
+		}, 60000);
+		
 	}
 
 }

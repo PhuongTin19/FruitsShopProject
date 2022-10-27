@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tin.custom.CustomOAuth2User;
+import com.tin.custom.UserServices;
 import com.tin.entity.Account;
 import com.tin.entity.Order;
 import com.tin.service.AccountService;
@@ -30,6 +31,9 @@ public class AdminOrderController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+	UserServices userServices;
 	 
 	@RequestMapping("/admin-order")
 	public String adminOrder(Model model, HttpServletRequest request, Authentication authentication) {
@@ -61,7 +65,6 @@ public class AdminOrderController {
 		Order order = orderService.findById(id);
 		order.setOrderStatus("Hoàn thành");
 		orderService.updateOrder(order);
-		//
 		Account account = accountService.findByUsername(request.getRemoteUser());
 		String username = null;
 		if (account == null) {
@@ -75,6 +78,11 @@ public class AdminOrderController {
 		//Danh sách đơn hàng đã đặt
 		List<Order> orderList = orderService.findByUsernameList(username);
 		model.addAttribute("orders", orderList);
+		try {
+			userServices.sendMailPurchaseSuccess(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "admin/Order/Order";
 	}
 	//Hủy đơn

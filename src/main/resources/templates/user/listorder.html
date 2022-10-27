@@ -20,8 +20,12 @@
 	[[${message}]]
     <!-- Shoping Cart Section Begin -->
     <section class="shoping-cart spad">
-        <div class="container">
-            <div class="row">
+        <div class="container" >
+        	<center th:if="${noOrder}!=null">
+	        	<img th:src="@{/photos/order.png}" height="80px"/>
+	        	<h3>[[${noOrder}]]</h3>
+        	</center>
+            <div class="row" th:if="${noOrder}==null">
                 <div class="col-lg-12">
                     <div class="shoping__cart__table">
                         <table>

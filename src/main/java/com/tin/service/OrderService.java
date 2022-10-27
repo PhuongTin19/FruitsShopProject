@@ -28,4 +28,6 @@ public interface OrderService {
 	Integer getCountOrderInDay();
 	
 	Double getRevenue();
+	
+	void cancelOrderAuto(Integer id);
 }

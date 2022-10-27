@@ -73,10 +73,14 @@ public class PageController {
 	public String doGetDiscount(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("keywords") Optional<String> kw) {
 		String kwords = kw.orElse(session.get("keywords",""));
+		
 //		session.set("keywords", kwords);
 		Pageable pageable = PageRequest.of(page.orElse(0),9);
 		Page<Product> productDiscountList = productService.findAllByNameLike("%"+kwords+"%", pageable);
 		model.addAttribute("discountList", productDiscountList);
+		if(productDiscountList.isEmpty()) {
+			model.addAttribute("noKW","Không có sản phẩm bạn tìm"); 
+		}
 		return "/user/shop-grid";
 	}
 
