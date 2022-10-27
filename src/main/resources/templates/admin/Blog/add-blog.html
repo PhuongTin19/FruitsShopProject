@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/admin/fragments :: header">
+	<meta charset="UTF-8">
+	<title>Admin</title>
+
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Tempusdominus Bootstrap 4 -->
+	<link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+	<!-- iCheck -->
+	<link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	<!-- JQVMap -->
+	<link rel="stylesheet" href="/plugins/jqvmap/jqvmap.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="/dist/css/adminlte.min.css">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+	<!-- Daterange picker -->
+	<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+	<!-- summernote -->
+	<link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+		</nav>
+		<!-- /.navbar -->
+
+		<!-- Main Sidebar Container -->
+		<aside th:replace="/admin/fragments :: sidebar">
+		</aside>
+		<!-- Preloader -->
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<!-- WRITE TITLE OF PAGE IN FUTURE -->
+
+
+						</div><!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<!-- WRITE LINK OF PAGE IN FUTURE -->
+
+
+							</ol>
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.container-fluid -->
+			</div>
+			
+			<!-- CONTENT -->
+			<section class="content">
+				<div class="container-fluid">
+					
+					<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert"
+							th:if="${error}">
+							<p th:text="${error}"></p>
+						</div>
+					<div class="row">
+						
+						<!-- left column -->
+						<div class="col-12">
+							<!-- general form elements -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">User Details</h3>
+								</div>
+								<form th:action="@{/add-blog}" th:object="${blogRequest}"  method="post" enctype="multipart/form-data">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+												<div class="form-group">
+													<label for="inputTitle">Title</label>
+													<input type="text" class="form-control" id="inputTitle"
+														name="title" placeholder="Title of Blog">
+												</div>
+												<div class="form-group col-md-4">
+													<label for="inputAccount">Writter</label>
+													<select id="inputAccount" class="form-control" name="account">
+														<option th:each="account : ${accounts}" th:text="${account.username}"
+															th:value="${account.account_id}"></option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label for="inputDescription">Description</label>
+													<textarea class="form-control" id="inputDescription" rows="4" minlength="30"
+														name="description" placeholder="Content of blog"></textarea>
+												</div>
+											</div>
+											<div class="col-4">
+												<div class="card card-primary card-outline">
+                                                    <div class="card-body box-profile">
+                                                        <div class="text-center">
+                                                            <img name="image" th:src="@{|/user/img/product/user.png|}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px"alt="User profile picture" >
+                                                        </div>
+                                                        <br/>
+                                                        <div class="form-group">
+                                                            <label for="file">Avatar</label>
+                                                            <div class="input-group">
+                                                                <div class="custom-file">
+                                                                    <p><input  path="image" type="file" accept="image/*" name="imageFile" id="file" onchange="loadFile(event)" style="display: none;"></p>
+									    							<p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                </div>
+											</div>
+										</div>
+									</div>
+									<div class="form-row p-2">
+										<button type="submit" class="btn btn-primary mx-2">Add</button>
+										<a th:href="@{/admin-blogs}" class="btn btn-danger mx-2">Cancel</a>
+									</div>
+								</form>
+
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+					<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		</aside>
+		<!-- /.control-sidebar -->
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
+			All rights reserved.
+			<div class="float-right d-none d-sm-inline-block">
+				<b>Version</b> 3.2.0
+			</div>
+		</footer>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<div th:replace="/admin/fragments :: scripts">
+	</div>
+	<script>
+        var loadFile = function(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+</body>
+
+</html>

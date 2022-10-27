@@ -40,8 +40,9 @@ public class BlogServiceImpl implements BlogService{
 	public List<Blog> ListNewBlogsHomePage() {
 		return blogRepo.ListNewBlogsHomePage();
 	}
-	
 
-
-
+	@Override
+	public void save(Blog blog) {
+		blogRepo.save(blog);
+	}
 }

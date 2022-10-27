@@ -18,5 +18,6 @@ public interface BlogService {
 	//Phân trang
 	Page<Blog> blogList(Pageable pageble);
 	//Top 3 Blog mới nhất
-	List<Blog>ListNewBlogsHomePage(); 
+	List<Blog>ListNewBlogsHomePage();
+	void save(Blog blog);
 }

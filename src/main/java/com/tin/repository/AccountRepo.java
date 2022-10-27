@@ -49,5 +49,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 
 	@Query(value = "select a from Account a where a.account_id = ?1")
 	Account findByAccountId(Integer id);
+
+	@Query(value = "select * from accounts a inner join roles r on a.role_id = r.role_id where r.role_id = 1", nativeQuery = true)
+	List<Account> findAllByRoleAdmin();
 }
 
