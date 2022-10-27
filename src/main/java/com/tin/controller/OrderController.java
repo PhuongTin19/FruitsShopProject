@@ -69,6 +69,8 @@ public class OrderController {
 
 	@RequestMapping("/order/checkout")
 	public String checkout(Model model, HttpServletRequest request) {
+		Account username = accountService.findByUsername(request.getRemoteUser());
+		model.addAttribute("username", username);
 		model.addAttribute("orderValidate", new Order());
 		return "user/checkout";
 	}

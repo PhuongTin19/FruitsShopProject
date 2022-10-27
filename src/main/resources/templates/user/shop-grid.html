@@ -11,10 +11,10 @@
 
 					</div>
 					<div class="col-lg-9">
-						<div class="hero__search">
-							<div class="hero__search__form">
-								<form th:action="@{/user/product}" method="post">
-									<input name="keywords" th:value="${keywords}" type="text" placeholder="">
+						<div class="hero__search border">
+							<div  class="hero__search__form">
+								<form class="border border-secondary" th:action="@{/user/product}" method="post">
+									<input name="keywords" th:value="${keywords}" type="text" placeholder="Gõ sản phẩm">
 									<button type="submit" class="site-btn">Tìm Kiếm</button>
 								</form>
 							</div>

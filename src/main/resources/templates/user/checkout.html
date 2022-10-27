@@ -40,11 +40,11 @@
 												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase">Thông tin của bạn</h3>
 											</div>
 											<hr class="my-4 bg-dark">	
-											<form name="checkout" action="#" th:object="${session.currentUser}" onsubmit="return validateform()">
+											<form name="checkout" action="#" th:object="${username}" onsubmit="return validateform()">
 											  <div class="form-group" style="display:none">
 											    <label for="account_id">Mã Người Mua Hàng</label><span class="text-danger">*</span>
-											    <input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
-											  </div>
+										    	<input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
+										  	  </div>
 											  <div class="form-row">
 											    <div class="form-group col-md-6">
 											      <label for="fullname">Họ Tên</label><span class="text-danger">*</span>
