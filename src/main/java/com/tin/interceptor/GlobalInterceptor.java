@@ -12,10 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tin.entity.Category;
 import com.tin.entity.Product;
+import com.tin.service.AccountService;
 import com.tin.service.BlogService;
 import com.tin.service.CategoryService;
 import com.tin.service.FavoriteService;
+import com.tin.service.OrderService;
 import com.tin.service.ProductService;
+import com.tin.service.ReportService;
 
 @Component
 public class GlobalInterceptor implements HandlerInterceptor{
@@ -31,6 +34,15 @@ public class GlobalInterceptor implements HandlerInterceptor{
 	
 	@Autowired
 	private FavoriteService favoriteService;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private AccountService accountService;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -53,6 +65,13 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		request.setAttribute("countLike", favoriteService.countLike(request.getRemoteUser()));
 		//Tên user admin
 		request.setAttribute("nameAdmin",request.getRemoteUser() );
-
+		//Thống kê tổng lượt mua hàng
+		request.setAttribute("countOrder", orderService.getCountOrderInDay());
+		//Thống kê tổng doanh thu
+		request.setAttribute("revenue", orderService.getRevenue());
+		//Thống tổng số khách hàng
+		request.setAttribute("countCustomer", accountService.getCountCustomerInDay());
+		//Thống kê hàng tồn kho
+		request.setAttribute("Inventory", reportService.getInventoryByCategory());
 	}
 }

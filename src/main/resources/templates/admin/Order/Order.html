@@ -84,12 +84,12 @@
 												class="badge badge-warning">[[${order.orderStatus}]]</span></h4>
 									</td>
 									<td>
-										<a th:unless="${order.orderStatus == 'Đang vận chuyển' || order.orderStatus == 'Hoàn thành' || order.orderStatus == 'Chưa thanh toán' ||  order.orderStatus == 'Đã hủy đơn' || order.orderStatus == 'Chờ xác nhận hủy'}" th:href="@{|/admin-verifyOrder/${order.order_id}|}"
+										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}" th:href="@{|/admin-verifyOrder/${order.order_id}|}"
 											class="btn btn-success">Xác Nhận</a>
-										<a th:unless="${order.orderStatus == 'Đang vận chuyển' || order.orderStatus == 'Hoàn thành' ||  order.orderStatus == 'Đã hủy đơn'}" th:href="@{|/admin-cancelOrder/${order.order_id}|}" class="btn btn-danger"><span
+										<!--<a th:unless="${order.orderStatus == 'Đang vận chuyển' || order.orderStatus == 'Hoàn thành' ||  order.orderStatus == 'Đã hủy đơn'}" th:href="@{|/admin-cancelOrder/${order.order_id}|}" class="btn btn-danger"><span
 												class="icon_close">Hủy</span></a>
 										<a th:if="${order.orderStatus == 'Đang vận chuyển' }" th:href="@{|/admin-successOrder/${order.order_id}|}"
-											class="btn btn-success">Hoàn thành</a>
+											class="btn btn-success">Hoàn thành</a>-->
 										<a th:href="@{|/admin-detailOrder/${order.order_id}|}" class="btn btn-warning">
 											Chi tiết
 										</a>

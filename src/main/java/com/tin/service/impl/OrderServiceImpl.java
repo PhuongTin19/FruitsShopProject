@@ -94,4 +94,14 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepo.findByUsernameList(username);
 	}
 
+	@Override
+	public Integer getCountOrderInDay() {
+		return orderRepo.getCountOrderInDay();
+	}
+
+	@Override
+	public Double getRevenue() {
+		return orderRepo.getRevenue();
+	}
+	
 }
