@@ -11,7 +11,7 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 
 		// thêm sp vào giỏ hàng
 		add(product_id) {
-			alert("bạn vừa thêm sản phẩm " + product_id + " vào giỏ hàng");
+			
 			//Kiểm tra mặt hàng đó đã có trong giỏ hàng hay chưa?
 			var item = this.items.find(item => item.product_id == product_id);
 
@@ -29,6 +29,7 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 					this.items.push(resp.data);
 					//Lưu vào local
 					this.saveToLocalStorage();
+					alert("bạn vừa thêm sản phẩm " + resp.data.name + " vào giỏ hàng");
 				})
 
 			}

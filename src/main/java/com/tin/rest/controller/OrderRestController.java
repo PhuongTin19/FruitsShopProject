@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.tin.custom.UserServices;
 import com.tin.entity.Order;
 import com.tin.service.OrderService;
 import com.tin.service.ProductService;
@@ -21,10 +22,13 @@ public class OrderRestController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	UserServices userServices;
 	
 	@PostMapping()
 	public Order purchase(@RequestBody JsonNode orderData) {
 		return orderService.create(orderData);
+		
 		
 	}
 	

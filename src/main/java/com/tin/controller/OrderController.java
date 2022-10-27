@@ -137,6 +137,11 @@ public class OrderController {
 			orderService.updateOrder(order);
 
 			if (payment.getState().equals("approved")) {
+				try {
+					userServices.sendMailPurchaseSuccess(order);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				return "user/success2";
 			}
 		} catch (PayPalRESTException e) {

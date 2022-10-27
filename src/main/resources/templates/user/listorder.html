@@ -45,9 +45,9 @@
                                     <td>[[${order.address}]]</td>
                                     <td>[[${order.payment_method.name}]]</td>
                                     <td>
-										<h4 th:if="${order.orderStatus == 'Hoàn thành'}"><span class="badge badge-success">[[${order.orderStatus}]]</span></h4>
-										<h4 th:if="${order.orderStatus == 'Đã hủy đơn'}"><span class="badge badge-danger">[[${order.orderStatus}]]</span></h4>
-										<h4 th:if="${order.orderStatus == 'Chưa thanh toán'}"><span class="badge badge-warning">[[${order.orderStatus}]]</span></h4>
+										<h4 th:if="${order.orderStatus == 'Hoàn thành'}"><span class="badge badge-success" id="status">[[${order.orderStatus}]]</span></h4>
+										<h4 th:if="${order.orderStatus == 'Đã hủy đơn'}"><span class="badge badge-danger" id="status">[[${order.orderStatus}]]</span></h4>
+										<h4 th:if="${order.orderStatus == 'Chưa thanh toán'}"><span class="badge badge-warning" id="status">[[${order.orderStatus}]]</span></h4>
                                     </td>
                                     <td>
                                     	<a th:href="@{|/order/detail/${order.order_id}|}" class="btn btn-primary"><i class="bi bi-search"></i></a>

@@ -1,7 +1,13 @@
 package com.tin.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,11 +21,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tin.entity.OrderDetail;
 import com.tin.entity.Product;
+import com.tin.custom.UserServices;
+import com.tin.entity.Account;
 import com.tin.entity.Order;
 import com.tin.repository.OrderDetailRepo;
 import com.tin.repository.OrderRepo;
 import com.tin.repository.ProductRepo;
+import com.tin.service.AccountService;
 import com.tin.service.OrderService;
+
+import ch.qos.logback.core.joran.conditional.IfAction;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,35 +46,66 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	ProductRepo productService;
 
+	@Autowired
+	UserServices userServices;
+	
+	@Autowired
+	AccountService accountService;
+	
 	@Override
-	public Order create(JsonNode orderData) {
+	public Order create(JsonNode orderData)  {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Order order = mapper.convertValue(orderData, Order.class);
 		orderRepo.save(order);
-
 		TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {
 		};
 		List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type).stream()
 				.peek(d -> d.setOrder(order)).collect(Collectors.toList());
 		orderDetailRepo.saveAll(details);
-		//Cập nhật số lượng mới
+		// Cập nhật số lượng mới
 		for (int i = 0; i < orderData.get("orderDetails").size(); i++) {
 			Product product = productService.findById(details.get(i).getProduct().getProduct_id()).get();
 			Integer newQuanity = product.getQuantity() - details.get(i).getTotalQuantity();
 			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
 		}
+//		Calendar now = Calendar.getInstance();
+//		Timer t = new Timer();
+//		t.schedule(new TimerTask() {
+//			public void run() {
+//				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
+//					System.out.println("Đang chạy timer if");
+//					order.setOrderStatus("Đã hủy đơn");
+//					updateOrder(order);
+//				} else {
+//					System.out.println("Đang chạy timer else");
+//				}
+//			}
+//		}, 60000);
+		try {
+//			Account a = accountService.findById(order.getAccount().getAccount_id());
+//			order.getAccount().setEmail(a.getEmail());
+//			order.getAccount().setFullname(a.getFullname());
+			userServices.purchaseOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return order;
+		
+
 	}
 
+	
+	
+	
+	
 	@Override
 	public Order findById(Integer id) {
 		return orderRepo.findById(id).get();
 	}
 
 	@Override
-	public Page<Order> findByUsername(String username,Pageable pageable) {
-		return orderRepo.findByUsername(username,pageable);
+	public Page<Order> findByUsername(String username, Pageable pageable) {
+		return orderRepo.findByUsername(username, pageable);
 	}
 
 	@Override
@@ -103,5 +145,5 @@ public class OrderServiceImpl implements OrderService {
 	public Double getRevenue() {
 		return orderRepo.getRevenue();
 	}
-	
+
 }

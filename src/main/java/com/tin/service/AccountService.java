@@ -43,6 +43,7 @@ public interface AccountService {
     void save(Account account);
     Account findById(Integer id);
     List<Account> findAllByRoleAdmin();
+    Integer getCountCustomerInDay();
 }
 
 

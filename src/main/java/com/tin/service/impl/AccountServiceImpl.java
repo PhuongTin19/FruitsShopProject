@@ -137,4 +137,9 @@ public class AccountServiceImpl implements AccountService {
 	public List<Account> findAllByRoleAdmin() {
 		return accDao.findAllByRoleAdmin();
 	}
+
+	@Override
+	public Integer getCountCustomerInDay() {
+		return accDao.getCountCustomerInDay();
+	}
 }
