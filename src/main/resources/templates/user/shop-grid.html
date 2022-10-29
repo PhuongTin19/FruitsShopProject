@@ -91,7 +91,7 @@
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
-														<h6 th:text="${fruits.name}"></h6>
+														<h6>[[${#strings.capitalizeWords(fruits.name)}]]</h6>
 														<span>[(${#numbers.formatInteger(fruits.price,3,'POINT')})]<sup>đ</sup></span>
 													</div>
 												</a>
@@ -107,7 +107,7 @@
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
-														<h6 th:text="${vegetables.name}"></h6>
+														<h6>[[${#strings.capitalizeWords(vegetables.name)}]]</h6>
 														<span>[(${#numbers.formatInteger(vegetables.price,3,'POINT')})]<sup>đ</sup></span>
 													</div>
 												</a>
@@ -122,7 +122,7 @@
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
-														<h6 th:text="${bean.name}"></h6>
+														<h6>[[${#strings.capitalizeWords(bean.name)}]]</h6>
 														<span>[(${#numbers.formatInteger(bean.price,3,'POINT')})]<sup>đ</sup></span>
 													</div>
 												</a>
@@ -172,7 +172,7 @@
 									<div class="product__item__text">
 										<a
 											th:href="@{|/index/product/detail/${d.product_id}/${d.category.category_id}|}">
-											<h6 th:text="${d.name}"></h6>
+											<h6>[[${#strings.capitalizeWords(d.name)}]]</h6>
 										</a>
 										<h5 class="text-danger">[(${#numbers.formatInteger(d.price -
 											((d.discount.discount * d.price)/100) ,3,'POINT')})]<sup>đ</sup>
