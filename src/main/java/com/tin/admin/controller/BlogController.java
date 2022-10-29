@@ -5,6 +5,7 @@ import com.tin.entity.Blog;
 import com.tin.service.AccountService;
 import com.tin.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +27,23 @@ public class BlogController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/admin-blogs")
-    public String blogIndex(Model model) {
-        List<Blog> blogs = blogService.findAll();
+    @GetMapping("/admin-blogs/{pageNumber}")
+    public String blogIndex(@PathVariable("pageNumber") int currentPage, Model model) {
+    	if(currentPage < 1) currentPage = 1;
+    	Page<Blog> page = blogService.blogPages(currentPage - 1);
+    	int totalPages = page.getTotalPages();
+    	if(currentPage > totalPages) {
+    		currentPage = totalPages;
+    		page = blogService.blogPages(currentPage - 1); 
+    	}
+    	long totalItems = page.getTotalElements();
+    	List<Blog> blogs = page.getContent();
+    	
         model.addAttribute("title", "Manage Blogs");
         model.addAttribute("blogs", blogs);
-        model.addAttribute("size", blogs.size());
-        model.addAttribute("message", "List blogs is empty!");
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        
         return "admin/Blog/blogs";
     }
 
@@ -48,26 +59,26 @@ public class BlogController {
     public String addBlog(@RequestParam("imageFile") MultipartFile image,
                           @ModelAttribute("account") Blog blog,
                           Model model, RedirectAttributes attributes) {
-        Blog blog1 = new Blog();
+        Blog blog1 = new Blog(null, null, null, null);
+        List<Blog> blogs = blogService.findAll();
         blog1.setTitle(blog.getTitle());
         blog1.setAccount(blog.getAccount());
         blog1.setDescription(blog.getDescription());
         String filename = image.getOriginalFilename();
 
-        List<Blog> blogs = blogService.findAll();
-        for (Blog blog2 : blogs) {
-            if (blog2.getTitle().equalsIgnoreCase(blog1.getTitle())) {
-                attributes.addFlashAttribute("error", "duplicate title with another blog!");
-                return "redirect:/add-blog";
-            }
-        }
+//        for (Blog blog2 : blogs) {
+//            if (blog2.getTitle().equals(blog.getTitle())) {
+//                attributes.addFlashAttribute("error", "duplicate title with another blog!");
+//                return "redirect:/add-blog";
+//            }
+//        }
         if (filename.equals("")) {
-            blog1.setImage(null);
+            blog1.setImage("blog-1.jpg");
             blogService.save(blog1);
             attributes.addFlashAttribute("success", "added successfully with no image!");
             return "redirect:/admin-blogs";
         } else {
-            String uploadDirectory = "D:\\fruisShop1\\src\\main\\resources\\static\\user\\img\\blog";
+            String uploadDirectory = "D:\\fruisShopProject\\src\\main\\resources\\static\\user\\img\\blog";
             blog1.setImage(filename);
             blogService.save(blog1);
 
@@ -105,6 +116,7 @@ public class BlogController {
         blog1.setAccount(blog.getAccount());
         blog1.setDescription(blog.getDescription());
         Blog blog2 = blogService.findById(id);
+        blog1.setCreatedate(blog2.getCreatedate());
 
         List<Blog> blogs = blogService.findAll();
         for (Blog blog3 : blogs) {

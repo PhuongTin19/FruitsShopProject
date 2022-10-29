@@ -44,6 +44,8 @@ public interface AccountService {
     Account findById(Integer id);
     List<Account> findAllByRoleAdmin();
     Integer getCountCustomerInDay();
+    /*--------------------------*/
+    Page<Account> accountPage(int page);
 }
 
 

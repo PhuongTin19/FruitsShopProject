@@ -49,10 +49,6 @@
       <div class="container-fluid">
         
         <!-- CONTENT -->
-        	<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-        		th:if="${size <= 0}">
-  				<p th:text="${message}"></p>
-			</div>
 			<div class="alert alert-primary h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
 				th:if="${success}">
   				<p th:text="${success}"></p>
@@ -75,7 +71,7 @@
 			</div>
         	
         	<!-- table category -->
-	        <table class="table table-striped" th:if="${size > 0}">
+	        <table class="table table-striped">
 			  <thead>
 			    <tr class="h4">
 			      <th class="align-middle" scope="col">#</th>
@@ -105,7 +101,20 @@
 			  </tbody>
 			</table>
    
-            
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+			  <ul class="pagination">
+			    <li class="page-item"><a class="page-link" 
+			    	th:href="@{/admin-blogs/1}">First</a></li>
+			    <li class="page-item"><a class="page-link"
+			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${currentPage} - 1)}">Previous</a></li>
+			    <li class="page-item"><a class="page-link" 
+			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${currentPage} + 1)}">Next</a></li>
+			    <li class="page-item"><a class="page-link" 
+			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${totalPages})}">Last</a></li>
+			  </ul>
+			</nav>
+			<!-- /Pagination -->
         </div>
         <!-- /.row -->
       </div>

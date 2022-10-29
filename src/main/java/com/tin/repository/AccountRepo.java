@@ -56,5 +56,11 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	//Thống kê tổng số khách hàng
     @Query(value = "{CALL sp_getCountCustomerInDay()}", nativeQuery = true)
 	Integer getCountCustomerInDay();
+    
+    /*TEST*/
+    /*pagination*/
+//    Page<Account> accountPage(int page) {
+//    	
+//    }
 }
 

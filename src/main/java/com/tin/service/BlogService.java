@@ -20,4 +20,7 @@ public interface BlogService {
 	//Top 3 Blog mới nhất
 	List<Blog>ListNewBlogsHomePage();
 	void save(Blog blog);
+	Page<Blog> blogPages(int page);
+	
+	List<Blog> findAllByAdmin();
 }

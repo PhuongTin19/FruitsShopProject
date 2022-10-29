@@ -6,6 +6,7 @@ import com.tin.entity.Role;
 import com.tin.service.AccountService;
 import com.tin.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,15 +31,15 @@ public class AccountController {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    @GetMapping(value = "/admin-accounts")
-    public String adminAccounts(Model model) {
-        List<Account> accounts = accountService.findAll();
-        model.addAttribute("title", "Admin Accounts");
-        model.addAttribute("size", accounts.size());
-        model.addAttribute("accounts", accounts);
-        model.addAttribute("message", "Accounts list is empty!");
-        return "admin/Account/accounts";
-    }
+//    @GetMapping(value = "/admin-accounts")
+//    public String adminAccounts(Model model) {
+//        List<Account> accounts = accountService.findAll();
+//        model.addAttribute("title", "Admin Accounts");
+//        model.addAttribute("size", accounts.size());
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("message", "Accounts list is empty!");
+//        return "admin/Account/accounts";
+//    }
 
     @GetMapping(value = "/add-account")
     public String addAccountForm(Model model) {
@@ -96,7 +97,7 @@ public class AccountController {
         }
 
         attributes.addFlashAttribute("success", "added successfully");
-        return "redirect:/admin-accounts";
+        return "redirect:/admin-accounts/1";
     }
 
     @GetMapping("/update-account/{id}")
@@ -135,7 +136,7 @@ public class AccountController {
             account1.setImage(fileName);
             accountService.save(account1);
 
-            String uploadFolder = "D:\\fruisShop1\\photos\\tinnp";
+            String uploadFolder = "D:\\fruisShopProject\\photos\\tinnp";
             try {
                 Files.copy(image.getInputStream(),Paths.get(uploadFolder + File.separator,
                         image.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
@@ -144,7 +145,27 @@ public class AccountController {
             }
         }
         attributes.addFlashAttribute("success", "Updated successfully!");
-        return "redirect:/admin-accounts";
+        return "redirect:/admin-accounts/1";
     }
-
+    /*Test Pagination*/
+    @GetMapping("/admin-accounts/{pageNumber}")
+    public String accountPaging(@PathVariable("pageNumber") int currentPage, Model model) {
+    	if(currentPage < 1) currentPage = 1;
+    	Page<Account> page = accountService.accountPage(currentPage - 1);
+    	int totalPages = page.getTotalPages();
+    	if(currentPage > totalPages) {
+    		currentPage = totalPages;
+    		page = accountService.accountPage(currentPage - 1); 
+    	}
+    	long totalItems = page.getTotalElements();
+    	List<Account> accounts = page.getContent();
+    	
+    	model.addAttribute("title", "Manage account");
+    	model.addAttribute("size", accounts.size());
+    	model.addAttribute("accounts", accounts);
+    	model.addAttribute("totalPages", totalPages);
+    	model.addAttribute("currentPage", currentPage);   	
+    	
+    	return "admin/Account/accounts";
+    }
 }

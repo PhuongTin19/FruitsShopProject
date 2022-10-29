@@ -9,6 +9,7 @@ import com.tin.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -141,5 +142,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Integer getCountCustomerInDay() {
 		return accDao.getCountCustomerInDay();
+	}
+	
+	@Override
+	public Page<Account> accountPage(int page) {
+		Pageable pageable = PageRequest.of(page, 5);
+		return accDao.findAll(pageable);
 	}
 }

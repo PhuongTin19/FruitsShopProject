@@ -46,11 +46,20 @@ public class Blog implements Serializable{
 	
 	@Column(name = "createdate")
 	@CreationTimestamp
-	private Timestamp createdate;
+	private Timestamp createdate = null;
 	
 
 	@Column(name = "image")
 	private String image;
+
+
+	public Blog(Account account, String title, String description, String image) {
+		super();
+		this.account = account;
+		this.title = title;
+		this.description = description;
+		this.image = image;
+	}
 
 	
 }
