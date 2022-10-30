@@ -72,9 +72,10 @@ public class OrderController {
 		Account username = accountService.findByUsername(request.getRemoteUser());
 		model.addAttribute("username", username);
 		model.addAttribute("orderValidate", new Order());
+		
 		return "user/checkout";
 	}
-
+ 
 	@RequestMapping("/order/tracking")
 	public String tracking(Model model, HttpServletRequest request) {
 		String username = request.getRemoteUser();

@@ -1,6 +1,7 @@
 package com.tin.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
@@ -170,6 +171,24 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}, 60000);
 		
+	}
+	
+	
+	@Override
+	public Page<Order> findByOrder(int page, int size) {
+		return orderRepo.findByOrder(PageRequest.of(page, size));
+	}
+
+	@Override
+	public Page<Order> findByOrder(Date startDate,Date endDate,int page, int size) {
+		return orderRepo.findByOrder(startDate,endDate,PageRequest.of(page, size));
+	}
+
+
+
+	@Override
+	public Page<Order> findByOrderStatus(String status,int page, int size) {
+		return orderRepo.findByOrderStatus(status,PageRequest.of(page, size));
 	}
 
 }

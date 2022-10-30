@@ -51,7 +51,39 @@
 				<div class="container-fluid">
 
 					<div class="row">
-
+						<!-- lọc theo trạng thái -->
+						<div class="dropdown no-arrow ml-5" style="margin-right:600px">
+							<a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
+								id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Lọc trạng thái <i class="fas fa-chevron-down"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+								aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Tùy chọn</div>
+								<a class="dropdown-item" href="/admin-order">Tất cả</a>
+								<a class="dropdown-item" href="/admin-order/unpaid">Chưa thanh
+									toán</a>
+								<a class="dropdown-item " href="/admin-order/cancel">Đã hủy đơn</a>
+								<a class="dropdown-item" href="/admin-order/success">Hoàn thành</a>
+							</div>
+						</div>
+						<!-- lọc theo ngày -->
+						<div class="admin-search-date-1">
+							<form th:action="@{/admin-order}" method="post">
+								<div class="row">
+									<div class="col">
+										<input required th:value="${day}" name="day" type="date" class="form-control">
+									</div>
+									<div class="col">
+										<input required th:value="${end}" name="end" type="date" class="form-control">
+									</div>
+									<div class="col">
+										<button class="btn btn-primary" style="height: auto;min-height: 43px;"><i
+												class='bx bx-search-alt'></i> Tìm</button>
+									</div>
+								</div>
+							</form>
+						</div>
 						<!-- table category -->
 						<table class="table table-striped">
 							<thead>
@@ -77,14 +109,16 @@
 									<td>
 										<h4
 											th:if="${order.orderStatus == 'Chờ xác nhận' || order.orderStatus == 'Đang vận chuyển' || order.orderStatus == 'Hoàn thành' || order.orderStatus == 'Chờ xác nhận hủy'}">
-											<span class="badge badge-success">[[${order.orderStatus}]]</span></h4>
+											<span class="badge badge-success">[[${order.orderStatus}]]</span>
+										</h4>
 										<h4 th:if="${order.orderStatus == 'Đã hủy đơn'}"><span
 												class="badge badge-danger">[[${order.orderStatus}]]</span></h4>
 										<h4 th:if="${order.orderStatus == 'Chưa thanh toán'}"><span
 												class="badge badge-warning">[[${order.orderStatus}]]</span></h4>
 									</td>
 									<td>
-										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}" th:href="@{|/admin-verifyOrder/${order.order_id}|}"
+										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}"
+											th:href="@{|/admin-verifyOrder/${order.order_id}|}"
 											class="btn btn-success">Xác Nhận</a>
 										<!--<a th:unless="${order.orderStatus == 'Đang vận chuyển' || order.orderStatus == 'Hoàn thành' ||  order.orderStatus == 'Đã hủy đơn'}" th:href="@{|/admin-cancelOrder/${order.order_id}|}" class="btn btn-danger"><span
 												class="icon_close">Hủy</span></a>
@@ -93,14 +127,40 @@
 										<a th:href="@{|/admin-detailOrder/${order.order_id}|}" class="btn btn-warning">
 											Chi tiết
 										</a>
-										
+
 									</td>
 								</tr>
 							</tbody>
 						</table>
+						<div class="text-center" style="margin-left:450px">
+							<nav aria-label="Page navigation example" th:if="${totalPage >1}">
+								<ul class="pagination justify-content-center">
+									<li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
+										<a th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage-1)} :''}"
+											class="page-link" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li th:each="i : ${#numbers.sequence(1,totalPage)}" class="page-item">
+										<a class="page-link" th:href="@{'?page='+ ${i} }" th:text="${i}"></a>
+									</li>
+									<!--                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+									<!--                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+									<li class="page-item" th:class="${currentPage == totalPage} ? 'disabled' : ''">
+										<a th:href="@{${currentPage < totalPage} ? ${'?page=' + (currentPage+1)} : '' }"
+											class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
 					</div>
-					<!-- /.row -->
+
 				</div>
+
 				<!-- /.container-fluid -->
 			</div>
 			<!-- /.content -->
