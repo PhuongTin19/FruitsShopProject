@@ -120,5 +120,20 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.findByProductId(id);
 	}
 
+	@Override
+	public Product create(Product product) {
+		return productRepo.save(product);
+	}
+
+	@Override
+	public Product update(Product product) {
+		return productRepo.save(product);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		productRepo.deleteById(id);
+	}
+
 	
 }

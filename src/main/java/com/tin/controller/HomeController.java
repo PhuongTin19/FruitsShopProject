@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tin.entity.Account;
 import com.tin.entity.Blog;
@@ -21,7 +22,9 @@ import com.tin.service.BlogService;
 import com.tin.service.FavoriteService;
 import com.tin.service.ImageService;
 import com.tin.service.OrderDetailsService;
+import com.tin.service.OrderService;
 import com.tin.service.ProductService;
+import com.tin.service.ReportService;
 import com.tin.service.SessionService;
 
 @Controller
@@ -42,7 +45,10 @@ public class HomeController {
 	SessionService sessionService;
 	@Autowired
 	AccountService accountService;
-	
+	@Autowired
+	OrderService orderService;
+	@Autowired
+	ReportService reportService;
 	@GetMapping("/index")
 	public String list(Model model,HttpServletRequest request) {
  		
@@ -83,4 +89,6 @@ public class HomeController {
 		model.addAttribute("image", findImageSupport);
 		return "/user/shop-details";
 	}
+
+	
 }

@@ -86,8 +86,8 @@ public class test {
 
 
 	
-	@RequestMapping("/admin")
-	public String testAdmin() {
-		return "admin/index";
-	}
+//	@RequestMapping("/admin")
+//	public String testAdmin() {
+//		return "admin/index";
+//	}
 }

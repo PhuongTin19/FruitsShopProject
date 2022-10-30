@@ -40,17 +40,17 @@ public class Product implements Serializable{
     @Column(name = "product_id")
 	private Integer product_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Category category;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Brand brand;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "discount_id", referencedColumnName = "discount_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Discount discount;
