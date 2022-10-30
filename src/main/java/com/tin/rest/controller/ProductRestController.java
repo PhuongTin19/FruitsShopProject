@@ -23,10 +23,10 @@ public class ProductRestController {
 	@Autowired
 	ProductService productService;
 	
-//	@GetMapping()
-//	public List<Product> getAll() {
-//		return productService.findAll();
-//	}
+	@GetMapping()
+	public List<Product> getAll() {
+		return productService.findAll();
+	}
 	@GetMapping("{id}")
 	public Product getOne(@PathVariable("id")Integer id) {
 		return productService.findById(id);
