@@ -45,8 +45,9 @@
 												</div>
 												<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
 													<input ng-change="cart.saveToLocalStorage()"
-														ng-model="item.qty" type="number" id="qty" min="1" max="20"
-														style="width: 60px;" />
+														ng-model="item.qty" name="qty" type="number" id="qty" min="1" max="20"
+														style="width: 60px;" onkeyup="myFunction()" />
+														
 												</div>
 												<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
 													<h5 class="mb-0">
@@ -116,8 +117,25 @@
 				</div>
 			</div>
 		</section>
+
+		<script>
+			function myFunction() {
+	            const x = document.getElementsByName("qty");
+	            for (let i = 0; i < x.length; i++) {
+	                if (x[i].value > 20) {
+	                    alert("Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!");
+	                    x[i].value = 20;
+	                } else {
+	
+	                }
+	            }
+        	}
+		</script>
+
+		  
+
 	</main>
-	<!-- Js Plugins -->
+	  <!-- Js Plugins -->
 	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
 	<script th:src="@{/user/js/bootstrap.min.js}"></script>
 	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
