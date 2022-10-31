@@ -20,4 +20,29 @@ public class ImageServiceImpl implements ImageService{
 		return imageRepo.findImageSupport(id);
 	}
 
+	@Override
+	public List<Images> findAll() {
+		return imageRepo.findAll();
+	}
+
+	@Override
+	public Images findByImageId(int id) {
+		return imageRepo.findByImageId(id);
+	}
+
+	@Override
+	public Images create(Images image) {
+		return imageRepo.save(image);
+	}
+
+	@Override
+	public Images update(Images image) {
+		return imageRepo.save(image);
+	}
+
+	@Override
+	public void delete(int id) {
+		imageRepo.deleteById(id);
+	}
+
 }

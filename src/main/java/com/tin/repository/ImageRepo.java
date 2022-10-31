@@ -13,4 +13,7 @@ public interface ImageRepo extends JpaRepository<Images,Integer> {
 
 	@Query(value = "select * from images where product_id = ?1" ,nativeQuery=true)
 	List<Images>findImageSupport(Integer id);
+	
+	@Query(value = "select i from Images i where i.image_id = ?1")
+	Images findByImageId(int id);
 }

@@ -7,4 +7,16 @@ import com.tin.entity.Images;
 public interface ImageService {
 
 	List<Images>findImageSupport(Integer id);
+	
+	List<Images> findAll();
+	
+	Images findByImageId(int id);
+	
+	Images create(Images image);
+	
+	Images update(Images image);
+	
+	void delete(int id);
+	
+	
 }
