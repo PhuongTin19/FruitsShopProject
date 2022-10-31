@@ -147,7 +147,7 @@
 			        	</center>
 						<div class="row">
 							
-							<div th:each="d : ${discountList.content}" th:object="${session.currentUser}"
+							<div th:each="d : ${discountList.content}" th:object="${account}"
 								class="col-lg-4 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg product__discount__item__pic">
@@ -161,7 +161,7 @@
 											</div>
 										</th:block>
 										<ul class="product__item__pic__hover">
-											<li th:if="${session.currentUser!=null}">
+											<li sec:authorize="isAuthenticated()">
 												<a
 													th:href="@{|/user/favorite/like?pid=${d.product_id}&id=*{account_id}|}"><i
 														class="fa fa-heart"></i></a>

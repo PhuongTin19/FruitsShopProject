@@ -26,55 +26,17 @@ public class test {
 //			System.out.print(checkPassword);
 		int a[] = {3,2,5,6,7};
 		System.out.print(a[1]);
-   
-		
-	}
-	
-	
-	
-//	
-//	@GetMapping("/index")
-//	public String test() {
-//		return "/user/homepage";
-//	}
-//
-//	@RequestMapping("/shop")
-//	public String test2() {
-//		return "user/shop-grid";
-//	}
-////	@RequestMapping("/detailshop")
-////	public String test3() {
-////		return "user/shop-details";
-////	}
-	@RequestMapping("/cart") 
-	public String test4() {
-		return "user/shoping-cart";
 	}
 	@RequestMapping("/checkout")
 	public String test5() {
 		return "user/checkout";
 	}
-//	@RequestMapping("/detailblog")
-//	public String test6() {
-//		return "user/blog-details";
-//	}
-//
+
 	@RequestMapping("/contact")
 	public String test8() {
 		return "user/contact";
 	}
-////	@RequestMapping("/login")
-////	public String test9() {
-////		return "user/login";
-////	}
-//	@RequestMapping("/favorite")
-//	public String test10() {
-//		return "user/favorite";
-//	}
-//	@RequestMapping("/tracking")
-//	public String test11() {
-//		return "user/trackingorder";
-//	}
+
 	@RequestMapping("/detailorder")
 	public String test12() {
 		return "user/detailorder";
@@ -84,10 +46,4 @@ public class test {
 		return "user/listorder";
 	}
 
-
-	
-//	@RequestMapping("/admin")
-//	public String testAdmin() {
-//		return "admin/index";
-//	}
 }

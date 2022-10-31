@@ -88,7 +88,7 @@
 						<a th:href="@{'/user/favorite?id='+*{account_id}}"><i class="fa fa-heart"></i>
 							<span>[[${countLike}]]</span></a>
 					</li>
-					<li><a th:href="@{/cart}"><i class="fa fa-shopping-bag"></i> <span>{{cart.count}} </span></a></li>
+					<li><a th:href="@{/cart}"><i class="fa fa-shopping-bag"></i> <span >{{cart.count}} </span></a></li>
 				</ul>
 				<div class="header__cart__price">Tổng tiền: <span>{{cart.amount|number:0}} <sup>đ</sup> </span></div>
 			</div>

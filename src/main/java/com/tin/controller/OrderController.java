@@ -67,6 +67,10 @@ public class OrderController {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
+	@RequestMapping("/cart") 
+	public String test4() {
+		return "user/shoping-cart";
+	}
 	@RequestMapping("/order/checkout")
 	public String checkout(Model model, HttpServletRequest request) {
 		Account username = accountService.findByUsername(request.getRemoteUser());

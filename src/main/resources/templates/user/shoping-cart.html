@@ -47,7 +47,6 @@
 													<input ng-change="cart.saveToLocalStorage()"
 														ng-model="item.qty" name="qty" type="number" id="qty" min="1" max="20"
 														style="width: 60px;" onkeyup="myFunction()" />
-														
 												</div>
 												<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
 													<h5 class="mb-0">
@@ -121,12 +120,14 @@
 		<script>
 			function myFunction() {
 	            const x = document.getElementsByName("qty");
+	            const y = document.getElementById("qty2");
 	            for (let i = 0; i < x.length; i++) {
 	                if (x[i].value > 20) {
 	                    alert("Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!");
 	                    x[i].value = 20;
-	                } else {
-	
+	                } 
+	                if(y>50){
+	                	alert("Số lượng quá nhiều");
 	                }
 	            }
         	}
