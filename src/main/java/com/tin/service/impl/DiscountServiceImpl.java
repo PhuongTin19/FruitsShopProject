@@ -26,10 +26,10 @@ public class DiscountServiceImpl implements DiscountService{
 		discountRepo.save(discount);
 	}
 	
-	@Override
-	public Discount findByDiscount_id(Integer discountId) {
-		return discountRepo.findByDiscount_id(discountId);
-	}
+//	@Override
+//	public Discount findByDiscount_id(Integer discountId) {
+//		return discountRepo.findByDiscount_id(discountId);
+//	}
 	
 	@Override
 	public void updateDiscountById(Integer id, String name, Double Discount, Date start_time, Date end_time,
@@ -40,5 +40,26 @@ public class DiscountServiceImpl implements DiscountService{
 	@Override
 	public List<Discount> findByIsEnable() {
 		return discountRepo.findByIsEnable();
+	}
+
+	/***********************************************/
+	@Override
+	public Discount findByDiscountId(int id) {
+		return discountRepo.findByDiscoundId(id);
+	}
+
+	@Override
+	public Discount create(Discount discount) {
+		return discountRepo.save(discount);
+	}
+
+	@Override
+	public Discount update(Discount discount) {
+		return discountRepo.save(discount);
+	}
+
+	@Override
+	public void delete(int id) {
+		discountRepo.deleteById(id);
 	}
 }

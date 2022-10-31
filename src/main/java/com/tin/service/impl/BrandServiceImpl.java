@@ -14,11 +14,11 @@ public class BrandServiceImpl implements BrandService{
 	@Autowired
 	private BrandRepo brandRepo; 
 
-	/*ADMIN*/
-	@Override
-	public List<Brand> findAllByIsEnable() {
-		return brandRepo.findAllByIsEnable();
-	}
+//	/*ADMIN*/
+//	@Override
+//	public List<Brand> findAllByIsEnable() {
+//		return brandRepo.findAllByIsEnable();
+//	}
 	
 	@Override
 	public List<Brand> findAll() {
@@ -29,9 +29,32 @@ public class BrandServiceImpl implements BrandService{
 	public void save(Brand brand) {
 		brandRepo.save(brand);
 	}
-	
+
 	@Override
-	public Brand findByBrandId(Integer id) {
+	public Brand findByBrandId(int id) {
 		return brandRepo.findByBrandId(id);
 	}
+
+	@Override
+	public Brand create(Brand brand) {
+		return brandRepo.save(brand);
+	}
+
+	@Override
+	public Brand update(Brand brand) {
+		return brandRepo.save(brand);
+	}
+
+	@Override
+	public void delete(int id) {
+		brandRepo.deleteById(id);;
+		
+	}
+	
+//	@Override
+//	public Brand findByBrandId(Integer id) {
+//		return brandRepo.findByBrandId(id);
+//	}
+	
+	
 }

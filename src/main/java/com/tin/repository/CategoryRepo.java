@@ -26,4 +26,6 @@ public interface CategoryRepo extends JpaRepository<Category,Integer> {
 	
 	@Query(value = "update categories  set name = ?2, is_enable = ?3 where category_id = ?1", nativeQuery = true)
 	Category updateCategory(int id, String name, Boolean is_enable);
+	
+	
 }

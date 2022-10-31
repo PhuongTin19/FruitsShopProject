@@ -13,8 +13,15 @@ public interface CategoryService {
 	/* ADMIN */
 	List<Category> adminFindAll();
 	List<Category> findAllByIsEnable();
-	Category save(Category category);
 	Category findCategoryById(int id);
 	void updateCategory(int id, String name, Boolean is_enable);
+	/*------------------*/
+	Category save(Category category);
+	Category findById(Integer id);
+	Category create(Category category);
+	Category update(Category category);
+	void delete(Integer id);
+	
+
 
 }

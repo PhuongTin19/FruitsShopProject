@@ -11,10 +11,17 @@ public interface DiscountService {
 	
 	void save(Discount discount);
 	
-	Discount findByDiscount_id(Integer discountId);
+//	Discount findByDiscount_id(Integer discountId);
 	
 	void updateDiscountById(Integer id, String name, Double Discount, Date start_time, 
 			Date end_time, Boolean is_enable);
 	
 	List<Discount> findByIsEnable();
+	
+	/****************************/
+	Discount findByDiscountId(int id);
+	Discount create(Discount discount);
+	Discount update(Discount discount);
+	void delete(int id);
+	
 }

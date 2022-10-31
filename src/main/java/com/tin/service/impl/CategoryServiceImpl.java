@@ -36,18 +36,7 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryRepo.findAllByIsEnable();
 	}
 	
-	@Override
-	public Category save(Category category) {
-		try {
-			Category categorySave = new Category(null, null);
-			categorySave.setName(category.getName());
-			categorySave.setIs_enable(category.getIs_enable());
-			return categoryRepo.save(categorySave);	
-		} catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	
 	
 	@Override
 	public Category findCategoryById(int id) {
@@ -72,4 +61,30 @@ public class CategoryServiceImpl implements CategoryService{
 			//return null;
 		}
 	}
+	/********************/
+	@Override
+	public Category save(Category category) {
+			return categoryRepo.save(category);
+	}
+	
+	@Override
+	public Category findById(Integer id) {
+		return categoryRepo.findCategoryById(id);
+	}
+
+	@Override
+	public Category create(Category category) {
+		return categoryRepo.save(category);
+	}
+	
+	@Override
+	public Category update(Category category) {
+		return categoryRepo.save(category);
+	}
+	
+	@Override
+	public void delete(Integer id) {
+		categoryRepo.deleteById(id);
+	}
+	
 }

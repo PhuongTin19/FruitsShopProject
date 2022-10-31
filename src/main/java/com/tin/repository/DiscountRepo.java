@@ -13,8 +13,8 @@ import com.tin.entity.Discount;
 @Repository
 public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	/*ADMIN*/
-	@Query(value = "select d from Discount d where d.discount_id = ?1")
-	Discount findByDiscount_id(Integer discount_id);
+//	@Query(value = "select d from Discount d where d.discount_id = ?1")
+//	Discount findByDiscount_id(Integer discount_id);
 
 	@Query(value = "update discounts set discount = ?3, name = ?2, start_time = ?4, end_time = ?5, "
 			+ "is_enable = ?6 where discount_id = ?1", nativeQuery = true)
@@ -23,4 +23,8 @@ public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	
 	@Query(value = "select d from Discount d where d.is_enable = true")
 	List<Discount> findByIsEnable();
+	
+	@Query(value = "select d from Discount d where d.discount_id = ?1")
+	Discount findByDiscoundId(int id);
+	
 }

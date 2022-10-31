@@ -11,8 +11,14 @@ public interface BrandService {
 
 	/*ADMIN*/
 
-	List<Brand> findAllByIsEnable();
+	//List<Brand> findAllByIsEnable();
 	List<Brand> findAll();
 	void save(Brand brand);
-	Brand findByBrandId(Integer id);
+	//Brand findByBrandId(Integer id);
+	Brand findByBrandId(int id);
+	Brand create(Brand brand);
+	Brand update(Brand brand);
+	void delete(int id);
+	
+	
 }

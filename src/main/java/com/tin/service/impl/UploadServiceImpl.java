@@ -17,16 +17,16 @@ public class UploadServiceImpl implements UploadService{
 	ServletContext app;
 
 	public File save(MultipartFile file, String folder) {
-		File dir = new File(app.getRealPath("/user/img/product/" +folder ));
+		File dir = new File(app.getRealPath("/user/img/product/" + folder ));
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
-		String s = System.currentTimeMillis() + file.getOriginalFilename();
-		String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
+		String s = file.getOriginalFilename();
+		//String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
 		System.out.println(s);
-		System.out.println(name);
+		//System.out.println(name);
 		try {
-			File savedFile = new File(dir, name);
+			File savedFile = new File(dir, s);
 			file.transferTo(savedFile);
 			System.out.println(savedFile.getAbsolutePath());
 			return savedFile;
