@@ -29,7 +29,7 @@ public class Account implements Serializable{
     @Column(name = "account_id")
 	private Integer account_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", referencedColumnName = "role_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Role role;

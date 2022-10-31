@@ -1,6 +1,7 @@
 package com.tin.service;
 
 import com.tin.entity.Account;
+import com.tin.entity.Product;
 import com.tin.entity.Provider;
 
 import org.springframework.data.domain.Page;
@@ -46,6 +47,9 @@ public interface AccountService {
     Integer getCountCustomerInDay();
     /*--------------------------*/
     Page<Account> accountPage(int page);
+    Account create(Account account) ;
+    Account updateAccountAdmin(Account account) ;
+	void delete(Integer id) ;
 }
 
 

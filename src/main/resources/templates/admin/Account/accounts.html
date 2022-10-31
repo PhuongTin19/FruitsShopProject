@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="/admin/fragments :: header">
-  
+
 </head>
 <!--
 `body` tag options:
@@ -10,150 +11,371 @@
   * sidebar-collapse
   * sidebar-mini
 -->
+
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
-  </nav>
-  <!-- /.navbar -->
+	<div ng-app="myaccount" ng-controller="account-ctrl" class="wrapper">
+		<!---->
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+		</nav>
+		<aside th:replace="/admin/fragments :: sidebar">
+		</aside>
 
-  <!-- Main Sidebar Container -->
-  <aside th:replace="/admin/fragments :: sidebar">
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-         	<!-- WRITE TITLE OF PAGE IN FUTURE -->
-         	
-         	
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <!-- WRITE LINK OF PAGE IN FUTURE -->
-              
-           		 
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        
-        <!-- CONTENT -->
-			<div class="alert alert-primary h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-				th:if="${success}">
-  				<p th:text="${success}"></p>
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+							</ol>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-				th:if="${error}">
-  				<p th:text="${error}"></p>
-			</div>		
-		<div class="row">	
-			<!-- button add new category -->
-			<div class="h-15 my-4 mx-1">			
-				<a th:href="@{/add-account}">
-					<p class="btn btn-lg btn-success" >Add New Account</p>
-				</a>
+
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<table class="table table-striped">
+							<thead>
+								<tr class="h4">
+									<th class="align-middle" scope="col">Fullname</th>
+									<th class="align-middle" scope="col">Image</th>
+									<th class="align-middle" scope="col">Username</th>
+									<th class="align-middle" scope="col">Email</th>
+									<th class="align-middle" scope="col">Phone</th>
+									<th class="align-middle" scope="col">Address</th>
+									<th class="align-middle" scope="col">Role</th>
+									<th class="align-middle" scope="col">Edit</th>
+								</tr>
+							</thead>
+							<tbody ng-repeat="item in pager.items">
+								<tr class="h5">
+									<td class="align-middle">{{item.fullname}}</td>
+									<td class="align-middle">
+										<img alt="" th:src="@{|/photos/{{item.image}}|}" style="width: 150px; height: 150px;">
+									</td>
+									<td class="align-middle">{{item.username}}</td>
+									<td class="align-middle">{{item.email}}</td>
+									<td class="align-middle">{{item.phone}}</td>
+									<td class="align-middle">{{item.address}}</td>
+									<td class="align-middle">{{item.role.name}}</td>
+									<td>
+										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+											th:text="'Edit'"></a>
+									</td>
+									
+								</tr>
+							</tbody>
+						</table>
+						<div class="panel-footer" style="margin-left:400px;margin-bottom:20px">
+							<button ng-click="pager.first()" class="btn btn-danger">
+								<< </button>
+									<button ng-click="pager.prev()" class="btn btn-primary">
+										< </button>
+											<button class="btn btn-success">{{pager.page + 1}} of
+												{{pager.count}}</button>
+											<button ng-click="pager.next()" class="btn btn-primary">
+												>
+											</button>
+											<button ng-click="pager.last()" class="btn btn-danger">
+												>>
+											</button>
+						</div>
+						<div class="col-12">
+							<!-- general form elements -->
+							<div id="form" class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">User Details</h3>
+								</div>
+								<form >
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+
+												<div class="form-group">
+													<label for="inputName">Password</label>
+													<input ng-model="form.password"  type="text" class="form-control"
+														id="inputAddress" name="name">
+												</div>
+												<div class="form-group">
+													<label for="inputName">Fullname</label>
+													<input ng-model="form.fullname" type="text" class="form-control"
+														id="inputAddress" name="name">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">Username</label>
+													<input ng-model="form.username" type="text" class="form-control"
+														id="inputAddress2" name="price">
+												</div>
+												<div class="form-group">
+														<label for="inputQuantity">Email</label>
+														<input ng-model="form.email" type="text"
+															class="form-control" id="inputQuantity" name="quantity">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">phone</label>
+													<input ng-model="form.phone" type="text" class="form-control"
+														id="inputAddress2" name="price">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">Address</label>
+													<input ng-model="form.address" type="text" class="form-control"
+														id="inputAddress2" name="price">
+												</div>
+												<fieldset class="form-group row">
+													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
+													</legend>
+													<div class="col-sm-8 ml-3">
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="true"
+																class="form-check-input" type="radio" id="gridRadios1"
+																checked name="is_enable">
+															<label class="form-check-label" for="gridRadios1">
+																Enable
+															</label>
+														</div>
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="false"
+																class="form-check-input" type="radio" id="gridRadios2"
+																value="false" name="is_enable">
+															<label class="form-check-label" for="gridRadios2">
+																Unenable
+															</label>
+														</div>
+													</div>
+												</fieldset>
+												<!----><fieldset class="form-group row">
+													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Role:
+													</legend>
+													<div class="col-sm-8 ml-3">
+														<div class="form-check">
+															<input ng-model="form.role.role_id" ng-value="2"
+																class="form-check-input" type="radio" id="gridRadios1"
+																checked name="role">
+															<label class="form-check-label" for="gridRadios1">
+																User
+															</label>
+														</div>
+														<div class="form-check">
+															<input ng-model="form.role.role_id" ng-value="1"
+																class="form-check-input" type="radio" id="gridRadios1"
+																checked name="role">
+															<label class="form-check-label" for="gridRadios1">
+																Admin
+															</label>
+														</div>
+													</div>
+												</fieldset>
+
+											</div>
+											<div class="col-4">
+												<!---->
+												<div class="card card-primary card-outline">
+													<div class="card-body box-profile">
+														<div class="text-center">
+															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
+															<img ng-src="{{'/photos/' + form.image}}"
+																style="max-width:100%;" height="200px">
+														</div>
+														<input type="file" class="form-control" id="image"
+															onchange="angular.element(this).scope().imageChanged(this.files)">
+														<br />
+														<div class="form-group">
+															<label for="inputFile">Avatar</label>
+															<div class="input-group">
+																<div class="custom-file">
+																	<!--    <p><input onchange="angular.element(this).scope().imageChanged(this.files)"  path="image" type="file" accept="image/*" name="imageFile" id="file"  style="display: none;"></p>
+									    							<p><label for="file" style="cursor: pointer;">Upload Image</label></p>-->
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-row p-2">
+										<button ng-click="create()" class="btn btn-primary">
+											<b class="glyphicon glyphicon-plus"></b>Create
+										</button>
+										<button ng-click="update()" class="btn btn-success">
+											<b class="glyphicon glyphicon-save"></b>Update
+										</button>
+										<button ng-click="delete()" class="btn btn-danger">
+											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-click="reset()" class="btn btn-info">
+											<b class="glyphicon glyphicon-refresh"></b>Reset
+										</button>
+									</div>
+								</form>
+
+							</div>
+							<!-- /.card -->
+						</div>
+						
+					</div>
+				</div>
 			</div>
-        	
-        	<!-- table category -->
-	        <table class="table table-striped">
-			  <thead>
-			    <tr class="h4">
-			      <th class="align-middle" scope="col">#</th>
-			      <th class="align-middle" scope="col">Username</th>
-			      <th class="align-middle" scope="col">Password</th>
-			      <th class="align-middle" scope="col">Role</th>
-			      <th class="align-middle" scope="col">Email</th>
-			      <th class="align-middle" scope="col">Fullname</th>
-				  <th class="align-middle" scope="col">Image</th>
-				  <th class="align-middle" scope="col">Provider</th>
-				  <th class="align-middle" scope="col">Address</th>
-				  <th class="align-middle" scope="col">Phone</th>
-				  <th class="align-middle" scope="col">Status</th>
-			      <th class="align-middle" scope="col">Edit</th>
-			    </tr>
-			  </thead>
-			  <tbody th:each="account : ${accounts}">
-			    <tr class="h5">
-			      <th class="align-middle" scope="row" th:text="${account.account_id}"></th>
-			      <td class="align-middle" th:text="${account.username}"></td>
-				  <td class="align-middle" th:with="password = ${account.password}" th:text="${#strings.substring(password,1,10)}"></td>
-				 <td class="align-middle" th:text="${account.role.name}"></td>
-				  <td class="align-middle" th:text="${account.email}"></td>
-				  <td class="align-middle" th:text="${account.fullname}"></td>
-			      <td class="align-middle">
-			      	<img alt="" th:src="@{|../../../photos/tinnp/${account.image}|}" style="width: 150px; height: 150px;">
-			      </td>
-			      
-			      <td class="align-middle" th:text="${account.provider}"></td>
-			      <td class="align-middle" th:text="${account.address}"></td>
-			      <td class="align-middle" th:text="${account.phone}"></td>
-			      <td class="align-middle" th:if="${account.is_enable == true}">Is enable</td>
-			      <td class="align-middle" th:if="${account.is_enable} == false">Is Unenable</td>
-			      <td>
-			      	<a class="btn btn-primary my-2 align-center"
-					   th:href="@{/update-account/{id} (id=${account.account_id})}"	th:text="'Edit'"></a>
-			      </td>
-			    </tr>
-			  </tbody>
-			</table>
-   
-   			<!-- Pagination -->
-            <nav aria-label="Page navigation example">
-			  <ul class="pagination">
-			    <li class="page-item col-4 p-0 text-center"><a class="page-link" 
-			    	th:href="@{/admin-accounts/1}">First</a></li>
-			    <li class="page-item col-4 p-0 text-center"><a class="page-link"
-			    	th:href="@{/admin-accounts/{pageNumber} (pageNumber = ${currentPage} - 1)}">Previous</a></li>
-			    <li class="page-item col-4 p-0 text-center"><a class="page-link" 
-			    	th:href="@{/admin-accounts/{pageNumber} (pageNumber = ${currentPage} + 1)}">Next</a></li>
-			    <li class="page-item col-4 p-0 text-center"><a class="page-link" 
-			    	th:href="@{/admin-accounts/{pageNumber} (pageNumber = ${totalPages})}">Last</a></li>
-			  </ul>
-			</nav>
-			<!-- /Pagination -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+		</div>
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
 
-  
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
+			All rights reserved.
+			<div class="float-right d-none d-sm-inline-block">
+				<b>Version</b> 3.2.0
+			</div>
+		</footer>
+	</div>
+	<!-- ./wrapper -->
 
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer>
-</div>
-<!-- ./wrapper -->
+	<!-- REQUIRED SCRIPTS -->
 
-<!-- REQUIRED SCRIPTS -->
 
-	
-<div th:replace="/admin/fragments :: scripts">
-</div>
+	<div th:replace="/admin/fragments :: scripts">
+	</div>
+	<script>
+		const app = angular.module("myaccount", []);
+		app.controller("account-ctrl", function ($scope, $http) {
+			
+			$scope.items = [];
+			$scope.cates = [];
+			$scope.form = {};
+			
+			$scope.initialize = function () {
+				//load products
+				$http.get("/rest/accounts").then(resp => {
+					$scope.items = resp.data;
+					$scope.items.forEach(item => {
+						//$scope.form.image = "user.png";
+					})
+				});
 
+			}
+			//Khởi đầu
+			$scope.initialize();
+
+			//Xóa form
+			$scope.reset = function () {
+				$scope.form = {
+					is_enable: true,
+					image: "user.png"
+				}
+			}
+
+			//Hiển thị lên form
+			$scope.edit = function (item) {
+				$scope.form = angular.copy(item);
+				//Chuyển sang tab form
+				//$(".nav-tabs a:eq(0)").tab("show");
+				$('html, body').animate({
+					scrollTop: $('#form').offset().top
+				}, 1000);
+			}
+
+			//Thêm sản phẩm mới
+			$scope.create = function () {
+				var item = angular.copy($scope.form);
+				$http.post(`/rest/accounts`, item).then(resp => {
+					$scope.items.push(resp.data);
+					$scope.reset();
+					alert("Thêm mới người dùng thành công!");
+				}).catch(error => {
+					alert("Lỗi thêm mới người dùng!");
+					console.log("Error", error);
+				});
+			}
+
+
+
+			//Cập nhật sản phẩm
+			$scope.update = function () {
+				var item = angular.copy($scope.form);
+				$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
+					var index = $scope.items.findIndex(p => p.id == item.id);
+					$scope.items[index] = item;
+					alert("Cập nhật người dùng thành công!");
+				})
+					.catch(error => {
+						alert("Lỗi cập nhật người dùng!");
+						console.log("Error", error);
+					});
+			}
+
+			//Xóa sản phẩm
+			$scope.delete = function (item) {
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn xóa người dùng này?")) {
+					$http.delete(`/rest/accounts/${item.account_id}`).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items.splice(index, 1);
+						$scope.reset();
+						alert("Xóa người dùng thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi xóa người dùng!");
+						console.log("Error", error);
+					})
+				}
+			}
+
+			//Upload hình
+			$scope.imageChanged = function (files) {
+				var data = new FormData();
+				data.append('file', files[0]);
+				$http.post('/rest/upload/photos/images', data, {
+					transformRequest: angular.identity,
+					headers: {'Content-Type': undefined}
+				}).then(resp => {
+					$scope.form.image = resp.data.name;
+				}).catch(error => {
+					alert("Lỗi upload hình ảnh");
+					console.log("Error", error);
+				})
+			}
+
+
+			//Phân trang
+			$scope.pager = {
+				page: 0,
+				size: 10,
+				get items() {
+					var start = this.page * this.size;
+					return $scope.items.slice(start, start + this.size)
+				},
+				get count() {
+					return Math.ceil(1.0 * $scope.items.length / this.size);
+				},
+				first() {
+					this.page = 0;
+				},
+				prev() {
+					this.page--;
+					if (this.page < 0) {
+						this.last();
+					}
+				},
+				next() {
+					this.page++;
+					if (this.page >= this.count) {
+						this.first();
+					}
+				},
+				last() {
+					this.page = this.count - 1;
+				},
+
+			}
+
+		});
+	</script>
 </body>
+
 </html>

@@ -149,4 +149,20 @@ public class AccountServiceImpl implements AccountService {
 		Pageable pageable = PageRequest.of(page, 5);
 		return accDao.findAll(pageable);
 	}
+
+	@Override
+	public Account create(Account account) {
+		return accDao.save(account);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		accDao.deleteById(id);
+		
+	}
+
+	@Override
+	public Account updateAccountAdmin(Account account) {
+		return accDao.save(account);
+	}
 }

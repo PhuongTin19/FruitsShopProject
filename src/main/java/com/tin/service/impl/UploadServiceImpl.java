@@ -22,9 +22,7 @@ public class UploadServiceImpl implements UploadService{
 			dir.mkdirs();
 		}
 		String s = file.getOriginalFilename();
-		//String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
 		System.out.println(s);
-		//System.out.println(name);
 		try {
 			File savedFile = new File(dir, s);
 			file.transferTo(savedFile);
@@ -34,4 +32,24 @@ public class UploadServiceImpl implements UploadService{
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public File saveImageAccount(MultipartFile file, String folder) {
+		File dir = new File(app.getRealPath("/photos/" + folder ));
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		String s = file.getOriginalFilename();
+		System.out.println(s);
+		try {
+			File savedFile = new File(dir, s);
+			file.transferTo(savedFile);
+			System.out.println(savedFile.getAbsolutePath());
+			return savedFile;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
 }

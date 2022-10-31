@@ -32,7 +32,49 @@ public class UploadRestController {
 	
 	@PostMapping("/rest/upload/{folder}")
 	public JsonNode upload(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
+		String uploadDir = "C:\\Users\\USUS\\eclipse-workspace\\FruitsShopProject2\\src\\main\\resources\\static\\user\\img\\product\\" ;
+		String fileName = file.getOriginalFilename();
+		Path uploadPath = Paths.get(uploadDir);
+
+		if (!Files.exists(uploadPath)) {
+			Files.createDirectories(uploadPath);
+		}
+		try {
+			InputStream inputStream = file.getInputStream();
+			Path filePath = uploadPath.resolve(fileName);
+			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//
 		File savedFile = uploadService.save(file, folder);
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode node = mapper.createObjectNode();
+		
+		node.put("name", savedFile.getName());
+		node.put("size", savedFile.length());
+		
+		
+		return node;
+	}
+	@PostMapping("/rest/upload/photos/{folder}")
+	public JsonNode upload2(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
+		String uploadDir = "photos/" ;
+		String fileName = file.getOriginalFilename();
+		Path uploadPath = Paths.get(uploadDir);
+
+		if (!Files.exists(uploadPath)) {
+			Files.createDirectories(uploadPath);
+		}
+		try {
+			InputStream inputStream = file.getInputStream();
+			Path filePath = uploadPath.resolve(fileName);
+			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//
+		File savedFile = uploadService.saveImageAccount(file, folder);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.createObjectNode();
 		

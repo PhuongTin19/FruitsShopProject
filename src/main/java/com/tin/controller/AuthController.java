@@ -244,7 +244,7 @@ public class AuthController {
 			accountService.update(account);
 			accountService.update(userRequest);
 
-			String uploadDir = "photos\\" + userRequest.getUsername();
+			String uploadDir = "photos\\" ;
 			
 			Path uploadPath = Paths.get(uploadDir);
 

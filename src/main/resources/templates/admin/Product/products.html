@@ -66,10 +66,6 @@
 									<td class="align-middle">{{item.brand.name}}</td>
 									<td class="align-middle">{{item.category.name}}</td>
 									<td class="align-middle">{{item.discount.name}}</td>
-									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is available'">
-									</td>
-									<td class="align-middle" th:if="item.is_enable == false"
-										th:text="'Is not available'"></td>
 									<td>
 										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>

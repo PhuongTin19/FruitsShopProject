@@ -52,8 +52,8 @@
 									<th class="align-middle" scope="row">{{item.product_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="align-middle">{{item.discount}}</td>
-									<td class="align-middle">{{item.start_time | date:'dd-MM-yyyy'}}</td>
-									<td class="align-middle">{{item.end_time | date:'dd-MM-yyyy'}}</td>
+									<td class="align-middle">{{item.start_time | date:'dd/MM/yyyy'}}</td>
+									<td class="align-middle">{{item.end_time | date:'dd/MM/yyyy'}}</td>
 									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Enable'">
 									</td>
 									<td class="align-middle" th:if="item.is_enable != false"
@@ -102,12 +102,12 @@
 												<div class="form-row">
 													<div class="form-group col-md-6">
 														<label for="inputQuantity">Start time</label>
-														<input ng-model="form.start_time | date:'MM-dd-yyyy'" type="date"
+														<input ng-model="form.start_time" type="date"
 															class="form-control" id="inputQuantity" name="quantity">
 													</div>
 													<div class="form-group col-md-6">
 														<label for="inputWeight">End time</label>
-														<input ng-model="form.end_time | date:'MM-dd-yyyy'" type="date" 
+														<input ng-model="form.end_time" type="date" 
 															class="form-control" id="inputWeight" name="weight">
 													</div>
 												</div>
@@ -210,6 +210,7 @@
 
 			//Hiển thị lên form
 			$scope.edit = function (item) {
+			
 				$scope.form = angular.copy(item);
 				//Chuyển sang tab form
 				//$(".nav-tabs a:eq(0)").tab("show");
@@ -221,7 +222,7 @@
 			//Thêm sản phẩm mới
 			$scope.create = function () {
 				var item = angular.copy($scope.form);
-				$http.post(`/rest/products`, item).then(resp => {
+				$http.post(`/rest/discounts`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
 					alert("Thêm mới sản phẩm thành công!");
