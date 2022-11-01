@@ -47,4 +47,8 @@ public class CategoryRestController {
 	public void delete(@PathVariable("id")Integer id) {
 		categoryService.delete(id);
 	}
+	@GetMapping("/keyword/{keyword}")
+	public List<Category> getMany(@PathVariable("keyword") String keyword) {
+		return categoryService.findByKeyword(keyword);
+	}
 }

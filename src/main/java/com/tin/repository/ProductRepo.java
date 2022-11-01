@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Category;
+import com.tin.entity.Discount;
 import com.tin.entity.Product;
 import com.tin.entity.Report;
 
@@ -84,4 +85,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	@Query("SELECT new Report(o.category.name, sum(o.price), count(o)) " + " FROM Product o " + " GROUP BY o.category.name"
 			+ " ORDER BY sum(o.price) DESC")
 	List<Report> getInventoryByCategory();
+	
+	@Query(value = "select p from Product p where p.name like %?1%")
+	List<Product> findByKeyword(String keyword);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tin.entity.Blog;
+import com.tin.entity.Brand;
 import com.tin.service.BlogService;
 
 @CrossOrigin("*")
@@ -41,5 +42,9 @@ public class BlogRestController {
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id")Integer id) {
 		blogService.delete(id);
+	}
+	@GetMapping("/keyword/{keyword}")
+	public List<Blog> getMany(@PathVariable("keyword") String keyword) {
+		return blogService.findByKeyword(keyword);
 	}
 }

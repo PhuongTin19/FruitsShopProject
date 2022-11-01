@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Account;
+import com.tin.entity.Brand;
 import com.tin.entity.Discount;
 
 @Repository
@@ -27,4 +28,6 @@ public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	@Query(value = "select d from Discount d where d.discount_id = ?1")
 	Discount findByDiscoundId(int id);
 	
+	@Query(value = "select a from Discount a where a.name like %?1%")
+	List<Discount> findByKeyword(String keyword);
 }

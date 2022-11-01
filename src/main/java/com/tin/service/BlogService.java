@@ -29,5 +29,6 @@ public interface BlogService {
 	Blog create(Blog blog);
 	Blog update(Blog blog);
 	void delete(int id);
+	List<Blog> findByKeyword(String keyword);
 	
 }

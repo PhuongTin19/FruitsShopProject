@@ -165,4 +165,9 @@ public class AccountServiceImpl implements AccountService {
 	public Account updateAccountAdmin(Account account) {
 		return accDao.save(account);
 	}
+	
+	@Override
+	public List<Account> findByKeyword(String keyword) {
+		return accDao.findByKeyword(keyword);
+	}
 }

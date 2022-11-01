@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Account;
+import com.tin.entity.Brand;
 import com.tin.entity.Provider;
 
 @Repository
@@ -57,6 +58,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     @Query(value = "{CALL sp_getCountCustomerInDay()}", nativeQuery = true)
 	Integer getCountCustomerInDay();
     
+	@Query(value = "select a from Account a where a.username like %?1%")
+	List<Account> findByKeyword(String keyword);
     /*TEST*/
     /*pagination*/
 //    Page<Account> accountPage(int page) {

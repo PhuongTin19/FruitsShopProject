@@ -135,5 +135,8 @@ public class ProductServiceImpl implements ProductService {
 		productRepo.deleteById(id);
 	}
 	
-	
+	@Override
+	public List<Product> findByKeyword(String keyword) {
+		return productRepo.findByKeyword(keyword);
+	}
 }

@@ -45,6 +45,7 @@ public interface ProductService {
 	
 	/*ADMIN*/
 	void save(Product product);
+	
 	Product findByProductId(Integer id);
 	
 	Product create(Product product) ;
@@ -52,4 +53,6 @@ public interface ProductService {
 	Product update(Product product) ;
 
 	void delete(Integer id) ;
+	
+	List<Product> findByKeyword(String keyword);
 }

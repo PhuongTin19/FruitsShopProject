@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tin.entity.Account;
+import com.tin.entity.Brand;
 import com.tin.service.AccountService;
 
 
@@ -49,6 +50,10 @@ public class AccountRestController {
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id")Integer id) {
 		accountService.delete(id);
+	}
+	@GetMapping("/keyword/{keyword}")
+	public List<Account> getMany(@PathVariable("keyword") String keyword) {
+		return accountService.findByKeyword(keyword);
 	}
 
 }

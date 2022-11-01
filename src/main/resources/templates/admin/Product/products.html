@@ -25,6 +25,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
+							<nav class="navbar navbar-light bg-light">
+							  <form class="form-inline">
+							    <input class="form-control mr-sm-2" type="search" placeholder="Search"
+							    	ng-model="form.keyword" aria-label="Search">
+							    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+							    	ng-click="search(form.keyword)">Search</button>
+							  </form>
+							</nav>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -271,6 +279,14 @@
 			}
 			//Khởi đầu
 			$scope.initialize();
+			
+			// Search by keyword
+			$scope.search = function (keyword) {
+				//var keyword = $scope.form.keyword;
+				$http.get(`/rest/products/keyword/${keyword}`).then(resp => {		
+					$scope.items = resp.data;
+				});
+			}
 
 			//Xóa form
 			$scope.reset = function () {

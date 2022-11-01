@@ -87,4 +87,9 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryRepo.deleteById(id);
 	}
 	
+	@Override
+	public List<Category> findByKeyword(String keyword) {
+		return categoryRepo.findByKeyword(keyword);
+	}
+	
 }

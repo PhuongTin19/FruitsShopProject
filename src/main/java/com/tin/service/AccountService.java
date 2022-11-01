@@ -50,6 +50,7 @@ public interface AccountService {
     Account create(Account account) ;
     Account updateAccountAdmin(Account account) ;
 	void delete(Integer id) ;
+	List<Account> findByKeyword(String keyword);
 }
 
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Account;
 import com.tin.entity.Blog;
+import com.tin.entity.Brand;
 
 @Repository
 public interface BlogRepo extends JpaRepository<Blog,Integer> {
@@ -22,6 +23,9 @@ public interface BlogRepo extends JpaRepository<Blog,Integer> {
 	
 	@Query(value = "select b from Blog b where b.blog_id = ?1")
 	Blog findByBlogId(int id);
+	
+	@Query(value = "select b from Blog b where b.title like %?1%")
+	List<Blog> findByKeyword(String keyword);
 	
 
 }

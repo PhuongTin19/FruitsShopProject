@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Account;
+import com.tin.entity.Brand;
 import com.tin.entity.Category;
 import com.tin.entity.Product;
 
@@ -27,5 +28,6 @@ public interface CategoryRepo extends JpaRepository<Category,Integer> {
 	@Query(value = "update categories  set name = ?2, is_enable = ?3 where category_id = ?1", nativeQuery = true)
 	Category updateCategory(int id, String name, Boolean is_enable);
 	
-	
+	@Query(value = "select c from Category c where c.name like %?1%")
+	List<Category> findByKeyword(String keyword);
 }

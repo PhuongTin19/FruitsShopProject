@@ -18,5 +18,7 @@ public interface ImageService {
 	
 	void delete(int id);
 	
+	List<Images> findByKeyword(String keyword);
+	
 	
 }

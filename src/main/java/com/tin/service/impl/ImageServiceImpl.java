@@ -44,5 +44,10 @@ public class ImageServiceImpl implements ImageService{
 	public void delete(int id) {
 		imageRepo.deleteById(id);
 	}
+	
+	@Override
+	public List<Images> findByKeyword(String keyword) {
+		return imageRepo.findByKeyword(keyword);
+	}
 
 }

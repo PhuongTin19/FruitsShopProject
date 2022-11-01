@@ -47,4 +47,8 @@ public class DiscountRestController {
 	public void delete(@PathVariable("id")Integer id) {
 		discountService.delete(id);
 	}
+	@GetMapping("/keyword/{keyword}")
+	public List<Discount> getMany(@PathVariable("keyword") String keyword) {
+		return discountService.findByKeyword(keyword);
+	}
 }
