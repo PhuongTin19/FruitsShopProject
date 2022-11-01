@@ -23,4 +23,11 @@ public interface BlogService {
 	Page<Blog> blogPages(int page);
 	
 	List<Blog> findAllByAdmin();
+	/************************************/
+	
+	Blog findByBlogId(int id);
+	Blog create(Blog blog);
+	Blog update(Blog blog);
+	void delete(int id);
+	
 }

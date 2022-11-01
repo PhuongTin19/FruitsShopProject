@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="/admin/fragments :: header">
-  
+
 </head>
 <!--
 `body` tag options:
@@ -10,143 +11,310 @@
   * sidebar-collapse
   * sidebar-mini
 -->
+
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
-  </nav>
-  <!-- /.navbar -->
+	<div ng-app="myblog" ng-controller="blog-ctrl" class="wrapper">
+		<!---->
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+		</nav>
+		<aside th:replace="/admin/fragments :: sidebar">
+		</aside>
 
-  <!-- Main Sidebar Container -->
-  <aside th:replace="/admin/fragments :: sidebar">
-  </aside>
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-         	<!-- WRITE TITLE OF PAGE IN FUTURE -->
-         	
-         	
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <!-- WRITE LINK OF PAGE IN FUTURE -->
-              
-           		 
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<table class="table table-striped">
+							<thead>
+								<tr class="h4">
+									<th class="align-middle" scope="col">#</th>
+									<th class="align-middle" scope="col">Title</th>
+									<th class="align-middle" scope="col">Image</th>
+									<th class="align-middle" scope="col">Description</th>
+									<th class="align-middle" scope="col">Account</th>
+									<th class="align-middle" scope="col">Edit</th>
+								</tr>
+							</thead>
+							<tbody ng-repeat="item in pager.items">
+								<tr class="h5">
+									<th class="align-middle" scope="row">{{item.blog_id}}</th>
+									<td class="align-middle">{{item.title}}</td>
+									<td class="align-middle">
+										<img alt="" th:src="@{|/user/img/blog/{{item.image}}|}"
+											style="width: 150px; height: 150px;"></td>
+									<td class="align-middle" th:text="'{{item.description.substring(0, 20)}}' + '...'"></td>
+									<td class="align-middle">{{item.account.username}}</td>
+									<td>
+										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+											th:text="'Edit'"></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="panel-footer" style="margin-left:400px;margin-bottom:20px">
+							<button ng-click="pager.first()" class="btn btn-danger">
+								<< </button>
+									<button ng-click="pager.prev()" class="btn btn-primary">
+										< </button>
+											<button class="btn btn-success">{{pager.page + 1}} of
+												{{pager.count}}</button>
+											<button ng-click="pager.next()" class="btn btn-primary">
+												>
+											</button>
+											<button ng-click="pager.last()" class="btn btn-danger">
+												>>
+											</button>
+						</div>
+						<div class="col-12">
+							<!-- general form elements -->
+							<div id="form" class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Blog Details</h3>
+								</div>
+								<form >
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+												<div class="form-group">
+													<label for="inputName">Title</label>
+													<input ng-model="form.title" type="text" class="form-control"
+														id="inputAddress" name="name" placeholder="Blog Title">
+												</div>
+												<div class="form-group col-md-4">
+													<label for="inputAccount">Account</label>
+													<select ng-model="form.account.account_id" id="inputAccount"
+														class="form-control" name="account">
+														<option ng-repeat="b in accounts" ng-value="b.account_id">{{b.username}}
+														</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label for="inputDescription">Description</label>
+													<textarea ng-model="form.description" class="form-control"
+														id="inputDescription" rows="4" name="description"></textarea>
+												</div>
+											</div>
+											<div class="col-4">
+												<!---->
+												<div class="card card-primary card-outline">
+													<div class="card-body box-profile">
+														<div class="text-center">
+															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
+															<img ng-src="{{'/user/img/blog/' + form.image}}"
+																style="max-width:100%;" height="200px">
+														</div>
+														<input type="file" class="form-control" id="image"
+															onchange="angular.element(this).scope().imageChanged(this.files)">
+														<br />
+														<div class="form-group">
+															<label for="inputFile">Avatar</label>
+															<div class="input-group">
+																<div class="custom-file">
+																	<!--    <p><input onchange="angular.element(this).scope().imageChanged(this.files)"  path="image" type="file" accept="image/*" name="imageFile" id="file"  style="display: none;"></p>
+									    							<p><label for="file" style="cursor: pointer;">Upload Image</label></p>-->
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-row p-2">
+										<button ng-click="create()" class="btn btn-primary">
+											<b class="glyphicon glyphicon-plus"></b>Create
+										</button>
+										<button ng-click="update()" class="btn btn-success">
+											<b class="glyphicon glyphicon-save"></b>Update
+										</button>
+										<button ng-click="delete()" class="btn btn-danger">
+											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-click="reset()" class="btn btn-info">
+											<b class="glyphicon glyphicon-refresh"></b>Reset
+										</button>
+									</div>
+								</form>
 
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        
-        <!-- CONTENT -->
-			<div class="alert alert-primary h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-				th:if="${success}">
-  				<p th:text="${success}"></p>
+							</div>
+							<!-- /.card -->
+						</div>
+						
+					</div>
+				</div>
 			</div>
-			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-				th:if="${error}">
-  				<p th:text="${error}"></p>
+		</div>
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
+			All rights reserved.
+			<div class="float-right d-none d-sm-inline-block">
+				<b>Version</b> 3.2.0
 			</div>
-			<div class="alert alert-danger h-20 col-5 my-4 mx-1 text-center h4" role="alert" 
-				th:if="${fail}">
-  				<p th:text="${fail}"></p>
-			</div>
+		</footer>
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED SCRIPTS -->
+
+
+	<div th:replace="/admin/fragments :: scripts">
+	</div>
+	<script>
+		const app = angular.module("myblog", []);
+		app.controller("blog-ctrl", function ($scope, $http) {
 			
-		<div class="row">	
-			<!-- button add new category -->
-			<div class="h-15 my-4 mx-1">			
-				<a th:href="@{/add-blog}">
-					<p class="btn btn-lg btn-success" >Add New Blog</p>
-				</a>
-			</div>
-        	
-        	<!-- table category -->
-	        <table class="table table-striped">
-			  <thead>
-			    <tr class="h4">
-			      <th class="align-middle" scope="col">#</th>
-			      <th class="align-middle" scope="col">Title</th>
-			      <th class="align-middle" scope="col">Image</th>
-			      <th class="align-middle" scope="col">Writed By</th>
-			      <th class="align-middle" scope="col">Description</th>
-			      <th class="align-middle" scope="col">Edit</th>
-			    </tr>
-			  </thead>
-			  <tbody th:each="blog : ${blogs}">
-			    <tr class="h5">
-			      <th class="align-middle" th:text="${blog.blog_id}"></th>
-			      <td class="align-middle" th:text="${blog.title}"></td>
-			      <td class="align-middle">
-			      	<img alt="" th:src="@{|/user/img/blog/${blog.image}|}" style="width: 150px; height: 150px;">
-			      </td>
-			      
-			      <td class="align-middle" th:text="${blog.account.username}"></td>
-			      <td class="align-middle" th:with="description = ${blog.description}"
-					  th:text="${#strings.substring(description,0,25) + '...'}"></td>
-			      <td>
-			      	<a class="btn btn-primary my-2 align-center" th:href="@{/update-blog/{id} (id=${blog.blog_id})}"
-			      		th:text="'Edit'"></a>
-			      </td>
-			    </tr>
-			  </tbody>
-			</table>
-   
-            <!-- Pagination -->
-            <nav aria-label="Page navigation example">
-			  <ul class="pagination">
-			    <li class="page-item"><a class="page-link" 
-			    	th:href="@{/admin-blogs/1}">First</a></li>
-			    <li class="page-item"><a class="page-link"
-			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${currentPage} - 1)}">Previous</a></li>
-			    <li class="page-item"><a class="page-link" 
-			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${currentPage} + 1)}">Next</a></li>
-			    <li class="page-item"><a class="page-link" 
-			    	th:href="@{/admin-blogs/{pageNumber} (pageNumber = ${totalPages})}">Last</a></li>
-			  </ul>
-			</nav>
-			<!-- /Pagination -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+			$scope.items = [];
+			$scope.accounts = [];
+			$scope.form = {};
+			
+			$scope.initialize = function () {
+				//load products
+				$http.get("/rest/blogs").then(resp => {
+					$scope.items = resp.data;
+					$scope.items.forEach(item => {
+						//$scope.form.image = "user.png";
+					})
+				});
+				//load categories trong combobox form admin
+				$http.get("/rest/accounts").then(resp => {
+					$scope.accounts = resp.data;
+				})
+			}
+			//Khởi đầu
+			$scope.initialize();
 
-  
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+			//Xóa form
+			$scope.reset = function () {
+				$scope.form = {
+					is_enable: true,
+					image: "user.png"
+				}
+			}
 
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer>
-</div>
-<!-- ./wrapper -->
+			//Hiển thị lên form
+			$scope.edit = function (item) {
+				$scope.form = angular.copy(item);
+				//Chuyển sang tab form
+				//$(".nav-tabs a:eq(0)").tab("show");
+				$('html, body').animate({
+					scrollTop: $('#form').offset().top
+				}, 1000);
+			}
 
-<!-- REQUIRED SCRIPTS -->
+			//Thêm sản phẩm mới
+			$scope.create = function () {
+				var item = angular.copy($scope.form);
+				$http.post(`/rest/blogs`, item).then(resp => {
+					$scope.items.push(resp.data);
+					$scope.reset();
+					alert("Thêm mới sản phẩm thành công!");
+				}).catch(error => {
+					alert("Lỗi thêm mới sản phẩm!");
+					console.log("Error", error);
+				});
+			}
 
-	
-<div th:replace="/admin/fragments :: scripts">
-</div>
 
+
+			//Cập nhật sản phẩm
+			$scope.update = function () {
+				var item = angular.copy($scope.form);
+				$http.put(`/rest/blogs/${item.blog_id}`, item).then(resp => {
+					var index = $scope.items.findIndex(p => p.id == item.id);
+					$scope.items[index] = item;
+					alert("Cập nhật sản phẩm thành công!");
+				})
+					.catch(error => {
+						alert("Lỗi cập nhật sản phẩm!");
+						console.log("Error", error);
+					});
+			}
+
+			//Xóa sản phẩm
+			$scope.delete = function (item) {
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn xóa sản phẩm này?")) {
+					$http.delete(`/rest/blogs/${item.blog_id}`).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items.splice(index, 1);
+						$scope.reset();
+						alert("Xóa sản phẩm thành công!");
+					}).catch(error => {
+						alert("Lỗi xóa sản phẩm!");
+						console.log("Error", error);
+					})
+				}
+			}
+
+			//Upload hình
+			$scope.imageChanged = function (files) {
+				var data = new FormData();
+				data.append('file', files[0]);
+				$http.post('/rest/upload/images', data, {
+					transformRequest: angular.identity,
+					headers: {'Content-Type': undefined}
+				}).then(resp => {
+					$scope.form.image = resp.data.name;
+				}).catch(error => {
+					alert("Lỗi upload hình ảnh");
+					console.log("Error", error);
+				})
+			}
+
+
+			//Phân trang
+			$scope.pager = {
+				page: 0,
+				size: 10,
+				get items() {
+					var start = this.page * this.size;
+					return $scope.items.slice(start, start + this.size)
+				},
+				get count() {
+					return Math.ceil(1.0 * $scope.items.length / this.size);
+				},
+				first() {
+					this.page = 0;
+				},
+				prev() {
+					this.page--;
+					if (this.page < 0) {
+						this.last();
+					}
+				},
+				next() {
+					this.page++;
+					if (this.page >= this.count) {
+						this.first();
+					}
+				},
+				last() {
+					this.page = this.count - 1;
+				},
+
+			}
+
+		});
+	</script>
 </body>
+
 </html>

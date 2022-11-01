@@ -57,4 +57,22 @@ public class BlogServiceImpl implements BlogService{
 	public List<Blog> findAllByAdmin() {
 		return blogRepo.findAll();
 	}
+	/****************************/
+	@Override
+	public Blog findByBlogId(int id) {
+		return blogRepo.findByBlogId(id);
+	}
+	@Override
+	public Blog create(Blog blog) {
+		return blogRepo.save(blog);
+	}
+	@Override
+	public Blog update(Blog blog) {
+		// TODO Auto-generated method stub
+		return blogRepo.save(blog);
+	}
+	@Override
+	public void delete(int id) {
+		blogRepo.deleteById(id);
+	}
 }

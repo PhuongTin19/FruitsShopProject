@@ -20,5 +20,8 @@ public interface BlogRepo extends JpaRepository<Blog,Integer> {
 	@Query(value="select Top 3 * from blogs order by createdate desc", nativeQuery = true)
 	List<Blog>ListNewBlogsHomePage();
 	
+	@Query(value = "select b from Blog b where b.blog_id = ?1")
+	Blog findByBlogId(int id);
+	
 
 }
