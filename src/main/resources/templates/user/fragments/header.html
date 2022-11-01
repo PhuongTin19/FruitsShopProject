@@ -26,27 +26,27 @@
 								<div>Tiếng Anh</div>
 								<span class="arrow_carrot-down"></span>
 								<ul>
-									<li><a href="#">Tiếng Việt</a></li>
-									<li><a href="#">Tiếng Anh</a></li>
+									<li><a href="?lang=vi">Tiếng Việt</a></li>
+									<li><a href="?lang=en">Tiếng Anh</a></li>
 								</ul>
 							</div>
 							<div class="header__top__right__language">
 								<div sec:authorize="!isAuthenticated()">
-									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/login}">Đăng
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/login}" th:text="#{nav.login}">Đăng
 										Nhập</a>
 								</div>
 								<div sec:authorize="isAuthenticated()">
-									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/logoff}">Đăng
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/logoff}" th:text="#{nav.logout}" >Đăng
 										Xuất</a>
 								</div>
 							</div>
 							<div class="header__top__right__language">
-								<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/register}"><i class="bi bi-person-plus-fill"></i> Đăng Ký</a>
+								<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/register}" th:text="#{nav.register}">Đăng Ký</a>
 							</div>
 							<div class="header__top__right__language">
 								<div sec:authorize="isAuthenticated()">
-									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/infor}">
-									<i class="bi bi-person-badge-fill"></i></a>
+									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/user/infor}"><i
+											class="fa fa-user"></i></a>
 								</div>
 							</div>
 						</div>
@@ -65,14 +65,14 @@
 		<div class="col-lg-6">
 			<nav class="header__menu">
 				<ul>
-					<li class="active"><a th:href="@{/index}">Trang Chủ</a></li>
-					<li><a th:href="@{/user/product}">Mặt Hàng</a></li>
-					<li><a th:href="@{/user/blog}">Blog</a></li>
-					<li><a th:href="@{/contact}">Liên Hệ</a></li>
+					<li class="active"><a th:href="@{/index}" th:text="#{nav.home}">Trang Chủ</a></li>
+					<li><a th:href="@{/user/product}" th:text="#{nav.product}" >Mặt Hàng</a></li>
+					<li><a th:href="@{/user/blog}" th:text="#{nav.blog}" >Blog</a></li>
+					<li><a th:href="@{/contact}" th:text="#{nav.contact}" >Liên Hệ</a></li>
 				</ul>
 				<ul sec:authorize="isAuthenticated()">
 					<li>
-						<a style="margin-left:100px" th:href="@{/order/list}">Lịch Sử Mua Hàng</a>
+						<a style="margin-left:100px" th:href="@{/order/list}" th:text="#{nav.history}">Lịch Sử Mua Hàng</a>
 					</li>
 <!-- 					<li>
 						<a th:href="@{/order/tracking}">Theo Dõi Đơn Hàng</a>
