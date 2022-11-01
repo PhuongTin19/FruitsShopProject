@@ -19,6 +19,6 @@ public interface BrandService {
 	Brand create(Brand brand);
 	Brand update(Brand brand);
 	void delete(int id);
-	
-	
+	List<Brand> findByKeyword(String keyword);
+
 }

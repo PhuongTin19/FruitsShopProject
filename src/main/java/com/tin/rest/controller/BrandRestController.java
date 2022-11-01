@@ -45,4 +45,8 @@ public class BrandRestController {
 	public void delete(@PathVariable("id")Integer id) {
 		brandService.delete(id);
 	}
+	@GetMapping("/keyword/{keyword}")
+	public List<Brand> getMany(@PathVariable("keyword") String keyword) {
+		return brandService.findByKeyword(keyword);
+	}
 }

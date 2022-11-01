@@ -18,4 +18,7 @@ public interface BrandRepo extends JpaRepository<Brand,Integer> {
 	
 	@Query(value = "select b from Brand b where b.brand_id = ?1")
 	Brand findByBrandId(Integer id);
+	
+	@Query(value = "select b from Brand b where b.name like %?1%")
+	List<Brand> findByKeyword(String keyword);
 }
