@@ -31,7 +31,7 @@ public class Blog implements Serializable{
     @Column(name = "blog_id")
 	private Integer blog_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Account account;
