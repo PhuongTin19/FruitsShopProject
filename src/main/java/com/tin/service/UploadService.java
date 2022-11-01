@@ -8,4 +8,6 @@ public interface UploadService {
 	public File save(MultipartFile file, String folder) ;
 	
 	public File saveImageAccount(MultipartFile file, String folder) ;
+	
+	public File saveImageBlog(MultipartFile file, String folder) ;
 }

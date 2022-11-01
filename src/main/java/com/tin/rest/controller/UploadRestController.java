@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.tin.service.UploadService;
-
+  
 
 @CrossOrigin("*")
 @RestController
@@ -85,31 +85,31 @@ public class UploadRestController {
 		return node;
 	}
 	
-//	@PostMapping("/rest/upload/blogs/{folder}")
-//	public JsonNode upload3(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
-//		String uploadDir = "D:\\FruitsShopProject\\src\\main\\resources\\static\\user\\img\\blog" ;
-//		String fileName = file.getOriginalFilename();
-//		Path uploadPath = Paths.get(uploadDir);
-//
-//		if (!Files.exists(uploadPath)) {
-//			Files.createDirectories(uploadPath);
-//		}
-//		try {
-//			InputStream inputStream = file.getInputStream();
-//			Path filePath = uploadPath.resolve(fileName);
-//			Files.copy(inputStream,Paths.get(uploadDir + File.separator, fileName), StandardCopyOption.REPLACE_EXISTING);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		//
-//		File savedFile = uploadService.saveImageAccount(file, folder);
-//		ObjectMapper mapper = new ObjectMapper();
-//		ObjectNode node = mapper.createObjectNode();
-//		
-//		node.put("name", savedFile.getName());
-//		node.put("size", savedFile.length());
-//		
-//		
-//		return node;
-//	}
+	@PostMapping("/rest/upload/blog/{folder}")
+	public JsonNode upload3(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
+		String uploadDir = "C:\\Users\\USUS\\eclipse-workspace\\FruitsShopProject2\\src\\main\\resources\\static\\user\\img\\blog" ;
+		String fileName = file.getOriginalFilename();
+		Path uploadPath = Paths.get(uploadDir);
+
+		if (!Files.exists(uploadPath)) {
+			Files.createDirectories(uploadPath);
+		}
+		try {
+			InputStream inputStream = file.getInputStream();
+			Path filePath = uploadPath.resolve(fileName);
+			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//
+		File savedFile = uploadService.saveImageAccount(file, folder);
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode node = mapper.createObjectNode();
+		
+		node.put("name", savedFile.getName());
+		node.put("size", savedFile.length());
+		
+		
+		return node;
+	}
 }
