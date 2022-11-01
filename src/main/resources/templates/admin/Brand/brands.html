@@ -28,9 +28,9 @@
 						<nav class="navbar navbar-light bg-light">
 						  <form class="form-inline">
 						    <input class="form-control mr-sm-2" type="search" placeholder="Search"
-						    	ng-model="keyword" aria-label="Search">
+						    	ng-model="form.keyword" aria-label="Search">
 						    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-						    	ng-click="search(keyword)">Search</button>
+						    	ng-click="search(form.keyword)">Search</button>
 						  </form>
 						</nav>
 						</div>
@@ -203,10 +203,10 @@
 					scrollTop: $('#form').offset().top
 				}, 1000);
 			}
-			
 			// Search by keyword
-			$scope.search = function () {
-				$http.get("/rest/brands/keyword/${keyword}").then(resp => {
+			$scope.search = function (keyword) {
+				//var keyword = $scope.form.keyword;
+				$http.get(`/rest/brands/keyword/${keyword}`).then(resp => {		
 					console.log(keyword);
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
