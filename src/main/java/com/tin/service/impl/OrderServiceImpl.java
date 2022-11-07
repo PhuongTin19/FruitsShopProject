@@ -2,6 +2,7 @@ package com.tin.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
+import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
@@ -98,14 +99,8 @@ public class OrderServiceImpl implements OrderService {
 			e.printStackTrace();
 		}
 		return order;
-		
-
 	}
 
-	
-	
-	
-	
 	@Override
 	public Order findById(Integer id) {
 		return orderRepo.findById(id).get();
@@ -189,6 +184,63 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Page<Order> findByOrderStatus(String status,int page, int size) {
 		return orderRepo.findByOrderStatus(status,PageRequest.of(page, size));
+	}
+	
+	@Override
+	public String[][] getTotalPriceLast6Months() {
+		String[][] result = new String[2][6];
+		YearMonth currentTimes = YearMonth.now();
+		for (int i = 0; i < 6; i++) {
+			String month = currentTimes.minusMonths((long)i).getMonthValue() + "";
+			String year = currentTimes.minusMonths((long)i).getYear() + "";
+			result[0][5-i] = month + "-" + year;
+			result[1][5-i] = orderRepo.getTotalPricePerMonth(month, year);
+		}
+ 		return result;
+	}
+
+	@Override
+	public String[][] getTotalPriceFromTo(String from, String to) {
+		String[][] result1 = orderRepo.getTotalPriceFromTo(from, to);
+		String[][] result = new String[2][result1.length];	
+		for(int i =0 ; i<result1.length; i++) {
+			result[0][result1.length- 1 - i] = result1[result1.length- 1 - i][0];
+			result[1][result1.length- 1 - i] = result1[result1.length- 1 - i][1];
+		}
+		return result; 
+	}
+
+	@Override
+	public String[][] statsOrderStatus() {
+		String[][] result1 = orderRepo.statsOrderStatus();
+		String[][] result = new String[2][result1.length];	
+		for(int i =0 ; i<result1.length; i++) {
+			result[0][result1.length- 1 - i] = result1[result1.length- 1 - i][0];
+			result[1][result1.length- 1 - i] = result1[result1.length- 1 - i][1];
+		}
+		return result; 
+	}
+
+	@Override
+	public String[][] statsRevenueProductsByCates() {
+		String[][] result1 = orderRepo.statsRevenueProductsByCates();
+		String[][] result = new String[2][result1.length];	
+		for(int i =0 ; i<result1.length; i++) {
+			result[0][result1.length- 1 - i] = result1[result1.length- 1 - i][0];
+			result[1][result1.length- 1 - i] = result1[result1.length- 1 - i][1];
+		}
+		return result; 
+	}
+
+	@Override
+	public String[][] getProductsByCatesFromTo(String from, String to) {
+		String[][] result1 = orderRepo.getProductsByCatesFromTo(from, to);
+		String[][] result = new String[2][result1.length];	
+		for(int i =0 ; i<result1.length; i++) {
+			result[0][result1.length- 1 - i] = result1[result1.length- 1 - i][0];
+			result[1][result1.length- 1 - i] = result1[result1.length- 1 - i][1];
+		}
+		return result; 
 	}
 
 }

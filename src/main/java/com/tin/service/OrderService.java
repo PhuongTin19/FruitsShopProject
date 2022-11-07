@@ -37,4 +37,14 @@ public interface OrderService {
 	Page<Order>findByOrder(int page, int size);
 	
 	Page<Order>findByOrderStatus(String status,int page, int size);
+	
+	String[][] getTotalPriceLast6Months();
+	
+	String[][] getTotalPriceFromTo(String from, String to);
+	
+	String[][] statsOrderStatus();
+	
+	String[][] statsRevenueProductsByCates();
+	
+	String[][] getProductsByCatesFromTo(String from, String to);
 }

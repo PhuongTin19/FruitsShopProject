@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.tin.entity.Account;
@@ -45,6 +46,33 @@ public interface OrderRepo extends JpaRepository<Order, Integer> {
 	// Thống kê tổng doanh thu
 	@Query(value = "{CALL sp_getRevenue()}", nativeQuery = true)
 	Double getRevenue();
+	
+	//Thống kê doanh thu biểu đồ
+	@Query(value = "{CALL sp_getTotalPricePerMonth(:month, :year)}", nativeQuery = true)
+	String getTotalPricePerMonth(@Param("month") String month, @Param("year") String year);
+	//Thống kê theo tình trạng đơn hàng
+	@Query(value = "{CALL sp_statsOrderStatus()}", nativeQuery = true)
+	String[][] statsOrderStatus();
+	//Thống kê doanh thu theo loại
+	@Query(value = "{CALL sp_statsRevenueProductsByCates()}", nativeQuery = true)
+	String[][] statsRevenueProductsByCates();
+	//Lọc doanh thu tổng 
+	@Query(value = "SELECT orderDate, SUM(od.totalPrice) \r\n"
+			+ "FROM orders o inner join Oder_details od on o.order_id = od.order_id\r\n"
+			+ "WHERE o.orderdate between ?1 and ?2\r\n"
+			+ "group by orderdate",nativeQuery = true)
+	String[][] getTotalPriceFromTo(String from, String to);
+	//Lọc doanh thu loại
+	@Query(value = "select c.name,sum(od.totalPrice) from Categories c\r\n"
+			+ "			inner join Products p \r\n"
+			+ "			on c.category_id = p.category_id\r\n"
+			+ "			inner join Oder_details od \r\n"
+			+ "			on od.product_id = p.product_id\r\n"
+			+ "			inner join Orders o\r\n"
+			+ "			on od.order_id = o.order_id\r\n"
+			+ "			where o.orderStatus = 'Hoàn thành' and o.orderDate between ?1 and ?2\r\n"
+			+ "			group by c.name",nativeQuery = true)
+	String[][] getProductsByCatesFromTo(String from, String to);
 	// Tổng lượt mua hàng
 //	@Query(value="select count(*) from Orders",nativeQuery=true)
 //	Integer countCustomer();
