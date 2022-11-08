@@ -46,7 +46,6 @@ public class AdminController {
 	    String endCates = request.getParameter("endCates");
 	    model.addAttribute("dayCates",dayCates);
 	    model.addAttribute("endCates",endCates);
-	    System.out.println(dayCates);
 		String[][]statsRevenueProductsByCates ;
 		if(ObjectUtils.isEmpty(dayCates) && ObjectUtils.isEmpty(endCates)) {
 			statsRevenueProductsByCates = orderService.statsRevenueProductsByCates();
