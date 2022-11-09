@@ -53,7 +53,7 @@ import com.tin.service.FavoriteService;
 import com.tin.service.RoleService;
 
 import javassist.expr.NewArray;
-
+ 
 @Controller
 public class AuthController {
 
@@ -100,7 +100,7 @@ public class AuthController {
 
 	@RequestMapping("/security/logoff/success")
 	public String logoffSuccess(Model model, HttpSession session) {
-		session.removeAttribute("currentUser");
+	//	session.removeAttribute("currentUser");
 		model.addAttribute("message", "Đăng xuất thành công");
 		return "redirect:/security/login";
 	}
@@ -187,6 +187,7 @@ public class AuthController {
 				account.setRole(roleService.findByRoleName("User"));
 				account.setImage("user.png");
 				account.setIs_enable(true);
+				account.setReliability(0);
 				account.setProvider(Provider.DATABASE);
 				accountService.createAccount(account);
 				model.addAttribute("message", "Đăng ký thành công");

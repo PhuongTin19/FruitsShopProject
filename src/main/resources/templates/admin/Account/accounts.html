@@ -62,7 +62,7 @@
 								<tr class="h5">
 									<td class="align-middle">{{item.fullname}}</td>
 									<td class="align-middle">
-										<img alt="" th:src="@{|/photos/{{item.image}}|}" style="width: 50px; height: 50px;">
+										<img alt="" th:src="@{|/photos/{{item.image}}|}" style="width: 150px; height: 150px;">
 									</td>
 									<td class="align-middle">{{item.username}}</td>
 									<td class="align-middle">{{item.email}}</td>
@@ -105,32 +105,32 @@
 												<div class="form-group">
 													<label for="inputName">Password</label>
 													<input ng-model="form.password"  type="text" class="form-control"
-														id="inputAddress" name="name">
+														id="password" >
 												</div>
 												<div class="form-group">
 													<label for="inputName">Fullname</label>
 													<input ng-model="form.fullname" type="text" class="form-control"
-														id="inputAddress" name="name">
+														 name="fullname" id="fullname">
 												</div>
 												<div class="form-group">
 													<label for="inputPrice">Username</label>
 													<input ng-model="form.username" type="text" class="form-control"
-														id="inputAddress2" name="price">
+														 name="username" id="username">
 												</div>
 												<div class="form-group">
 														<label for="inputQuantity">Email</label>
 														<input ng-model="form.email" type="text"
-															class="form-control" id="inputQuantity" name="quantity">
+															class="form-control" id="email">
 												</div>
 												<div class="form-group">
 													<label for="inputPrice">phone</label>
 													<input ng-model="form.phone" type="text" class="form-control"
-														id="inputAddress2" name="price">
+														id="phone">
 												</div>
 												<div class="form-group">
 													<label for="inputPrice">Address</label>
 													<input ng-model="form.address" type="text" class="form-control"
-														id="inputAddress2" name="price">
+														id="address" name="address">
 												</div>
 												<fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
@@ -139,7 +139,7 @@
 														<div class="form-check">
 															<input ng-model="form.is_enable" ng-value="true"
 																class="form-check-input" type="radio" id="gridRadios1"
-																checked name="is_enable">
+																ng-checked="true" name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
 																Enable
 															</label>
@@ -161,7 +161,7 @@
 														<div class="form-check">
 															<input ng-model="form.role.role_id" ng-value="2"
 																class="form-check-input" type="radio" id="gridRadios1"
-																checked name="role">
+																ng-checked="true" name="role">
 															<label class="form-check-label" for="gridRadios1">
 																User
 															</label>
@@ -303,6 +303,34 @@
 			//Thêm sản phẩm mới
 			$scope.create = function () {
 				var item = angular.copy($scope.form);
+				if(document.getElementById("username").value == ""){
+					alert("Chưa nhập username");
+					return;
+				}
+				if(document.getElementById("password").value == ""){
+					alert("Chưa nhập password");
+					return;
+				}
+				if(document.getElementById("fullname").value == ""){
+					alert("Chưa nhập họ tên")
+					return;
+				}
+				if(document.getElementById("phone").value == ""){
+					alert("Chưa nhập số điện thoại");
+					return;
+				}
+				if(document.getElementById("address").value == ""){
+					alert("Chưa nhập địa chỉ");
+					return;
+				}
+				if(document.getElementById("email").value == ""){
+					alert("Chưa nhập email");
+					return;
+				}
+				if(document.getElementById("image").value == ""){
+					alert("Chưa chọn hình");
+					return;
+				}
 				$http.post(`/rest/accounts`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();

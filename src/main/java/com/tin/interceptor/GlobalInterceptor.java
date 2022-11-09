@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,6 +48,8 @@ public class GlobalInterceptor implements HandlerInterceptor{
 	@Autowired
 	private ReportService reportService;
 	
+	@Autowired
+	HttpSession httpSession;
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
@@ -68,6 +72,12 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		request.setAttribute("cates",categoryService.findAll());
 		//load sản phẩm được yêu thích
 		request.setAttribute("countLike", favoriteService.countLike(request.getRemoteUser()));
+		//load sản phẩm được yêu thích gg/fb
+		if(!ObjectUtils.isEmpty(httpSession.getAttribute("currentUser"))) {
+			Account a = (Account)httpSession.getAttribute("currentUser");
+			request.setAttribute("countLikeFB_GG", favoriteService.countLike(a.getUsername()));
+		}
+		
 		//Tên user admin
 		request.setAttribute("nameAdmin",request.getRemoteUser() );
 		//Thống kê tổng lượt mua hàng

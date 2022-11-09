@@ -58,9 +58,9 @@ public class Order {
 	@CreationTimestamp
 	private Timestamp deliveryDate;
  
-	
-	@Column(name = "shippingfee")
-	private Double shippingFee;
+	 
+//	@Column(name = "shippingfee")
+//	private Double shippingFee;
 	
 	
 	@Column(name = "orderstatus")

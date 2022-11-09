@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	AccountService accountService;
 	
+	@Autowired
+	HttpServletRequest request;
+	
 	@Override
 	public Order create(JsonNode orderData)  {
 		ObjectMapper mapper = new ObjectMapper();
@@ -81,6 +85,8 @@ public class OrderServiceImpl implements OrderService {
 						order2.getPayment_method().getPayment_method_id() == 2) {
 					System.out.println("Đang chạy timer if");
 					order.setOrderStatus("Đã hủy đơn");
+					Account account = accountService.findByUsername(order2.getAccount().getUsername());
+					accountService.updateReliability(account.getReliability()+1, order2.getAccount().getUsername());
 					updateOrder(order);
 					try {
 						userServices.sendMailCancelOrderOnline(order);
@@ -125,7 +131,6 @@ public class OrderServiceImpl implements OrderService {
 		order.setOrderdate(order.getOrderdate());
 		order.setOrderStatus(order.getOrderStatus());
 		order.setPhone(order.getPhone());
-		order.setShippingFee(order.getShippingFee());
 		return orderRepo.save(order);
 	}
 
@@ -191,8 +196,8 @@ public class OrderServiceImpl implements OrderService {
 		String[][] result = new String[2][6];
 		YearMonth currentTimes = YearMonth.now();
 		for (int i = 0; i < 6; i++) {
-			String month = currentTimes.minusMonths((long)i).getMonthValue() + "";
-			String year = currentTimes.minusMonths((long)i).getYear() + "";
+			String month = currentTimes.minusMonths(i).getMonthValue() + "";
+			String year = currentTimes.minusMonths(i).getYear() + "";
 			result[0][5-i] = month + "-" + year;
 			result[1][5-i] = orderRepo.getTotalPricePerMonth(month, year);
 		}

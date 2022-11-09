@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
 
 <body>
-	<main th:object="${order}" >
+<main th:object="${order}">
+    <!-- Breadcrumb Section Begin -->
 		<section class="breadcrumb-section set-bg" data-setbg="/user/img/breadcrumb.jpg">
 			<div class="container">
 				<div class="row">
@@ -18,81 +19,100 @@
 				</div>
 			</div>
 		</section>
-		<!-- Breadcrumb Section End -->
-		<form method="post" th:action="@{/thanh-toan}" style="margin-top:100px;margin-bottom:100px">
-			<input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
-			<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
-			<div class="row">
-				<div class="card col-lg-5" style="margin-left:100px">
-					<div class="card-header text-white bg-primary">
-						THÔNG TIN MUA HÀNG
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="h-100 h-custom" style="background-color: #c4c4c4;">
+			<div class="container py-5 h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+				<h3 style="word-spacing: 3px;letter-spacing: 4px" class="mb-3" th:text="#{img.detail}">CHI TIẾT ĐƠN HÀNG</h3>
+					<div class="col-12">
+						<div class="card card-registration card-registration-2"
+							style="border-radius: 25px;">
+							<div class="card-body p-0">
+								<div class="row g-0">
+									<div class="col-lg-5">
+										<div class="p-5">
+											<!-- product -->
+											<div class="d-flex justify-content-between mb-1">
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase" th:text="#{chk.title}">Thông tin của bạn</h3>
+											</div>
+											<hr class="my-4 bg-dark">	
+											<form method="post" th:action="@{/thanh-toan}">
+  												<input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
+												<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
+  											  <div class="form-group">
+											    <label>Mã đơn hàng</label><span class="text-danger">*</span>
+											    <input th:field="*{order_id}" type="text" class="form-control w-50">
+											  </div>
+  											  <div class="form-group">
+											    <label>Tên Khách Hàng</label><span class="text-danger">*</span>
+											    <input th:field="*{account.fullname}" type="text" class="form-control w-50">
+											  </div>
+  											  <div class="form-group">
+											    <label>Số Điện Thoại</label><span class="text-danger">*</span>
+											    <input th:field="*{phone}" type="text" class="form-control w-50">
+											  </div>
+  											  <div class="form-group">
+											    <label>Thời Gian Mua hàng</label><span class="text-danger">*</span>
+											    <input th:field="*{orderdate}" type="text" class="form-control w-50">
+											  </div>	
+											  <div class="form-group">
+											    <label>Địa chỉ</label><span class="text-danger">*</span>
+											    <input th:field="*{address}" type="text" class="form-control w-50">
+											  </div>
+											  </form>
+											<!-- end product -->
+										</div>
+									</div>
+									<div class="col-lg-7"
+										style="background-color: #7fad39; border-radius: 25px">
+										<div class="p-5">
+											<div class="d-flex justify-content-between mb-1">
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase">Thông tin hóa đơn</h3>
+											</div>
+										<hr class="my-4">			
+										<table class="table table-borderless">
+										  <thead>
+										    <tr>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Mã Hàng</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Tên Mặt Hàng</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Số Lượng</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Giá</th>
+										    </tr>
+										  </thead>
+										  <tbody>
+											   <tr th:each="detail:*{orderDetails}" th:object="${detail}">
+													<td class="shoping__product">[[*{product.product_id}]]</td>
+													<td>[[*{product.name}]]</td>
+													<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
+													<td>[[*{totalQuantity}]]</td>
+													<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
+												</tr>
+										   </tbody>
+										  </table> 
+											<!-- chọn hình thức thanh toán -->
+											<hr class="my-4">
+											<div>
+												<a th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" class="btn btn-warning w-100 h-25 text-white font-weight-bold" >ĐÃ THANH TOÁN</a>
+											</div>
+											<div>
+												<a th:if="${order.orderStatus == 'Đã hủy đơn'}" class="btn btn-danger w-100 h-25 text-dark font-weight-bold" >ĐÃ HỦY ĐƠN</a>
+											</div>
+											<div>
+												<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-info w-100 h-25 text-white font-weight-bold" >THANH TOÁN PAYPAL</a>
+											</div>																						
+										</div>
+									</div>
+								</div>
+							</div>
 					</div>
-					<div class="card-body w-100 ">
-						<!--<form>-->
-						<div class="form-group">
-							<div>Mã Đơn Hàng</div>
-							<input th:field="*{order_id}" class="form-control" readonly>
-						</div>
-						<div class="form-group">
-							<div>Tên Khách Hàng</div>
-							<input th:field="*{account.fullname}" class="form-control" readonly>
-						</div>
-						<div class="form-group">
-							<div>Số Điện Khách</div>
-							<input th:field="*{phone}" class="form-control" readonly>
-						</div>
-						<div class="form-group">
-							<div>Thời Gian Mua Hàng</div>
-							<input th:field="*{orderdate}" class="form-control" readonly>
-						</div>
-						<div class="form-group">
-							<div>Địa Chỉ</div>
-							<textarea th:field="*{address}" class="form-control" readonly></textarea>
-						</div>
-						<!--</form>-->
 					</div>
 				</div>
-				<div class="col-lg-5">
-					<div class="shoping__cart__table ">
-						<table>
-							<thead class="bg-warning">
-								<tr>
-									<th class="shoping__product">Mã Hàng</th>
-									<th>Tên Mặt Hàng</th>
-									<th>Giá</th>
-									<th>Số Lượng</th>
-									<th>Tổng Giá</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="detail:*{orderDetails}" th:object="${detail}">
-									<td class="shoping__product">[[*{product.product_id}]]</td>
-									<td>[[*{product.name}]]</td>
-									<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
-									<td>[[*{totalQuantity}]]</td>
-									<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<button th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" class="btn btn-success" 
-					style="width:30%;margin-left:400px;margin-top:10px">
-						ĐÃ THANH TOÁN
-					</button>
-					<button th:if="${order.orderStatus == 'Đã hủy đơn'}" type="button" class="btn btn-danger" 
-					style="width:20%;margin-left:460px;margin-top:10px">
-						ĐÃ HỦY ĐƠN
-					</button>
-					<button th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-warning text-white"
-						style="width:30%;margin-left:400px;margin-top:10px">
-						THANH TOÁN PAYPAL
-					</button>
-					
 				</div>
 			</div>
-		</form>
-	</main>
-	<!-- Js Plugins -->
+		</section>
+</main>
 	<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
 	<script th:src="@{/user/js/bootstrap.min.js}"></script>
 	<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
@@ -101,6 +121,8 @@
 	<script th:src="@{/user/js/mixitup.min.js}"></script>
 	<script th:src="@{/user/js/owl.carousel.min.js}"></script>
 	<script th:src="@{/user/js/main.js}"></script>
+  
+
 </body>
 
 </html>

@@ -46,6 +46,9 @@ public class UserServices {
 	@Autowired
 	private UserServices userServices;
 	
+	@Autowired
+	private HttpServletRequest request;
+	
 	public BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	//cập nhật token => update account
@@ -93,16 +96,22 @@ public class UserServices {
 		order.setOrderdate(order.getOrderdate());
 		order.setOrderStatus("Đã hủy đơn");
 		order.setPhone(order.getPhone());
-		order.setShippingFee(order.getShippingFee());
 		String random = RandomString.make(64);
 		order.setVerificationCode(random);
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		account.setReliability(account.getReliability()+1);
+		try {
+			accountService.update(account);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         orderService.updateOrder(order);
 
 
         sendMailCancelOrder(order, siteURL);
     }
 
-	//Hủy đơn ship cod
+	//Mail hủy đơn ship cod
     private void sendMailCancelOrder(Order order, String siteURL) throws MessagingException, UnsupportedEncodingException{
         String toAddress = order.getAccount().getEmail();
         String fromAddress = "gfthotel12@gmail.com";
@@ -141,9 +150,10 @@ public class UserServices {
 
         System.out.println("Email đã được gửi");
     }
-    //Hủy đơn tự động
+    //Mail hủy đơn tự động
     public void sendMailCancelOrderOnline(Order order) throws MessagingException, UnsupportedEncodingException{
         String toAddress = order.getAccount().getEmail();
+      
         String fromAddress = "gfthotel12@gmail.com";
         String senderName = "Five House";
         String subject = "Đơn hàng đã bị hủy";
@@ -190,7 +200,6 @@ public class UserServices {
   		order.setOrderdate(order.getOrderdate());
   		order.setOrderStatus("Chưa thanh toán");
   		order.setPhone(order.getPhone());
-  		order.setShippingFee(order.getShippingFee());
   		order.setPayment_method(order.getPayment_method());
   		String random = RandomString.make(64);
   		order.setVerificationCode(random);

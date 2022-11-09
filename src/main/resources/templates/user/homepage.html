@@ -47,9 +47,13 @@
 									</div>
 								</th:block>
 								<ul class="product__item__pic__hover">
-									<li  sec:authorize="isAuthenticated()">
+									<li th:if="${account!=null}" sec:authorize="isAuthenticated()">
 										<a th:href="@{|/user/favorite/like?pid=${p.product_id}&id=*{account_id}|}"><i
-												class="fa fa-heart"></i></a>
+														class="fa fa-heart"></i></a>
+									</li>
+									<li th:if="${account==null}" sec:authorize="isAuthenticated()" th:object="${session.currentUser}">
+										<a th:href="@{|/user/favorite/like?pid=${p.product_id}&id=*{account_id}|}"><i
+														class="fa fa-heart"></i></a>
 									</li>
 									<li><a th:attr="ng-click=@{|cart.add(${p.product_id})|}"><i class="fa fa-shopping-cart"  onclick="myFunction()"></i></a></li>
 								</ul>
@@ -80,7 +84,7 @@
 				<div class="row">
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase" th:text="#{home.titleNew}">Sản phẩm mới nhất</h4>
+							<h4 class="text-uppercase ">Sản phẩm mới nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="p:${listProduct}">
@@ -106,7 +110,7 @@
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase" th:text="#{home.titleLike}">Sản phẩm thích nhất</h4>
+							<h4 class="text-uppercase ">Sản phẩm thích nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="f:${listProductFavorite}">
@@ -132,7 +136,7 @@
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase " th:text="#{home.titlePurchases}">Nhiều lượt mua nhất</h4>
+							<h4 class="text-uppercase ">Nhiều lượt mua nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="c:${countMostBuys}">
@@ -165,7 +169,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title from-blog__title">
-							<h2 th:text="#{home.titleblog}">Chuyên Mục Blog</h2>
+							<h2>Chuyên Mục Blog</h2>
 						</div>
 					</div>
 				</div>

@@ -44,6 +44,10 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     @Query(value ="UPDATE Accounts SET fullname = ?1, email = ?2, phone = ?3, address= ?4 WHERE username = ?5", nativeQuery = true)
     void updateNonPass(String fullname, String email, String phone,String address, String username);
 
+	@Modifying(clearAutomatically =true)
+    @Query(value ="UPDATE Accounts SET reliability = ?1 WHERE username = ?2", nativeQuery = true)
+    void updateReliability(Integer reliability,String username);
+	
     @Modifying(clearAutomatically =true)
     @Query(value="UPDATE Accounts SET fullname = ?1, email = ?2,password = ?3, phone = ?4, address = ?5, image = ?6 WHERE username = ?7", nativeQuery = true)
     void update (String fullname, String email,String password, String phone,String address, String img, String username);

@@ -105,6 +105,7 @@ public class OAuthLoginSuccessHandle extends SavedRequestAwareAuthenticationSucc
 	            newAccount.setIs_enable(true);
 	            newAccount.setAddress(address);
 	            newAccount.setPhone(phone);
+	            newAccount.setReliability(0);
 	            accountService.createAccount(newAccount);
 	            session.setAttribute("currentUser", newAccount);
 	            System.out.println(session.getAttribute("currentUser"));

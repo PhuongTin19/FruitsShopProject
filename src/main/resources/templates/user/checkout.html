@@ -11,10 +11,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2 th:text="#{img.checkout}">Thủ tục đặt hàng</h2>
+                        <h2>Thủ tục đặt hàng</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html" th:text="#{img.title}">Trang chủ</a>
-                            <span th:text="#{img.order}">Đặt hàng</span>
+                            <a href="./index.html">Trang chủ</a>
+                            <span>Đặt hàng</span>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
     <section class="h-100 h-custom" style="background-color: #c4c4c4;">
 			<div class="container py-5 h-100">
 				<div class="row d-flex justify-content-center align-items-center h-100">
-				<h3 style="word-spacing: 3px;letter-spacing: 4px" class="mb-3" th:text="#{img.detail}">CHI TIẾT ĐƠN HÀNG</h3>
+				<h4 class="mb-3" th:text="#{img.detail}">CHI TIẾT ĐƠN HÀNG</h4>
 					<div class="col-12">
 						<div class="card card-registration card-registration-2"
 							style="border-radius: 25px;">
@@ -40,7 +40,7 @@
 												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase" th:text="#{chk.title}">Thông tin của bạn</h3>
 											</div>
 											<hr class="my-4 bg-dark">	
-											<form name="checkout" action="#" th:object="${username}" onsubmit="return validateform()">
+											<form th:if="${account!=null}" name="checkout" action="#" th:object="${username}" onsubmit="return validateform()">
 											  <div class="form-group" style="display:none">
 											    <label for="account_id">Mã Người Mua Hàng</label><span class="text-danger">*</span>
 										    	<input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
@@ -52,7 +52,37 @@
 											  	</div>
 											  	<div class="form-group col-md-6">
 											      <label for="email">Email</label><span class="text-danger">*</span>
-											      <input th:value="*{email}" type="email" class="form-control" id="email">
+											      <input th:value="*{email}" type="email" class="form-control" id="email" disabled>
+											    </div>
+											  </div>
+  											  <div class="form-group">
+											    <label for="phone"  th:text="#{chk.phone}">Số Điện Thoại</label><span class="text-danger">*</span>
+											    <input name="phone" ng-model="order.phone" placeholder="Nhập số điện thoại của bạn" id="phone"  type="text" required class="form-control w-50">
+											  </div>
+											  <div class="form-group">
+											    <label for="address" th:text="#{chk.address}">Địa chỉ</label><span class="text-danger">*</span>
+                                       			<input class="form-control" name="address" th:field="${orderValidate.address}" placeholder="Nhập địa chỉ của bạn" ng-model="order.address" id="address"  type="text" required>
+											  </div>
+											  <div class="form-group">
+											    <label for="exampleFormControlTextarea1" th:text="#{chk.note}">Ghi Chú Thêm</label>
+											    <textarea class="form-control" ng-model="order.notes" type="text"
+                                    			placeholder="Ví dụ: Giao hàng giờ hành chính" id="exampleFormControlTextarea1" rows="3"></textarea>
+											  </div>											  
+											</form>
+											<!-- end product -->
+											<form th:if="${account==null}" name="checkout" action="#" th:object="${session.currentUser}" onsubmit="return validateform()">
+											  <div class="form-group" style="display:none">
+											    <label for="account_id">Mã Người Mua Hàng</label><span class="text-danger">*</span>
+										    	<input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
+										  	  </div>
+											  <div class="form-row">
+											    <div class="form-group col-md-6">
+											      <label for="fullname" th:text="#{chk.name}">Họ Tên</label><span class="text-danger">*</span>
+                                       			  <input th:value="*{fullname}" type="text" class="form-control" id="fullname" disabled>
+											  	</div>
+											  	<div class="form-group col-md-6">
+											      <label for="email">Email</label><span class="text-danger">*</span>
+											      <input th:value="*{email}" type="email" class="form-control" id="email" disabled>
 											    </div>
 											  </div>
   											  <div class="form-group">
@@ -69,13 +99,11 @@
                                     			placeholder="Ví dụ: Giao hàng giờ hành chính" id="exampleFormControlTextarea1" rows="3"></textarea>
 											  </div>											  
 											</form>
-											<!-- end product -->
-						
 											<div class="pt-5">
 											<hr class="my-4 bg-dark">
 												<h5 class="mb-0 btn btn-info text-white">
-													<i class="bi bi-arrow-left-short"></i> 
 													<a th:text="#{cart.btn4}" th:href="@{|/cart|}" class="">
+													 <i class="bi bi-arrow-left-short"></i> 
 														Quay về giỏ hàng
 													</a>
 												</h5>
@@ -86,7 +114,7 @@
 										style="background-color: #7fad39; border-radius: 25px">
 										<div class="p-5">
 											<div class="d-flex justify-content-between mb-1">
-												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase"  th:text="#{chk.title2}">Hóa Đơn của bạn</h3>
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase" th:text="#{chk.title2}">Hóa Đơn của bạn</h3>
 											</div>
 										<hr class="my-4">			
 										<table class="table table-borderless">
@@ -108,7 +136,7 @@
 											<hr class="my-4">
 											<!-- chọn hình thức thanh toán -->
 												<div class="d-flex justify-content-between mb-2 text-center">
-													<h5 class="text-uppercase m-auto" th:text="#{chk.title3}">Phương thức thanh toán</h5>
+													<h5 class="text-uppercase" th:text="#{chk.title3}">Phương thức thanh toán</h5>
 												</div>
 												<hr class="my-4">
                 							<div class="payment-info">
@@ -131,24 +159,24 @@
 													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
 												</h5>
 											</div>
-											<div class="d-flex justify-content-between ">
+											<!--<div class="d-flex justify-content-between ">
 												<h5 th:text="#{cart.ship}"
 													ng-if="cart.amount>500000?shippingFee=0000000.1:shippingFee=35000"
 													class="text-uppercase">Phí Giao Hàng</h5>
 												<h5>
 													<span>{{shippingFee|number:0}}<sup>đ</sup></span>
 												</h5>
-											</div>
+											</div>-->
 											<hr class="my-4">
 
 											<div class="d-flex justify-content-between mb-5">
 												<h5 class="text-uppercase" th:text="#{cart.total}">Tổng tiền</h5>
 												<h5>
-													<span>{{cart.amount+shippingFee|number:0}}<sup>đ</sup></span>
+													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
 												</h5>
 											</div>
 											<div>
-												<a ng-click="order.purchase()" class="btn btn-dark w-100 h-25 text-white" th:text="#{cart.btn3}">Đặt Hàng</a>
+												<a ng-click="order.purchase()" class="btn btn-dark w-100 h-25 text-white">Đặt Hàng</a>
 											</div>
 										</div>
 									</div>

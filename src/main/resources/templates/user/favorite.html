@@ -37,7 +37,12 @@
 									</div>
 								</th:block>
 								<ul class="product__item__pic__hover">
-									<li><a th:href="@{|/user/favorite/unlike/${f[3]}?id=*{account_id}}|"><i class="fa fa-heartbeat"></i></a></li>
+									<li th:if="${account!=null}" sec:authorize="isAuthenticated()">
+										<a th:href="@{|/user/favorite/unlike/${f[3]}?id=*{account_id}}|"><i class="fa fa-heartbeat"></i></a>
+									</li>
+									<li th:if="${account==null}" sec:authorize="isAuthenticated()" th:object="${session.currentUser}">
+										<a th:href="@{|/user/favorite/unlike/${f[3]}?id=*{account_id}}|"><i class="fa fa-heartbeat"></i></a>
+									</li>
 									<li><a th:attr="ng-click=@{|cart.add(${f[3]})|}"><i class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>

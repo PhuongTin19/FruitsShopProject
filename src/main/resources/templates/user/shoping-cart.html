@@ -87,20 +87,20 @@
 													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
 												</h5>
 											</div>
-											<div class="d-flex justify-content-between ">
+										<!--	<div class="d-flex justify-content-between ">
 												<h5
 													ng-if="cart.amount>500000?shippingFee=0000000.1:shippingFee=35000"
 													class="text-uppercase" th:text="#{cart.ship}">Phí Giao Hàng</h5>
 												<h5>
 													<span>{{shippingFee|number:0}}<sup>đ</sup></span>
 												</h5>
-											</div>
+											</div>-->
 											<hr class="my-4">
 
 											<div class="d-flex justify-content-between mb-5">
 												<h5 class="text-uppercase" th:text="#{cart.total}">Tổng tiền</h5>
 												<h5>
-													<span>{{cart.amount+shippingFee|number:0}}<sup>đ</sup></span>
+													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
 												</h5>
 											</div>
 											<div class="">

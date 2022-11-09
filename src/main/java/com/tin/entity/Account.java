@@ -94,6 +94,10 @@ public class Account implements Serializable{
 
 	@Column(name = "is_enable")
 	private Boolean is_enable;
+	
+	@Column(name = "reliability")
+	private Integer reliability;
+	
 
 	
 }

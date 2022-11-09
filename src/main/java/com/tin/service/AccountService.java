@@ -30,6 +30,8 @@ public interface AccountService {
     Account doLogin(String username, String password);
     //Đổi mật khẩu
     void updatePassword(String password,String username);
+    //update độ uy tín
+    void updateReliability(Integer reliability,String username);
     //đăng ký
     Account createAccount(Account account);
     //cập nhật tài khoản

@@ -28,6 +28,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	List<Product> findByNewProduct();
 
 	// truy xuất mặt hàng(bao gồm có khuyến mãi)
+	@Query(value = "select * from Products where name like ? and quantity > 0 and is_enable = 1", nativeQuery = true)
 	Page<Product> findAllByNameLike(String keywords, Pageable page);
 
 	// Hiển thị ra top sản phẩm mới nhất theo loại - trang khuyến mãi
@@ -55,11 +56,11 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	List<Product> searchByKeyword(String name);
 
 	// Top sản phẩm nổi bật - Trang chủ
-	@Query(value = "select TOP 8 * from Products", nativeQuery = true)
+	@Query(value = "select TOP 8 * from Products where quantity> 0 and is_enable = 1", nativeQuery = true)
 	List<Product> findProductOutstanding();
 
 	// Top loại hàng nổi bật - Trang chủ
-	@Query(value = "select TOP 4 * from Products", nativeQuery = true)
+	@Query(value = "select TOP 4 * from Products where quantity> 0 and is_enable = 1", nativeQuery = true)
 	List<Product> slideCategory();
 
 	// Lượt mua nhiều nhất

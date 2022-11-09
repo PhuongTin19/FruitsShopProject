@@ -170,4 +170,10 @@ public class AccountServiceImpl implements AccountService {
 	public List<Account> findByKeyword(String keyword) {
 		return accDao.findByKeyword(keyword);
 	}
+
+	@Override
+	@Transactional
+	public void updateReliability(Integer reliability, String username) {
+		accDao.updateReliability(reliability, username);
+	}
 }
