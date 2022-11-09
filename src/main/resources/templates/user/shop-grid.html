@@ -34,8 +34,8 @@
 						<div class="breadcrumb__text">
 							<h2>Five House Shop</h2>
 							<div class="breadcrumb__option">
-								<a href="./index.html">Trang chủ</a>
-								<span>Mặt Hàng</span>
+								<a href="./index.html" th:text="#{img.title}">Trang chủ</a>
+								<span th:text="#{img.prd}">Mặt Hàng</span>
 							</div>
 						</div>
 					</div>
@@ -51,13 +51,13 @@
 					<div class="col-lg-3 col-md-5">
 						<div class="sidebar">
 							<div class="sidebar__item">
-								<h4>Phân Loại</h4>
+								<h4 th:text="#{home.list}">Phân Loại</h4>
 								<ul th:each="cates : ${listCate}">
 									<li><a th:href="@{|/user/product/${cates.category_id}|}">[(${cates.name})]</a></li>
 								</ul>
 							</div>
 							<div class="sidebar__item">
-								<h4>Giá</h4>
+								<h4 th:text="#{home.price}">Giá</h4>
 								<div class="price-range-wrap">
 									<div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
 										data-min="0" data-max="500000">
@@ -72,7 +72,7 @@
 											<form th:action="@{/user/discount/fillterByPrice}" method="post">
 												<input name="max" type="text" id="minamount">
 												<input name="min" type="text" id="maxamount">
-												<button class="btn btn-danger text-white">Tìm</button>
+												<button class="btn btn-danger text-white" th:text="#{home.search1}">Tìm</button>
 											</form>
 										</div>
 									</div>
@@ -80,7 +80,7 @@
 							</div>
 							<div class="sidebar__item">
 								<div class="latest-product__text">
-									<h4>Sản Phẩm Mới</h4>
+									<h4 th:text="#{home.titleNew}">Sản Phẩm Mới</h4>
 									<div class="latest-product__slider owl-carousel">
 										<div class="latest-prdouct__slider__item">
 											<a th:each="fruits : ${listFruits}" class="latest-product__item">
@@ -135,7 +135,7 @@
 					</div>
 					<div class="col-lg-9 col-md-7">
 						<div class="section-title product__discount__title">
-							<h2>Mặt Hàng</h2>
+							<h2 th:text="#{img.prd}">Mặt Hàng</h2>
 						</div>
 						<div class="filter__item">
 

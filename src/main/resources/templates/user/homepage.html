@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title">
-							<h2>Sản Phẩm Nổi Bật</h2>
+							<h2 th:text="#{home.title1}">Sản Phẩm Nổi Bật</h2>
 						</div>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 				<div class="row">
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase ">Sản phẩm mới nhất</h4>
+							<h4 class="text-uppercase" th:text="#{home.titleNew}">Sản phẩm mới nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="p:${listProduct}">
@@ -106,7 +106,7 @@
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase ">Sản phẩm thích nhất</h4>
+							<h4 class="text-uppercase" th:text="#{home.titleLike}">Sản phẩm thích nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="f:${listProductFavorite}">
@@ -132,7 +132,7 @@
 					</div>
 					<div class="col-lg-4 col-md-6">
 						<div class="latest-product__text">
-							<h4 class="text-uppercase ">Nhiều lượt mua nhất</h4>
+							<h4 class="text-uppercase " th:text="#{home.titlePurchases}">Nhiều lượt mua nhất</h4>
 							<div class="latest-product__slider owl-carousel ">
 								<div class="latest-prdouct__slider__item">
 									<div th:each="c:${countMostBuys}">
@@ -165,7 +165,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title from-blog__title">
-							<h2>Chuyên Mục Blog</h2>
+							<h2 th:text="#{home.titleblog}">Chuyên Mục Blog</h2>
 						</div>
 					</div>
 				</div>

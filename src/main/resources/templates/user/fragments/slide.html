@@ -6,7 +6,7 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>Danh mục</span>
+                            <span th:text="#{home.list}">Danh mục</span>
                         </div>
                         <ul>
                         <li>
@@ -20,7 +20,7 @@
                         <div class="hero__search__form">
                             <form th:action="@{/user/product}" method="post">
                                 <input name="keywords" type="text" placeholder="">
-                                <button type="submit" class="site-btn"><i class="bi bi-search"></i> Tìm Kiếm</button>
+                                <button type="submit" th:text="#{home.search}" class="site-btn"><i class="bi bi-search"></i> Tìm Kiếm</button>
                             </form>
                         </div>
                         <div class="hero__search__phone">
@@ -32,11 +32,12 @@
                     </div>
                     <div class="hero__item set-bg" data-setbg="/user/img/hero/banner.jpg">
                         <div class="hero__text">
-                            <span>TRÁI CÂY TƯƠI</span>
-                            <h2>RAU CỦ QUẢ TƯƠI <br />100% Hữu Cơ</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">MUA SẮM NGAY</a>
-                        </div>
+                            <span class="text-uppercase" th:text="#{home.span}">TRÁI CÂY TƯƠI</span>
+                            <h2 class="text-uppercase" th:text="#{home.title2}">RAU CỦ QUẢ TƯƠI </h2><br/>
+                            <h3 style="word-spacing: 2px; letter-spacing: 5px" class="text-uppercase text-muted font-weight-bold" th:text="#{home.organic}"> 100% Hữu Cơ</h3>
+                            <br>
+                            <a href="#" class="primary-btn" th:text="#{home.buy}">MUA SẮM NGAY</a>
+                        </div> 
                     </div>
                 </div>
             </div>
