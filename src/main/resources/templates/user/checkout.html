@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/index :: dynamic(~{::main})}">
-
 <body>
 <main>
     
@@ -40,7 +39,7 @@
 												<h3 class="fw-bold mb-1 mt-2 pt-1 text-uppercase" th:text="#{chk.title}">Thông tin của bạn</h3>
 											</div>
 											<hr class="my-4 bg-dark">	
-											<form th:if="${account!=null}" name="checkout" action="#" th:object="${username}" onsubmit="return validateform()">
+											<form th:if="${account!=null}" name="checkout" action="#" th:object="${username}" onsubmit="return validateform()" id="checkout_form">
 											  <div class="form-group" style="display:none">
 											    <label for="account_id">Mã Người Mua Hàng</label><span class="text-danger">*</span>
 										    	<input id="account_id" th:value="*{account_id}" type="text" class="form-control w-50" disabled="disabled">
@@ -175,9 +174,13 @@
 													<span>{{cart.amount|number:0}}<sup>đ</sup></span>
 												</h5>
 											</div>
-											<div>
+											<button class="g-recaptcha" 
+										        data-sitekey="6LezyvUiAAAAAKAcpBdc26sEtdRIN6l4vzKrcKXb" 
+										        data-callback='onSubmit' 
+										        data-action='submit'>Submit</button>
+<!-- 											<div>
 												<a ng-click="order.purchase()" class="btn btn-dark w-100 h-25 text-white">Đặt Hàng</a>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -188,6 +191,11 @@
 				</div>
 			</div>
 		</section>
+		<script>
+		  function onSubmit(token) {
+		    document.getElementById("checkout_form").submit();
+		  }
+		</script>
 </main>
     <script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/user/js/bootstrap.min.js}"></script>
@@ -197,9 +205,6 @@
     <script th:src="@{/user/js/mixitup.min.js}"></script>
     <script th:src="@{/user/js/owl.carousel.min.js}"></script>
     <script th:src="@{/user/js/main.js}"></script>
-
-  
-
 </body>
 
 </html>
