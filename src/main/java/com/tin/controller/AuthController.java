@@ -73,11 +73,11 @@ public class AuthController {
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
 	@GetMapping("/security/login")
-	public String loginForm(Model model) {
-		model.addAttribute("userRequest", new Account());
+	public String loginForm(Model model,HttpServletRequest request) {
+		model.addAttribute("userRequest", new Account());		
 		return "/user/login";
 	} 
-
+	
 	@RequestMapping("/security/login/success")
 	public String loginSuccess(Model model, HttpSession session, HttpServletRequest request) {
 		try {
@@ -89,12 +89,11 @@ public class AuthController {
 		}
 		return "redirect:/index";
 	}
-  
 	@RequestMapping("/security/login/error")
-	public String loginError(Model model,
+	public String loginError(Model model,HttpServletRequest request,
 			@Valid @ModelAttribute("userRequest") Account a,
 			Errors error) {
-			model.addAttribute("message", "Đăng nhập không thành công");
+		model.addAttribute("message", "Đăng nhập không thành công");
 		return "/user/login";
 	}
 

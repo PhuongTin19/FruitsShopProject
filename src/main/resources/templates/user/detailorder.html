@@ -43,28 +43,23 @@
 												<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
   											  <div class="form-group">
 											    <label>Mã đơn hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{order_id}" class="form-control w-100 text-muted">
+											    <input th:field="*{order_id}" type="text" class="form-control w-50">
 											  </div>
   											  <div class="form-group">
 											    <label>Tên Khách Hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{account.fullname}" class="form-control w-100 text-muted">
+											    <input th:field="*{account.fullname}" type="text" class="form-control w-50">
 											  </div>
   											  <div class="form-group">
 											    <label>Số Điện Thoại</label><span class="text-danger">*</span>
-											    <input th:field="*{phone}" class="form-control w-100 text-muted">
+											    <input th:field="*{phone}" type="text" class="form-control w-50">
 											  </div>
   											  <div class="form-group">
 											    <label>Thời Gian Mua hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{orderdate}" class="form-control text-muted w-100">
+											    <input th:field="*{orderdate}" type="text" class="form-control w-50">
 											  </div>	
 											  <div class="form-group">
 											    <label>Địa chỉ</label><span class="text-danger">*</span>
-											    <input  th:field="*{address}" class="form-control w-100 text-muted">
-											  </div>
-											  <div class="form-group">
-											    <label for="exampleFormControlTextarea1">Ghi Chú Thêm</label>
-											    <textarea class="form-control text-muted" th:field="*{notes}"
-                                    			 rows="3"></textarea>
+											    <input th:field="*{address}" type="text" class="form-control w-50">
 											  </div>
 											  </form>
 											<!-- end product -->
@@ -82,31 +77,31 @@
 										    <tr>
 										      <th class="fw-bold mb-1 mt-2 pt-1">Mã Hàng</th>
 										      <th class="fw-bold mb-1 mt-2 pt-1">Tên Mặt Hàng</th>
-										      <th class="fw-bold mb-1 mt-2 pt-1">Đơn Giá</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Giá</th>
 										      <th class="fw-bold mb-1 mt-2 pt-1">Số Lượng</th>
-										      <th class="fw-bold mb-1 mt-2 pt-1">Thành Tiền</th>
+										      <th class="fw-bold mb-1 mt-2 pt-1">Tổng Giá</th>
 										    </tr>
 										  </thead>
 										  <tbody>
 											   <tr th:each="detail:*{orderDetails}" th:object="${detail}">
-													<td class="shoping__product text-center">[[*{product.product_id}]]</td>
+													<td class="shoping__product">[[*{product.product_id}]]</td>
 													<td>[[*{product.name}]]</td>
-													<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]] <sup>đ</sup> </td>
-													<td class="text-center">[[*{totalQuantity}]]</td>
-													<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]<sup>đ</sup></td>
+													<td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
+													<td>[[*{totalQuantity}]]</td>
+													<td>[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
 												</tr>
 										   </tbody>
 										  </table> 
 											<!-- chọn hình thức thanh toán -->
 											<hr class="my-4">
 											<div>
-												<a th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" style="letter-spacing:1px; word-spacing:2px" class="btn btn-warning w-100 h-25 text-white font-weight-bold" >ĐÃ THANH TOÁN</a>
+												<a th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" class="btn btn-warning w-100 h-25 text-white font-weight-bold" >ĐÃ THANH TOÁN</a>
 											</div>
 											<div>
-												<a th:if="${order.orderStatus == 'Đã hủy đơn'}" style="background-color: red; color: white; letter-spacing:1px; word-spacing:2px" class="btn w-100 h-25 font-weight-bold" >ĐÃ HỦY ĐƠN</a>
+												<a th:if="${order.orderStatus == 'Đã hủy đơn'}" class="btn btn-danger w-100 h-25 text-dark font-weight-bold" >ĐÃ HỦY ĐƠN</a>
 											</div>
 											<div>
-												<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" style="background-color: #095fbe; color: white; letter-spacing:1px; word-spacing:2px" class="btn w-100 h-25 font-weight-bold" >THANH TOÁN PAYPAL</a>
+												<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-info w-100 h-25 text-white font-weight-bold" >THANH TOÁN PAYPAL</a>
 											</div>																						
 										</div>
 									</div>

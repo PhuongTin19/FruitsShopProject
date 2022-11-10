@@ -140,6 +140,13 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		},
 		//gửi thông tin order lên server
 		purchase() {
+			var v = grecaptcha.getResponse();
+		    if(v.length == 0)
+		    {
+		       // document.getElementById('captcha').innerHTML="You can't leave Captcha Code empty";
+		       alert("Vui lòng xác nhận captcha");
+		        return;
+		    }
 			if (document.getElementById("phone").value == "") {
 				alert("Chưa nhập số điện thoại")
 				return;

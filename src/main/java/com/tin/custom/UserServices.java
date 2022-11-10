@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.text.NumberFormat;
@@ -107,8 +109,12 @@ public class UserServices {
 		}
         orderService.updateOrder(order);
 
-
-        sendMailCancelOrder(order, siteURL);
+        if(account.getReliability() == 5) {
+        	sendMailDisableAccount(order);
+        }else {
+        	sendMailCancelOrder(order, siteURL);
+        }
+        
     }
 
 	//Mail hủy đơn ship cod
@@ -337,6 +343,38 @@ public class UserServices {
        // String verifyURL = siteURL + "/verify?code=" + order.getVerificationCode();
 
         //content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+ 
+        mailSender.send(message);
+
+        System.out.println("Email đã được gửi");
+    }
+    
+    
+    //Mail vô hiệu hóa tài khoản
+    public void sendMailDisableAccount(Order order) throws MessagingException, UnsupportedEncodingException{
+    	String toAddress = order.getAccount().getEmail();
+        String fromAddress = "gfthotel12@gmail.com";
+        String senderName = "Five House";
+        String subject = "Tài khoản của bạn đã bị vô hiệu hóa";
+        String content = "Thân chào <b>[[name]]</b>,<br>"
+        		+"Chúng tôi nhận thấy tài khoản của bạn có dấu hiệu bất thường<br>"
+                + "Có vẻ tài khoản của bạn đã vi phạm các điều khoản của FiveHouse."
+                + "Các hành vi vi phạm có thể bao gồm spam,hủy đơn nhiều lần.<br>"
+                + "Mọi thắc mắc xin liên hệ đến số 0901301277.<br>"
+                +"Cảm ơn<br>"
+                + "Five House.<br>"
+                + "<a href='http://localhost:8080'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+ 
+        content = content.replace("[[name]]", order.getAccount().getFullname());
 
         helper.setText(content, true);
  

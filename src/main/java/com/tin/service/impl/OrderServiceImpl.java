@@ -1,6 +1,12 @@
 package com.tin.service.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Date;
 import java.time.YearMonth;
 import java.util.Calendar;
@@ -12,12 +18,14 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,6 +40,7 @@ import com.tin.repository.OrderRepo;
 import com.tin.repository.ProductRepo;
 import com.tin.service.AccountService;
 import com.tin.service.OrderService;
+import com.tin.service.ReCaptchaValidationService;
 
 import ch.qos.logback.core.joran.conditional.IfAction;
 
@@ -58,25 +67,26 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	HttpServletRequest request;
 	
+	@Autowired
+	private ReCaptchaValidationService validator;
+	
 	@Override
 	public Order create(JsonNode orderData)  {
-		ObjectMapper mapper = new ObjectMapper();
-		Order order = mapper.convertValue(orderData, Order.class);
-		orderRepo.save(order);
-		TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {
-		};
-		List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type).stream()
-				.peek(d -> d.setOrder(order)).collect(Collectors.toList());
-		orderDetailRepo.saveAll(details);
-		// Cập nhật số lượng mới
-		for (int i = 0; i < orderData.get("orderDetails").size(); i++) {
-			Product product = productService.findById(details.get(i).getProduct().getProduct_id()).get();
-			Integer newQuanity = product.getQuantity() - details.get(i).getTotalQuantity();
-			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
-		}
+			ObjectMapper mapper = new ObjectMapper();
+			Order order = mapper.convertValue(orderData, Order.class);
+			orderRepo.save(order);
+			TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {
+			};
+			List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type).stream()
+					.peek(d -> d.setOrder(order)).collect(Collectors.toList());
+			orderDetailRepo.saveAll(details);
+			// Cập nhật số lượng mới
+			for (int i = 0; i < orderData.get("orderDetails").size(); i++) {
+				Product product = productService.findById(details.get(i).getProduct().getProduct_id()).get();
+				Integer newQuanity = product.getQuantity() - details.get(i).getTotalQuantity();
+				productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
+			}
 		//
-		System.out.println(order.getOrder_id());
-		Calendar now = Calendar.getInstance();
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 			public void run() {
@@ -89,7 +99,12 @@ public class OrderServiceImpl implements OrderService {
 					accountService.updateReliability(account.getReliability()+1, order2.getAccount().getUsername());
 					updateOrder(order);
 					try {
-						userServices.sendMailCancelOrderOnline(order);
+						System.out.print(account.getReliability());							
+						if(account.getReliability()==4) {
+							userServices.sendMailDisableAccount(order);
+						}else {
+							userServices.sendMailCancelOrderOnline(order);
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -99,14 +114,38 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}, 120000);
 		//
-		try {
+		try { 
 			userServices.purchaseOrder(order);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		return order;
+		}		
+	    
+		return order;			
 	}
 
+
+	
+	
+//	@PostMapping("/save")
+//	 public String saveEmployee(@ModelAttribute("employee")
+//	 EmployeeEntity employee,  
+//	 
+//	 @RequestParam(name="g-recaptcha-response") String captcha, Model model) 
+//	 {  
+//		 if(validator.validateCaptcha(captcha))
+//	        {    
+//			 employeeRepository.save(employee); 
+//			 model.addAttribute("employee", new EmployeeEntity());
+//			 model.addAttribute("message", "Employee added!!"); 
+//			 } 
+//		     else { 
+//		    	 model.addAttribute("message", "Please Verify Captcha");
+//		    	 }      
+//		 return "EmployeeRegister"; 
+//	}  
+	
+	
+	
 	@Override
 	public Order findById(Integer id) {
 		return orderRepo.findById(id).get();

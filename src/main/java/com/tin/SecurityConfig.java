@@ -115,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        });
 	    }
 
-	    //	Cơ chế mã hóa mật khẩu
+		//	Cơ chế mã hóa mật khẩu
 	    @Bean
 	    public BCryptPasswordEncoder getPasswordEncoder() {
 	        return new BCryptPasswordEncoder();

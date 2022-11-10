@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -176,16 +177,19 @@ public class OrderController {
 	@PostMapping("/process-cancel-order")
 	public String processCancelOrder(Order order,HttpServletRequest request, Model model)
 			throws UnsupportedEncodingException, MessagingException {
-		try {
-//			System.out.println(order.getAddress());
-//			Order order = orderService.findById(id);
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		if(account.getReliability() == 4) {
 			userServices.cancelOrder(order, getSiteURL(request));
 			model.addAttribute("message", "Vui lòng kiểm tra email.");
 			model.addAttribute("order", order);
-		} catch (Exception e) {
-			e.printStackTrace();
+			return "redirect:/security/logoff";
+		}else {
+			userServices.cancelOrder(order, getSiteURL(request));
+			model.addAttribute("message", "Vui lòng kiểm tra email.");
+			model.addAttribute("order", order);
+			return "redirect:/order/list";
 		}
-		return "redirect:/order/list";
+		
 	}
 
 	private String getSiteURL(HttpServletRequest request) {
@@ -193,22 +197,7 @@ public class OrderController {
 		return siteURL.replace(request.getServletPath(), "");
 	}
 
-//	public void cancelOrderAuto() {
-//		Order order = orderService.findById(null);
-//		Calendar now = Calendar.getInstance();
-//		Timer t = new Timer();
-//		t.schedule(new TimerTask() {
-//			public void run() {
-//				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
-//					System.out.println("Đang chạy timer if");
-//					order.setOrderStatus("Đã hủy đơn");
-//					orderService.updateOrder(order);
-//				} else {
-//					System.out.println("Đang chạy timer else");
-//				}
-//			}
-//		}, 60000);
-//	}
+
 //	@GetMapping("/verify")
 //	public String verifyUser(@Param("code") String code, Model model) {
 //		System.out.println("code: " + code);
