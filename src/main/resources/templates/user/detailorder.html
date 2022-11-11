@@ -43,23 +43,28 @@
 												<input style="display:none" type="text" th:value="${order.totalPrice}" name="price">
   											  <div class="form-group">
 											    <label>Mã đơn hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{order_id}" type="text" class="form-control w-50">
+											    <input th:field="*{order_id}" type="text" class="form-control w-25" disabled>
 											  </div>
   											  <div class="form-group">
 											    <label>Tên Khách Hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{account.fullname}" type="text" class="form-control w-50">
+											    <input th:field="*{account.fullname}" type="text" class="form-control w-100" disabled>
 											  </div>
   											  <div class="form-group">
 											    <label>Số Điện Thoại</label><span class="text-danger">*</span>
-											    <input th:field="*{phone}" type="text" class="form-control w-50">
+											    <input th:field="*{phone}" type="text" class="form-control w-100" disabled>
 											  </div>
   											  <div class="form-group">
 											    <label>Thời Gian Mua hàng</label><span class="text-danger">*</span>
-											    <input th:field="*{orderdate}" type="text" class="form-control w-50">
+											    <input th:field="*{orderdate}" type="text" class="form-control w-100" disabled>
 											  </div>	
 											  <div class="form-group">
 											    <label>Địa chỉ</label><span class="text-danger">*</span>
-											    <input th:field="*{address}" type="text" class="form-control w-50">
+											    <input th:field="*{address}" type="text" class="form-control w-100" disabled>
+											  </div>
+											  <div class="form-group">
+											    <label>Ghi Chú Thêm</label>
+											    <textarea class="form-control" th:field="*{notes}" type="text"
+                                    			rows="3" disabled="disabled"></textarea>
 											  </div>
 											  </form>
 											<!-- end product -->
