@@ -28,19 +28,19 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	List<Product> findByNewProduct();
 
 	// truy xuất mặt hàng(bao gồm có khuyến mãi)
-	@Query(value = "select * from Products where name like ? and quantity > 0 and is_enable = 1", nativeQuery = true)
+	@Query(value = "select * from Products where name like ? and quantity > 0 and is_enable = 0", nativeQuery = true)
 	Page<Product> findAllByNameLike(String keywords, Pageable page);
 
 	// Hiển thị ra top sản phẩm mới nhất theo loại - trang khuyến mãi
-	@Query(value = "select TOP 3 * from Products where is_enable = 1 and category_id = ?1", nativeQuery = true)
+	@Query(value = "select TOP 3 * from Products where is_enable = 0 and category_id = ?1", nativeQuery = true)
 	List<Product> findAllProduct(Integer number);
 
 	// Lọc sản phẩm theo giá - trang khuyến mãi
-	@Query(value = "select p from Product p where p.discount.discount_id = 1 and p.is_enable = 1 and (p.price - (p.price * p.discount.discount/100)) between ?1 and ?2")
+	@Query(value = "select p from Product p where p.discount.discount_id = 1 and p.is_enable = 0 and (p.price - (p.price * p.discount.discount/100)) between ?1 and ?2")
 	Page<Product> filterByPrice(Double min, Double max, Pageable pageable);
 
 	// Lọc sản phẩm theo loại - trang khuyến mãi
-	@Query(value = " select p from Product p where p.discount.discount_id = 1 and p.is_enable = 1 and p.category.category_id = ?1")
+	@Query(value = " select p from Product p where p.discount.discount_id = 1 and p.is_enable = 0 and p.category.category_id = ?1")
 	Page<Product> filterByCate(Integer id, Pageable pageable);
 
 	// Sản phẩm mới nhất - Trang chủ
@@ -56,11 +56,11 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	List<Product> searchByKeyword(String name);
 
 	// Top sản phẩm nổi bật - Trang chủ
-	@Query(value = "select TOP 8 * from Products where quantity> 0 and is_enable = 1", nativeQuery = true)
+	@Query(value = "select TOP 8 * from Products where quantity> 0 and is_enable = 0", nativeQuery = true)
 	List<Product> findProductOutstanding();
 
 	// Top loại hàng nổi bật - Trang chủ
-	@Query(value = "select TOP 4 * from Products where quantity> 0 and is_enable = 1", nativeQuery = true)
+	@Query(value = "select TOP 4 * from Products where quantity> 0 and is_enable = 0", nativeQuery = true)
 	List<Product> slideCategory();
 
 	// Lượt mua nhiều nhất

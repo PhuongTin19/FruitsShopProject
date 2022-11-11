@@ -13,7 +13,7 @@ import com.tin.entity.Brand;
 public interface BrandRepo extends JpaRepository<Brand,Integer> {
 	/*ADMIN*/
 
-	@Query(value = "select b from Brand b where b.is_enable = true")
+	@Query(value = "select b from Brand b where b.is_enable = false")
 	List<Brand> findAllByIsEnable();
 	
 	@Query(value = "select b from Brand b where b.brand_id = ?1")

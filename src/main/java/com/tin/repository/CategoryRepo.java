@@ -14,12 +14,12 @@ import com.tin.entity.Product;
 @Repository
 public interface CategoryRepo extends JpaRepository<Category,Integer> {
 
-	@Query(value= "select * from categories where is_enable = 1", nativeQuery = true)
+	@Query(value= "select * from categories where is_enable = 0", nativeQuery = true)
 	List<Category>FillterListCate(); 
 	
 	/*ADMIN*/
 	
-	@Query(value = "select c from Category c where c.is_enable = true")
+	@Query(value = "select c from Category c where c.is_enable = false")
 	List<Category> findAllByIsEnable();
 	
 	@Query(value = "select c from Category c where c.category_id = ?1")

@@ -48,6 +48,8 @@ public class Blog implements Serializable{
 	@CreationTimestamp
 	private Timestamp createdate = null;
 	
+	@Column(name = "is_enable")
+	private Boolean is_enable;
 
 	@Column(name = "image")
 	private String image;
