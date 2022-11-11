@@ -97,22 +97,22 @@
 										<div class="row">
 											<div class="col-8">
 												<div class="form-group">
-													<label for="inputName">Title</label>
+													<label for="title">Title</label>
 													<input ng-model="form.title" type="text" class="form-control"
-														id="inputAddress" name="name" placeholder="Blog Title">
+														id="title" name="name" placeholder="Blog Title">
 												</div>
 												<div class="form-group col-md-4">
-													<label for="inputAccount">Account</label>
-													<select ng-model="form.account.account_id" id="inputAccount"
+													<label for="account">Account</label>
+													<select ng-model="form.account.account_id" id="account"
 														class="form-control" name="account">
 														<option ng-repeat="b in accounts" ng-value="b.account_id">{{b.username}}
 														</option>
 													</select>
 												</div>
 												<div class="form-group">
-													<label for="inputDescription">Description</label>
+													<label for="description">Description</label>
 													<textarea ng-model="form.description" class="form-control"
-														id="inputDescription" rows="4" name="description"></textarea>
+														id="description" rows="4" name="description"></textarea>
 												</div>
 											</div>
 											<div class="col-4">
@@ -213,7 +213,7 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
+					//is_enable: true,
 					image: "user.png"
 				}
 			}
@@ -238,12 +238,28 @@
 			//Thêm sản phẩm mới
 			$scope.create = function () {
 				var item = angular.copy($scope.form);
+				if(document.getElementById("title").value == ""){
+					alert("Chưa nhập tiêu đề");
+					return;
+				}
+				if(document.getElementById("account").value == ""){
+					alert("Chưa nhập tài khoảng");
+					return;
+				}
+				if(document.getElementById("description").value == ""){
+					alert("Chưa nhập ghi chú");
+					return;
+				}
+				/*if(document.getElementById("image").value == ""){
+					alert("Chưa chọn hình");
+					return;
+				}*/
 				$http.post(`/rest/blogs`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
-					alert("Thêm mới sản phẩm thành công!");
+					alert("Thêm mới blog thành công!");
 				}).catch(error => {
-					alert("Lỗi thêm mới sản phẩm!");
+					alert("Lỗi thêm mới blog!");
 					console.log("Error", error);
 				});
 			}
@@ -253,13 +269,29 @@
 			//Cập nhật sản phẩm
 			$scope.update = function () {
 				var item = angular.copy($scope.form);
+				if(document.getElementById("title").value == ""){
+					alert("Chưa nhập tiêu đề");
+					return;
+				}
+				if(document.getElementById("account").value == ""){
+					alert("Chưa nhập tài khoảng");
+					return;
+				}
+				if(document.getElementById("description").value == ""){
+					alert("Chưa nhập ghi chú");
+					return;
+				}
+				/*if(document.getElementById("image").value == ""){
+					alert("Chưa chọn hình");
+					return;
+				}*/
 				$http.put(`/rest/blogs/${item.blog_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
-					alert("Cập nhật sản phẩm thành công!");
+					alert("Cập nhật blog thành công!");
 				})
 					.catch(error => {
-						alert("Lỗi cập nhật sản phẩm!");
+						alert("Lỗi cập nhật blog!");
 						console.log("Error", error);
 					});
 			}
@@ -267,14 +299,14 @@
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
 				var item = angular.copy($scope.form);
-				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.delete(`/rest/blogs/${item.blog_id}`).then(resp => {
+				if (confirm("Bạn muốn xóa blog này?")) {
+					$http.put(`/rest/blogs/${item.blog_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
-						$scope.items.splice(index, 1);
+						$scope.items[index] = item;
 						$scope.reset();
-						alert("Xóa sản phẩm thành công!");
+						alert("Xóa blog thành công!");
 					}).catch(error => {
-						alert("Lỗi xóa sản phẩm!");
+						alert("Lỗi xóa blog!");
 						console.log("Error", error);
 					})
 				}

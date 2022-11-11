@@ -64,10 +64,9 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     
 	@Query(value = "select a from Account a where a.username like %?1%")
 	List<Account> findByKeyword(String keyword);
-    /*TEST*/
-    /*pagination*/
-//    Page<Account> accountPage(int page) {
-//    	
-//    }
+	
+//	@Query(value = "update")
+//	void deleteLogicalById(Integer id);
+	
 }
 

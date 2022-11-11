@@ -55,6 +55,7 @@
 									<th class="align-middle" scope="col">Phone</th>
 									<th class="align-middle" scope="col">Address</th>
 									<th class="align-middle" scope="col">Role</th>
+									<th class="align-middle" scope="col">Status</th>
 									<th class="align-middle" scope="col">Edit</th>
 								</tr>
 							</thead>
@@ -69,6 +70,12 @@
 									<td class="align-middle">{{item.phone}}</td>
 									<td class="align-middle">{{item.address}}</td>
 									<td class="align-middle">{{item.role.name}}</td>
+									<td class="align-middle" ng-if="item.is_enable == false" >
+										Is Enable
+									</td>
+									<td class="align-middle" ng-if="item.is_enable == true" >
+										Is Disable
+									</td>
 									<td>
 										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
@@ -137,19 +144,19 @@
 													</legend>
 													<div class="col-sm-8 ml-3">
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="true"
+															<input ng-model="form.is_enable" ng-value="false"
 																class="form-check-input" type="radio" id="gridRadios1"
-																ng-checked="true" name="is_enable">
+																name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
 																Enable
 															</label>
 														</div>
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="false"
+															<input ng-model="form.is_enable" ng-value="true"
 																class="form-check-input" type="radio" id="gridRadios2"
-																value="false" name="is_enable">
+																 name="is_enable">
 															<label class="form-check-label" for="gridRadios2">
-																Unenable
+																Disable
 															</label>
 														</div>
 													</div>
@@ -265,7 +272,8 @@
 						//$scope.form.image = "user.png";
 					})
 				});
-
+				
+				$scope.form.is_enable = false;
 			}
 			//Khởi đầu
 			$scope.initialize();
@@ -327,10 +335,10 @@
 					alert("Chưa nhập email");
 					return;
 				}
-				if(document.getElementById("image").value == ""){
+				/*if(document.getElementById("image").value == ""){
 					alert("Chưa chọn hình");
 					return;
-				}
+				}*/
 				$http.post(`/rest/accounts`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
@@ -345,6 +353,34 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				if(document.getElementById("username").value == ""){
+					alert("Chưa nhập username");
+					return;
+				}
+				if(document.getElementById("password").value == ""){
+					alert("Chưa nhập password");
+					return;
+				}
+				if(document.getElementById("fullname").value == ""){
+					alert("Chưa nhập họ tên")
+					return;
+				}
+				if(document.getElementById("phone").value == ""){
+					alert("Chưa nhập số điện thoại");
+					return;
+				}
+				if(document.getElementById("address").value == ""){
+					alert("Chưa nhập địa chỉ");
+					return;
+				}
+				if(document.getElementById("email").value == ""){
+					alert("Chưa nhập email");
+					return;
+				}
+				/*if(document.getElementById("image").value == ""){
+					alert("Chưa chọn hình");
+					return;
+				}*/
 				var item = angular.copy($scope.form);
 				$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
@@ -359,16 +395,18 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
+				
+				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa người dùng này?")) {
-					$http.delete(`/rest/accounts/${item.account_id}`).then(resp => {
+					$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
-						$scope.items.splice(index, 1);
+						$scope.items[index] = item;
 						$scope.reset();
-						alert("Xóa người dùng thành công!");
+						alert("Tắt trạng thái hoạt động người dùng thành công!");
 						location.reload();
 					}).catch(error => {
-						alert("Lỗi xóa người dùng!");
+						alert("Lỗi tắt hoạt động người dùng!");
 						console.log("Error", error);
 					})
 				}

@@ -57,6 +57,7 @@
 									<th class="align-middle" scope="col">Brand</th>
 									<th class="align-middle" scope="col">Category</th>
 									<th class="align-middle" scope="col">Discount</th>
+									<th class="align-middle" scope="col">Status</th>
 									<th class="align-middle" scope="col">Edit</th>
 								</tr>
 							</thead>
@@ -74,6 +75,12 @@
 									<td class="align-middle">{{item.brand.name}}</td>
 									<td class="align-middle">{{item.category.name}}</td>
 									<td class="align-middle">{{item.discount.name}}</td>
+									<td class="align-middle" ng-if="item.is_enable == false">
+										Is Enable
+									</td>
+									<td class="align-middle" ng-if="item.is_enable == true">
+										Is Disable
+									</td>
 									<td>
 										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
@@ -106,46 +113,47 @@
 										<div class="row">
 											<div class="col-8">
 												<div class="form-group">
-													<label for="inputName">Name</label>
+													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
-														id="inputAddress" name="name" placeholder="Discount Name">
+														id="name" name="name" placeholder="Product Name">
 												</div>
 												<div class="form-group">
-													<label for="inputPrice">Price</label>
+													<label for="price">Price</label>
 													<input ng-model="form.price" type="number" class="form-control"
-														id="inputAddress2" name="price">
+														id="price" name="price">
 												</div>
 												<div class="form-row">
 													<div class="form-group col-md-6">
-														<label for="inputQuantity">Quantity</label>
+														<label for="quantity">Quantity</label>
 														<input ng-model="form.quantity" type="number"
-															class="form-control" id="inputQuantity" name="quantity">
+															class="form-control" id="quantity" name="quantity">
 													</div>
 													<div class="form-group col-md-6">
-														<label for="inputWeight">Weight</label>
+														<label for="weight">Weight</label>
 														<input ng-model="form.weight" type="number" step="0.1"
-															class="form-control" id="inputWeight" name="weight">
+															class="form-control" id="weight" name="weight">
 													</div>
 												</div>
 												<div class="form-group col-md-4">
-													<label for="inputBrand">Brand</label>
-													<select ng-model="form.brand.brand_id" id="inputBrand"
+													<label for="brand">Brand</label>
+													<select ng-model="form.brand.brand_id" id="brand"
 														class="form-control" name="brand">
 														<option ng-repeat="b in brands" ng-value="b.brand_id">{{b.name}}
 														</option>
 													</select>
 												</div>
 												<div class="form-group col-md-4">
-													<label for="inputDiscount">Discount</label>
-													<select ng-model="form.discount.discount_id" id="inputDiscount"
+													<label for="discount">Discount</label>
+													<select ng-model="form.discount.discount_id" id="discount"
 														class="form-control" name="discount">
 														<option ng-repeat="d in discounts" ng-value="d.discount_id">
 															{{d.name}}</option>
 													</select>
 												</div>
 												<div class="form-group col-md-4">
-													<label for="inputCategory">Category</label>
-													<select ng-model="form.category.category_id" class="form-control">
+													<label for="category">Category</label>
+													<select ng-model="form.category.category_id" class="form-control"
+														id="category">
 														<option ng-repeat="c in cates" ng-value="c.category_id">
 															{{c.name}}</option>
 													</select>
@@ -155,7 +163,7 @@
 													</legend>
 													<div class="col-sm-8 ml-3">
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="true"
+															<input ng-model="form.is_enable" ng-value="false"
 																class="form-check-input" type="radio" id="gridRadios1"
 																checked name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
@@ -163,7 +171,7 @@
 															</label>
 														</div>
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="false"
+															<input ng-model="form.is_enable" ng-value="true"
 																class="form-check-input" type="radio" id="gridRadios2"
 																value="false" name="is_enable">
 															<label class="form-check-label" for="gridRadios2">
@@ -173,9 +181,9 @@
 													</div>
 												</fieldset>
 												<div class="form-group">
-													<label for="inputDescription">Example textarea</label>
+													<label for="description">Example textarea</label>
 													<textarea ng-model="form.description" class="form-control"
-														id="inputDescription" rows="4" name="description"></textarea>
+														id="description" rows="4" name="description"></textarea>
 												</div>
 											</div>
 											<div class="col-4">
@@ -275,6 +283,7 @@
 				$http.get("/rest/discounts").then(resp => {
 					$scope.discounts = resp.data;
 				})
+				$scope.form.is_enable = false;
 
 			}
 			//Khởi đầu
@@ -308,6 +317,42 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập tên sản phẩm!");
+					return;
+				}
+				if(document.getElementById("price").value == ""){
+					alert("Chưa nhập giá!");
+					return;
+				}
+				if(document.getElementById("quantity").value == ""){
+					alert("Chưa nhập số lượng")
+					return;
+				}
+				if(document.getElementById("weight").value == ""){
+					alert("Chưa nhập khối lượng!");
+					return;
+				}
+				if(document.getElementById("brand").value == ""){
+					alert("Chưa nhập nhãn hiệu!");
+					return;
+				}
+				if(document.getElementById("discount").value == ""){
+					alert("Bạn chưa chọn khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("category").value == ""){
+					alert("Bạn chưa chọn loại mặt hàng!");
+					return;
+				}
+				if(document.getElementById("description").value == ""){
+					alert("Bạn chưa nhập mô tả!");
+					return;
+				}
+				if(document.getElementById("image").value == ""){
+					alert("Bạn chưa chọn hình!");
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.post(`/rest/products`, item).then(resp => {
 					$scope.items.push(resp.data);
@@ -323,6 +368,42 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập tên sản phẩm!");
+					return;
+				}
+				if(document.getElementById("price").value == ""){
+					alert("Chưa nhập giá!");
+					return;
+				}
+				if(document.getElementById("quantity").value == ""){
+					alert("Chưa nhập số lượng")
+					return;
+				}
+				if(document.getElementById("weight").value == ""){
+					alert("Chưa nhập khối lượng!");
+					return;
+				}
+				if(document.getElementById("brand").value == ""){
+					alert("Chưa nhập nhãn hiệu!");
+					return;
+				}
+				if(document.getElementById("discount").value == ""){
+					alert("Bạn chưa chọn khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("category").value == ""){
+					alert("Bạn chưa chọn loại mặt hàng!");
+					return;
+				}
+				if(document.getElementById("description").value == ""){
+					alert("Bạn chưa nhập mô tả!");
+					return;
+				}
+				if(document.getElementById("image").value == ""){
+					alert("Bạn chưa chọn hình!");
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.put(`/rest/products/${item.product_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
@@ -337,11 +418,12 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
+				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.delete(`/rest/products/${item.product_id}`).then(resp => {
+					$http.put(`/rest/products/${item.product_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
-						$scope.items.splice(index, 1);
+						$scope.items[index] = item;
 						$scope.reset();
 						alert("Xóa sản phẩm thành công!");
 					}).catch(error => {

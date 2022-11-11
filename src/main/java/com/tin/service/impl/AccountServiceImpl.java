@@ -156,7 +156,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void deleteLogical(Integer id) {
 		accDao.deleteById(id);
 		
 	}

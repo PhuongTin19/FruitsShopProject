@@ -96,15 +96,15 @@
 										<div class="row">
 											<div class="col-7">
 												<div class="form-group">
-													<label for="inputName">Name</label>
+													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
-														id="inputAddress" name="name" placeholder="Discount Name">
+														id="name" name="name" placeholder="Image Name">
 												</div>
 												
 												
 												<div class="form-group">
-													<label for="inputBrand">Product</label>
-													<select ng-model="form.product.product_id" id="inputproduct"
+													<label for="product">Product</label>
+													<select ng-model="form.product.product_id" id="product"
 														class="form-control" name="product">
 														<option ng-repeat="p in products" ng-value="p.product_id">{{p.name}}
 														</option>
@@ -235,6 +235,18 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập tên ảnh!");
+					return;
+				}
+				if(document.getElementById("product").value == ""){
+					alert("Chưa chọn sản phẩm!");
+					return;
+				}
+				if(document.getElementById("image").value == ""){
+					alert("Chưa chọn ảnh")
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.post(`/rest/images`, item).then(resp => {
 					$scope.items.push(resp.data);

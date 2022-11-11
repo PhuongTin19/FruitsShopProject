@@ -49,7 +49,7 @@ public class AccountRestController {
 	}
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id")Integer id) {
-		accountService.delete(id);
+		accountService.deleteLogical(id);
 	}
 	@GetMapping("/keyword/{keyword}")
 	public List<Account> getMany(@PathVariable("keyword") String keyword) {

@@ -51,7 +51,7 @@ public interface AccountService {
     Page<Account> accountPage(int page);
     Account create(Account account) ;
     Account updateAccountAdmin(Account account) ;
-	void delete(Integer id) ;
+	void deleteLogical(Integer id) ;
 	List<Account> findByKeyword(String keyword);
 }
 

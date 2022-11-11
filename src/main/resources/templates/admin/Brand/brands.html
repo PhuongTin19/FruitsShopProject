@@ -58,9 +58,12 @@
 								<tr class="h5">
 									<th class="align-middle" scope="row">{{item.brand_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
-									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Enable'">
+									<td class="align-middle" ng-if="item.is_enable == false">
+										Is Enable
 									</td>
-									<td class="align-middle" th:if="item.is_enable != false" th:text="'Is Disable'"></td>
+									<td class="align-middle" ng-if="item.is_enable == true">
+										Is Disable
+									</td>
 									<td>
 										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
@@ -93,28 +96,28 @@
 										<div class="row">
 											<div class="col-8">
 												<div class="form-group">
-													<label for="inputName">Name</label>
+													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
-														id="inputAddress" name="name" placeholder="Brand Name">
+														id="name" name="name" placeholder="Brand Name">
 												</div>
 												<fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="true"
+															<input ng-model="form.is_enable" ng-value="false"
 																class="form-check-input" type="radio" id="gridRadios1"
-																ng-checked name="is_enable">
+																checked name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
 																Enable
 															</label>
 														</div>
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="false"
+															<input ng-model="form.is_enable" ng-value="true"
 																class="form-check-input" type="radio" id="gridRadios2"
 																value="false" name="is_enable">
 															<label class="form-check-label" for="gridRadios2">
-																Unenable
+																Disable
 															</label>
 														</div>
 													</div>
@@ -181,6 +184,10 @@
 						//$scope.form.image = "user.png";
 					})
 				});
+				
+				$scope.form = {
+						is_enable: false,
+				}
 
 			}
 			
@@ -214,16 +221,20 @@
 					})
 				});
 			}
-
+			
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập nhập tên thương hiệu!")
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.post(`/rest/brands`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
-					alert("Thêm mới sản phẩm thành công!");
+					alert("Thêm mới thương hiệu thành công!");
 				}).catch(error => {
-					alert("Lỗi thêm mới sản phẩm!");
+					alert("Lỗi thêm mới thương hiệu!");
 					console.log("Error", error);
 				});
 			}
@@ -232,29 +243,34 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập nhập tên thương hiệu!")
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.put(`/rest/brands/${item.brand_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
-					alert("Cập nhật sản phẩm thành công!");
+					alert("Cập nhật thương hiệu thành công!");
 				})
 					.catch(error => {
-						alert("Lỗi cập nhật sản phẩm!");
+						alert("Lỗi cập nhật thương hiệu!");
 						console.log("Error", error);
 					});
 			}
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
+				$scope.form.is_enable = true;
 				var item = angular.copy($scope.form);
-				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.delete(`/rest/brands/${item.brand_id}`).then(resp => {
+				if (confirm("Bạn muốn tắt hoạt động của thương hiệu này?")) {
+					$http.put(`/rest/brands/${item.brand_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
-						$scope.items.splice(index, 1);
+						$scope.items[index] = item;
 						$scope.reset();
-						alert("Xóa sản phẩm thành công!");
+						alert("Tắt thương hiệu thành công!");
 					}).catch(error => {
-						alert("Lỗi xóa sản phẩm!");
+						alert("Lỗi tắt thương hiệu!");
 						console.log("Error", error);
 					})
 				}

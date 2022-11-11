@@ -62,10 +62,12 @@
 									<td class="align-middle">{{item.discount}}</td>
 									<td class="align-middle">{{item.start_time | date:'dd/MM/yyyy'}}</td>
 									<td class="align-middle">{{item.end_time | date:'dd/MM/yyyy'}}</td>
-									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Enable'">
+									<td class="align-middle" ng-if="item.is_enable == false">
+										Is Enable
 									</td>
-									<td class="align-middle" th:if="item.is_enable != false"
-										th:text="'Is Disable'"></td>
+									<td class="align-middle" ng-if="item.is_enable == true">
+										Is Disable
+									</td>
 									<td>
 										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
@@ -98,25 +100,25 @@
 										<div class="row">
 											<div class="col-8">
 												<div class="form-group">
-													<label for="inputName">Name</label>
+													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
-														id="inputAddress" name="name" placeholder="Discount Name">
+														id="name" name="name" placeholder="Discount Name">
 												</div>
 												<div class="form-group">
-													<label for="inputPrice">Discount</label>
+													<label for="discount">Discount</label>
 													<input ng-model="form.discount" type="number" class="form-control"
-														id="inputAddress2" name="price">
+														id="discount" name="price">
 												</div>
 												<div class="form-row">
 													<div class="form-group col-md-6">
-														<label for="inputQuantity">Start time</label>
+														<label for="startTime">Start time</label>
 														<input ng-model="form.start_time" type="date"
-															class="form-control" id="inputQuantity" name="quantity">
+															class="form-control" id="startTime" name="quantity">
 													</div>
 													<div class="form-group col-md-6">
-														<label for="inputWeight">End time</label>
+														<label for="endTime">End time</label>
 														<input ng-model="form.end_time" type="date" 
-															class="form-control" id="inputWeight" name="weight">
+															class="form-control" id="endTime" name="weight">
 													</div>
 												</div>
 												<fieldset class="form-group row">
@@ -124,7 +126,7 @@
 													</legend>
 													<div class="col-sm-8 ml-3">
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="true"
+															<input ng-model="form.is_enable" ng-value="false"
 																class="form-check-input" type="radio" id="gridRadios1"
 																checked name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
@@ -132,11 +134,11 @@
 															</label>
 														</div>
 														<div class="form-check">
-															<input ng-model="form.is_enable" ng-value="false"
+															<input ng-model="form.is_enable" ng-value="true"
 																class="form-check-input" type="radio" id="gridRadios2"
 																value="false" name="is_enable">
 															<label class="form-check-label" for="gridRadios2">
-																Unenable
+																Disable
 															</label>
 														</div>
 													</div>
@@ -205,6 +207,7 @@
 						//$scope.form.image = "user.png";
 					//})
 				});
+				$scope.form.is_enable = false;
 			}
 			//Khởi đầu
 			$scope.initialize();
@@ -237,13 +240,34 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập tên khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("startTime").value == ""){
+					alert("Chưa nhập thời gian bắt đầu!");
+					return;
+				}
+				if(document.getElementById("endTime").value == ""){
+					alert("Chưa nhập thời gian kết thúc")
+					return;
+				}
+				if(document.getElementById("discount").value == ""){
+					alert("Chưa nhập số giá trị khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("discount").value > 100 || 
+						document.getElementById("discount").value < 0){
+					alert("Giá trị của khuyến mãi phải nằm trong 0 - 100%!");
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.post(`/rest/discounts`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
-					alert("Thêm mới sản phẩm thành công!");
+					alert("Thêm mới khuyến mãi thành công!");
 				}).catch(error => {
-					alert("Lỗi thêm mới sản phẩm!");
+					alert("Lỗi thêm mới khuyến mãi!");
 					console.log("Error", error);
 				});
 			}
@@ -252,29 +276,51 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				if(document.getElementById("name").value == ""){
+					alert("Chưa nhập tên khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("startTime").value == ""){
+					alert("Chưa nhập thời gian bắt đầu!");
+					return;
+				}
+				if(document.getElementById("endTime").value == ""){
+					alert("Chưa nhập thời gian kết thúc")
+					return;
+				}
+				if(document.getElementById("discount").value == ""){
+					alert("Chưa nhập số giá trị khuyến mãi!");
+					return;
+				}
+				if(document.getElementById("discount").value > 100 || 
+						document.getElementById("discount").value < 0){
+					alert("Giá trị của khuyến mãi phải nằm trong 0 - 100%!");
+					return;
+				}
 				var item = angular.copy($scope.form);
 				$http.put(`/rest/discounts/${item.discount_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
-					alert("Cập nhật sản phẩm thành công!");
+					alert("Cập nhật khuyến mãi thành công!");
 				})
 					.catch(error => {
-						alert("Lỗi cập nhật sản phẩm!");
+						alert("Lỗi cập nhật khuyến mãi!");
 						console.log("Error", error);
 					});
 			}
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
+				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
-				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.delete(`/rest/discounts/${item.discount_id}`).then(resp => {
+				if (confirm("Bạn muốn ngừng khuyến mãi này?")) {
+					$http.put(`/rest/discounts/${item.discount_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
-						$scope.items.splice(index, 1);
+						$scope.items[index] = item;
 						$scope.reset();
-						alert("Xóa sản phẩm thành công!");
+						alert("Tắt khuyến mãi công!");
 					}).catch(error => {
-						alert("Lỗi xóa sản phẩm!");
+						alert("Lỗi tắt khuyến mãi!");
 						console.log("Error", error);
 					})
 				}
