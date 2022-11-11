@@ -47,7 +47,7 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
+								<tr class="h5">
 									<th class="align-middle" scope="col">Fullname</th>
 									<th class="align-middle" scope="col">Image</th>
 									<th class="align-middle" scope="col">Username</th>
@@ -59,18 +59,18 @@
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr class="h6">
 									<td class="align-middle">{{item.fullname}}</td>
 									<td class="align-middle">
-										<img alt="" th:src="@{|/photos/{{item.image}}|}" style="width: 150px; height: 150px;">
+										<img alt="" th:src="@{|/photos/{{item.image}}|}" style="width: 100px; height: 100px;">
 									</td>
-									<td class="align-middle">{{item.username}}</td>
+									<td  class="align-middle">{{item.username}}</td>
 									<td class="align-middle">{{item.email}}</td>
 									<td class="align-middle">{{item.phone}}</td>
 									<td class="align-middle">{{item.address}}</td>
 									<td class="align-middle">{{item.role.name}}</td>
 									<td>
-										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary mt-4 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 									
@@ -132,7 +132,7 @@
 													<input ng-model="form.address" type="text" class="form-control"
 														id="address" name="address">
 												</div>
-												<fieldset class="form-group row">
+											<!--	<fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
@@ -153,7 +153,7 @@
 															</label>
 														</div>
 													</div>
-												</fieldset>
+												</fieldset>-->
 												<!----><fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Role:
 													</legend>

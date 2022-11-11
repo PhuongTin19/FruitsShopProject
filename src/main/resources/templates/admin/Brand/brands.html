@@ -47,7 +47,7 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
+								<tr class="h5">
 									<th class="align-middle" scope="col">#</th>
 									<th class="align-middle" scope="col">Name</th>
 									<th class="align-middle" scope="col">Status</th>
@@ -55,14 +55,13 @@
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr class="h6">
 									<th class="align-middle" scope="row">{{item.brand_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
-									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Enable'">
-									</td>
-									<td class="align-middle" th:if="item.is_enable != false" th:text="'Is Disable'"></td>
+									<td class="align-middle" th:if="item.is_enable != true" th:text="'Is Enable'"></td>
+									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Disable'"></td>
 									<td>
-										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary mt-4 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 								</tr>
@@ -97,7 +96,7 @@
 													<input ng-model="form.name" type="text" class="form-control"
 														id="inputAddress" name="name" placeholder="Brand Name">
 												</div>
-												<fieldset class="form-group row">
+												<!--<fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
@@ -118,7 +117,7 @@
 															</label>
 														</div>
 													</div>
-												</fieldset>
+												</fieldset>-->
 											</div>
 									<div class="form-row p-2 col-5">
 										<button ng-click="create()" class="btn btn-primary">
