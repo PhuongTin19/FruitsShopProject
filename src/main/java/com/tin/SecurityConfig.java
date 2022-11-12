@@ -53,8 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	        //http.csrf().disable();
-	    	http.cors().and().csrf().disable();
+	        http.csrf().disable();
 	        http.authorizeRequests()
 			    		.antMatchers("/admin/**").hasRole("Admin")
 			    		.antMatchers("/order/**","/cart").authenticated()
@@ -109,8 +108,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                Account account = accountService.findByUsername(username);
 	                String password = account.getPassword();
 	                String roles = account.getRole().getName();
-	                Boolean isEnable = account.getIs_enable();
-		            return User.withUsername(username).password(password).roles(roles).accountLocked(isEnable).build();
+//	                Boolean isEnable = account.getIs_enable();
+		            //return User.withUsername(username).password(password).roles(roles).accountExpired(isEnable).build();
+	                return User.withUsername(username).password(password).roles(roles).build();
 	            } catch (NoSuchElementException e) {
 	                throw new UsernameNotFoundException(username + "Not Found !");
 	            }

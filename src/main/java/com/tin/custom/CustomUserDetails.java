@@ -48,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -73,6 +73,6 @@ public class CustomUserDetails implements UserDetails {
     public Account getAccount(){
         return account;
     }
-
+ 
 
 }

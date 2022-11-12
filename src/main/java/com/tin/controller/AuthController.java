@@ -185,7 +185,7 @@ public class AuthController {
 				account.setPassword(encodedPassword);
 				account.setRole(roleService.findByRoleName("User"));
 				account.setImage("user.png");
-				account.setIs_enable(true);
+				account.setIs_enable(false);
 				account.setReliability(0);
 				account.setProvider(Provider.DATABASE);
 				accountService.createAccount(account);
