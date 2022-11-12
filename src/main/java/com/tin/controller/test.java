@@ -23,7 +23,7 @@ public class test {
 	static HttpSession session;
 	
 
-	
+	//test azure
 	private static final SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static void main(String[] args) {
