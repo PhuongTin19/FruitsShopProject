@@ -50,8 +50,8 @@ public class BrandRestController {
 	public List<Brand> getMany(@PathVariable("keyword") String keyword) {
 		return brandService.findByKeyword(keyword);
 	}
-	@PutMapping("{id}")
-	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Brand brand) {
-		brandService.deleteLogical(id);
-	}
+	/*
+	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
+	 * id,@RequestBody Brand brand) { brandService.deleteLogical(id); }
+	 */
 }

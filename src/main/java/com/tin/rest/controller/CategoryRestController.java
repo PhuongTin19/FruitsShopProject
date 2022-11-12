@@ -52,8 +52,8 @@ public class CategoryRestController {
 	public List<Category> getMany(@PathVariable("keyword") String keyword) {
 		return categoryService.findByKeyword(keyword);
 	}
-	@PutMapping("{id}")
-	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Category category) {
-		categoryService.deleteLogical(id);
-	}
+	/*
+	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
+	 * id,@RequestBody Category category) { categoryService.deleteLogical(id); }
+	 */
 }

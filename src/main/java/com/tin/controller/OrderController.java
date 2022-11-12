@@ -118,7 +118,7 @@ public class OrderController {
 
 	@PostMapping("/thanh-toan")
 	public String pay(HttpServletRequest request, @RequestParam("orderId") String orderId,
-			@RequestParam("price") Double price) {
+			@RequestParam("price") Double price, Model model) {
 		String cancelUrl = "http://localhost:8080/" + URL_PAYPAL_CANCEL;
 		String successUrl = "http://localhost:8080/" + URL_PAYPAL_SUCCESS;
 		try {
@@ -143,7 +143,7 @@ public class OrderController {
 	}
 
 	@GetMapping(URL_PAYPAL_SUCCESS)
-	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+	public String successPay(Model model,@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paymentService.executePayment(paymentId, payerId);
 			Order order = orderService.findById(Integer.parseInt(payment.getTransactions().get(0).getDescription()));
@@ -153,6 +153,7 @@ public class OrderController {
 			if (payment.getState().equals("approved")) {
 				try {
 					userServices.sendMailPurchaseSuccess(order);
+					model.addAttribute("order",order);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

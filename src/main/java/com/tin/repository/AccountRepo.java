@@ -65,8 +65,5 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	
 	@Query(value="update Accounts set is_enable = true where account_id=?", nativeQuery=true)
 	void deleteLogical(Integer id);
-//	@Query(value = "update")
-//	void deleteLogicalById(Integer id);
-	
 }
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tin.entity.Account;
-import com.tin.entity.Brand;
 import com.tin.service.AccountService;
 
 
@@ -55,9 +54,4 @@ public class AccountRestController {
 	public List<Account> getMany(@PathVariable("keyword") String keyword) {
 		return accountService.findByKeyword(keyword);
 	}
-	@PutMapping("{id}")
-	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Account account) {
-		accountService.deleteLogical(id);
-	}
-
 }

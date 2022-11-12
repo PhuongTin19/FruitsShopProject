@@ -52,8 +52,8 @@ public class DiscountRestController {
 	public List<Discount> getMany(@PathVariable("keyword") String keyword) {
 		return discountService.findByKeyword(keyword);
 	}
-	@PutMapping("{id}")
-	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Discount discount) {
-		discountService.deleteLogical(id);
-	}
+	/*
+	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
+	 * id,@RequestBody Discount discount) { discountService.deleteLogical(id); }
+	 */
 }

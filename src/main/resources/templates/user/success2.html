@@ -28,8 +28,8 @@
 </head>
 <body>
 	<!-- ------------------------------ main ------------------------------ -->
-    <main class="main">
-        <div class="payment-success">
+    <main class="main" th:object="${order}">
+        <!-- <div class="payment-success bg-warning">
             <div class="img">
                 <img src="/assets/img/icon-noel/icon-noel-header.png" alt="">
             </div>
@@ -40,7 +40,63 @@
                 <h3>Thanh toán thành công !</h3>
                 <h3><a href="/" class="btn">Trang chủ</a></h3>
             </div>
-        </div>
+        </div> -->
+        <!-- <input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
+		<input style="display:none" type="text" th:value="${order.totalPrice}" name="price"> -->
+           <section class="h-100 h-custom" style="background-color: #c4c4c4;">
+			<div class="container py-5 h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-7">
+						<div class="card card-registration card-registration-2"
+							style="border-radius: 25px;">
+							<div class="card-body p-0">
+								<div class="row g-0">
+									<div class="col-lg-12">
+										<div class="p-5">
+											<!-- product -->
+											<div class="d-flex justify-content-between mb-1">
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-center text-uppercase">Cảm ơn bạn [[${account.fullname}]] đã mua sắm</h3>
+											</div>
+											<hr class="my-4 bg-dark">	
+											<form method="post">
+  												<input style="display:none" type="text">
+												<input style="display:none" type="text">
+  											  <div class="form-group">
+											 	<span class="text-danger">*</span><label class="font-weight-bold">Mã đơn hàng : </label> 
+											    <label th:text="*{order_id}"></label>
+											  </div>
+  											<div class="form-group">
+											    <span class="text-danger">*</span><label>Tên Khách Hàng : </label> 
+											    <label th:text="*{account.fullname}"></label>
+											  </div>
+  											  <div class="form-group">
+											    <span class="text-danger">*</span><label>Số Điện Thoại : </label> 
+											    <label  th:text="*{phone}"></label>
+											  </div>
+  											  <div class="form-group">
+											    <span class="text-danger">*</span><label>Thời gian mua hàng : </label> 
+											    <label th:text="*{orderdate}"></label>
+											  </div>
+  											  <div class="form-group">
+											    <span class="text-danger">*</span><label>Địa chỉ : </label> 
+											    <label th:text="*{address}"></label>
+											  </div>
+											  <div class="form-group">
+											    <label>Ghi Chú Của Bạn : </label>
+											    <label th:text="*{notes}"></label>
+											  </div>
+											  <!--</form>-->
+											  </form>
+											<!-- end product -->
+										</div>
+									</div>
+							</div>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</section>
     </main>
 </body>
 </html>

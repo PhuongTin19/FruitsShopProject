@@ -48,8 +48,8 @@ public class ProductRestController {
 	public List<Product> getMany(@PathVariable("keyword") String keyword) {
 		return productService.findByKeyword(keyword);
 	}
-	@PutMapping("{id}")
-	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Product product) {
-		productService.deleteLogical(id);
-	}
+	/*
+	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
+	 * id,@RequestBody Product product) { productService.deleteLogical(id); }
+	 */
 }
