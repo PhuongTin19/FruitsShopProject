@@ -47,4 +47,8 @@ public interface OrderService {
 	String[][] statsRevenueProductsByCates();
 	
 	String[][] getProductsByCatesFromTo(String from, String to);
+	
+	List<Object[]> detailReceipt();
+	
+	List<Object[]> detailReceiptStatus(String orderStatus);
 }

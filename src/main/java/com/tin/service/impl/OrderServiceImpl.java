@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
 					System.out.println("Đang chạy timer else");
 				}
 			}
-		}, 120000);
+		}, 600000);
 		//
 		try { 
 			userServices.purchaseOrder(order);
@@ -122,29 +122,6 @@ public class OrderServiceImpl implements OrderService {
 	    
 		return order;			
 	}
-
-
-	
-	
-//	@PostMapping("/save")
-//	 public String saveEmployee(@ModelAttribute("employee")
-//	 EmployeeEntity employee,  
-//	 
-//	 @RequestParam(name="g-recaptcha-response") String captcha, Model model) 
-//	 {  
-//		 if(validator.validateCaptcha(captcha))
-//	        {    
-//			 employeeRepository.save(employee); 
-//			 model.addAttribute("employee", new EmployeeEntity());
-//			 model.addAttribute("message", "Employee added!!"); 
-//			 } 
-//		     else { 
-//		    	 model.addAttribute("message", "Please Verify Captcha");
-//		    	 }      
-//		 return "EmployeeRegister"; 
-//	}  
-	
-	
 	
 	@Override
 	public Order findById(Integer id) {
@@ -286,5 +263,19 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return result; 
 	}
+
+	@Override
+	public List<Object[]> detailReceipt() {
+		return orderRepo.detailReceipt();
+	}
+
+	@Override
+	public List<Object[]> detailReceiptStatus(String orderStatus) {
+		return orderRepo.detailReceiptStatus(orderStatus);
+	}
+	
+	
+
+
 
 }

@@ -145,28 +145,41 @@ public class AdminOrderController {
 	}
 	
 	
-	//Xác nhận hoàn thành
-//	@RequestMapping("/admin-successOrder/{id}")
-//	public String adminSuccessOrder(@PathVariable("id") Integer id, Model model,
-//			HttpServletRequest request, Authentication authentication) {
-//		Order order = orderService.findById(id);
-//		order.setOrderStatus("Hoàn thành");
-//		orderService.updateOrder(order);
-//		//
-//		Account account = accountService.findByUsername(request.getRemoteUser());
-//		String username = null;
-//		if (account == null) {
-//			CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
-//			Account accountOauth = accountService.findByEmail(oauth2User.getEmail());
-//			username = accountOauth.getUsername();
-//		} else {
-//			username = account.getUsername();
+	//Chi tiết trạng thái
+	@RequestMapping("/detailReceipt")
+	public String detailReceipt(Model model, HttpServletRequest request, Authentication authentication,
+			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
+		userServices.getUserName(request, authentication);
+		//Danh sách đơn hàng đã đặt
+//		String day1 = request.getParameter("day"); 
+//		String end1 = request.getParameter("end");
+//		model.addAttribute("day",day1);
+//		model.addAttribute("end",end1);
+//		System.out.println(day1);
+//		System.out.println(end1);
+//		Page<Order> orderList ;
+//		if(day1 == null || end1 == null) {
+//			orderList = orderService.findByOrder(Date.valueOf("2022-01-01"),Date.valueOf("2022-12-31"),page-1,10);
+//			model.addAttribute("orders", orderList.getContent());
+//			model.addAttribute("totalPage", orderList.getTotalPages());
+//			model.addAttribute("currentPage", page);
+//		}else {
+//			orderList = orderService.findByOrder(Date.valueOf(day1),Date.valueOf(end1),page-1,10);
+//			model.addAttribute("orders", orderList.getContent());
+//			model.addAttribute("totalPage", orderList.getTotalPages());
+//			model.addAttribute("currentPage", page);
 //		}
-//		model.addAttribute("userRequest", accountService.findByUsername(username));
-//		//Danh sách đơn hàng đã đặt
-//		List<Order> orderList = orderService.findByUsernameList(username);
-//		model.addAttribute("orders", orderList);
-//		return "admin/Order/Order";
-//	}
+		List<Object[]>orderList = orderService.detailReceipt();
+		model.addAttribute("ordersAll", orderList);
+		List<Object[]>orderListStatus1 = orderService.detailReceiptStatus("Chưa thanh toán");
+		model.addAttribute("orderListStatus1", orderListStatus1);
+		List<Object[]>orderListStatus2 = orderService.detailReceiptStatus("Hoàn thành");
+		model.addAttribute("orderListStatus2", orderListStatus2);
+		List<Object[]>orderListStatus3 = orderService.detailReceiptStatus("Đã hủy đơn");
+		model.addAttribute("orderListStatus3", orderListStatus3);
+//		model.addAttribute("totalPage", orderList.getTotalPages());
+//		model.addAttribute("currentPage", page);
+		return "admin/Order/DetailReceipt";
+	}
 	
 }

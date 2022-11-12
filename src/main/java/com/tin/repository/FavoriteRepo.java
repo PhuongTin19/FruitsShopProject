@@ -30,7 +30,7 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 			+ "on f.product_id = p.product_id\r\n"
 			+ "inner join Categories \r\n"
 			+ "on p.category_id = Categories.category_id \r\n"
-			+ "where p.is_enable = 1\r\n"
+			+ "where p.is_enable = 0\r\n"
 			+ "group by p.name,p.price,p.image,p.product_id,Categories.name,Categories.category_id,p.discount_id \r\n"
 			+ "order by count(p.product_id) desc",nativeQuery = true)
 	List<Object[]>listFavorite();

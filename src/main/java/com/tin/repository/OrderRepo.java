@@ -73,6 +73,17 @@ public interface OrderRepo extends JpaRepository<Order, Integer> {
 			+ "			where o.orderStatus = 'Hoàn thành' and o.orderDate between ?1 and ?2\r\n"
 			+ "			group by c.name",nativeQuery = true)
 	String[][] getProductsByCatesFromTo(String from, String to);
+	//Tổng hóa đơn
+	@Query("select o.account.username,COUNT(o.orderStatus) from Order o\r\n"
+			+ "	group by o.account.username,o.account.account_id \r\n"
+			+ "	order by o.account.account_id ASC")
+	List<Object[]> detailReceipt();
+	//Tổng số hóa đơn theo trạng thái
+	@Query("select o.account.username,COUNT(o.orderStatus) from Order o\r\n "
+			+ "where o.orderStatus = ?1"
+			+ "	group by o.account.username,o.account.account_id \r\n"
+			+ "	order by o.account.account_id ASC")
+	List<Object[]> detailReceiptStatus(String orderStatus);
 	// Tổng lượt mua hàng
 //	@Query(value="select count(*) from Orders",nativeQuery=true)
 //	Integer countCustomer();

@@ -10,7 +10,535 @@
   to get the desired effect
   * sidebar-collapse
   * sidebar-mini
+--><!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/admin/fragments :: header">
+
+</head>
+<!--
+`body` tag options:
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+  * sidebar-collapse
+  * sidebar-mini
 -->
+
+<body class="hold-transition sidebar-mini" >
+	<div class="wrapper">
+		<!-- Navbar -->
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+		</nav>
+		<!-- /.navbar -->
+
+		<!-- Main Sidebar Container -->
+		<aside th:replace="/admin/fragments :: sidebar">
+		</aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<!-- WRITE TITLE OF PAGE IN FUTURE -->
+
+
+						</div><!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<!-- WRITE LINK OF PAGE IN FUTURE -->
+
+
+							</ol>
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+			<!-- Main content -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div style="margin-right: 70px; margin-left: 50px" class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-info">
+								<div class="inner">
+									<h3>[[${countOrder}]]</h3>
+									<p>Tổng lượt mua hàng trong ngày</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+
+						<div style="margin-right: 70px" class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-warning">
+								<div class="inner">
+									<h3>[[${countCustomer}]]</h3>
+									<p>Tổng số khách hàng</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-person-add"></i>
+								</div>
+								<a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-danger">
+								<div class="inner">
+									<h3>[[${#numbers.formatDecimal(revenue, 0, 'COMMA', 0, 'POINT')}]]đ</h3>
+									<p>Tổng doanh thu</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-pie-graph"></i>
+								</div>
+								<a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- right col (We are only adding the ID to make the widgets sortable)-->
+						<section class="col-lg-8 connectedSortable">
+							<!-- solid sales graph -->
+							<div class="card">
+								<div class="card-header border-0">
+									<h3 class="card-title">
+										<i class="fas fa-th mr-1"></i>
+										Doanh Thu Tổng
+									</h3>
+									<div class="card-tools">
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
+								</div>
+								<form  class="ml-3" th:action="@{/admin}" method="post">
+									<div class="row">
+										<div class="col">
+											<input th:value="${day}" name="day" type="date" class="form-control">
+										</div>
+										<div class="col">
+											<input th:value="${end}" name="end" type="date" class="form-control">
+										</div>
+										<div class="col">
+											<button class="btn btn-primary" style="height: auto;min-height: 43px;"><i
+													class='bx bx-search-alt'></i>Xác nhận</button>
+										</div>
+									</div>
+								</form>
+								<div class="card-body">
+									<h6 class="m-0 font-weight-bold text-primary" th:text="${text}">Thống kê doanh Thu</h6>
+									<canvas id="canvasChart"
+										style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+								</div>
+						</section>
+						<section class="col-lg-4 connectedSortable">
+							<!-- solid sales graph -->
+							<div class="card">
+								<div class="card-header border-0">
+									<h3 class="card-title">
+										<i class="fas fa-th mr-1"></i>
+										Trạng Thái Đơn Hàng
+									</h3>
+									<div class="card-tools">
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
+								</div>
+								<div class="card-body">
+									<canvas id="circleChart"
+										style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+								<a href="/detailReceipt" class="btn btn-primary">Chi tiết</a>
+								</div>
+								
+						</section>
+					</div>
+					<div class="row" >
+						<section class="col-lg-12 connectedSortable" >
+							<!-- solid sales graph -->
+							<div class="card">
+								<div class="card-header border-0">
+									<h3 class="card-title">
+										<i class="fas fa-th mr-1"></i>
+										Doanh Thu Theo Loại Hàng
+									</h3>
+									<div class="card-tools">
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
+								</div>
+								<form  class="ml-3" th:action="@{/admin}" method="post">
+									<div class="row">
+										<div class="col-3">
+											<input th:value="${dayCates}" name="dayCates" type="date" class="form-control">
+										</div>
+										<div class="col-3">
+											<input th:value="${endCates}" name="endCates" type="date" class="form-control">
+										</div>
+										<div class="col">
+											<button th:attr="onclick='updateFragments()'" class="btn btn-primary" style="height: auto;min-height: 43px;"><i
+													class='bx bx-search-alt'></i> Xác nhận</button>
+										</div>
+									</div>
+								</form>
+								<div class="card-body">
+									<canvas id="barChart"
+										style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+								</div>
+						</section>
+					</div>
+					<div class="row">
+						<section class="col-lg-12 connectedSortable">
+							<!-- solid sales graph -->
+							<div class="card">
+								<div class="card-header border-0">
+									<h3 class="card-title">
+										<i class="fas fa-th mr-1"></i>
+										Hàng Tồn Kho
+									</h3>
+
+									<div class="card-tools">
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
+								</div>
+
+								<div class="card-body">
+									<h3>TỒN KHO THEO LOẠI</h3>
+									<table class="table table-bordered table-striped " border="1" style="width:100%">
+										<tr>
+											<th class="table-dark">Tên hàng</th>
+											<th class="table-dark">Tổng giá</th>
+											<th class="table-dark">Số sản phẩm</th>
+										</tr>
+										<tr th:each="item:${Inventory}">
+											<td>[[${item.group}]]</td>
+											<td>[[${item.sum}]]</td>
+											<td>[[${item.count}]]</td>
+										</tr>
+									</table>
+								</div>
+						</section>
+					</div>
+				</div>
+
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+
+
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	</aside>
+	<!-- /.control-sidebar -->
+
+	<!-- Main Footer -->
+	<footer class="main-footer">
+		<strong>Copyright &copy; 2021-2022 <a href="">Fruits Shop</a>.</strong>
+		All rights reserved.
+		<div class="float-right d-none d-sm-inline-block">
+			<b>Version</b> 3.2.0
+		</div>
+	</footer>
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED SCRIPTS -->
+
+
+	<div th:replace="/admin/fragments :: scripts">
+	</div>
+	<script th:inline="javascript">
+		function number_format(number, decimals, dec_point, thousands_sep) {
+            number = (number + '').replace(',', '').replace(' ', '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+		/*<![CDATA[*/
+		var totalPriceLast6Months = /*[[${chartData}]]*/ 'default';
+		/*]]>*/
+		var arrayLabels = totalPriceLast6Months[0];
+		var arrayData = totalPriceLast6Months[1];
+		// Area Chart Example
+		var ctx = document.getElementById("canvasChart");
+		var myLineChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: arrayLabels,
+				datasets: [{
+					label: 'Doanh thu: ',
+					lineTension: 0.3,
+					backgroundColor: "rgba(78, 115, 223, 0.5)",
+					borderColor: "rgba(78, 115, 223, 1)",
+					pointRadius: 3,
+					pointBackgroundColor: "rgba(78, 115, 223, 1)",
+					pointBorderColor: "rgba(78, 115, 223, 1)",
+					pointHoverRadius: 3,
+					pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+					pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+					pointHitRadius: 10,
+					pointBorderWidth: 2,
+					data: arrayData,
+				}],
+			},
+			options: {
+				maintainAspectRatio: false,
+				layout: {
+					padding: {
+						left: 10,
+						right: 25,
+						top: 25,
+						bottom: 0
+					}
+				},
+				scales: {
+					xAxes: [{
+						time: {
+							unit: 'date'
+						},
+						gridLines: {
+							display: false,
+							drawBorder: false
+						},
+						ticks: {
+							maxTicksLimit: 7
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							maxTicksLimit: 5,
+							padding: 10,
+							// Include a dollar sign in the ticks
+							callback: function (value, index, values) {
+								return value.toLocaleString("vi-VN", {
+									style: "currency",
+									currency: "VND"
+								});
+								// 	              return number_format(value)+'đ' ;
+							}
+						},
+						gridLines: {
+							color: "rgb(234, 236, 244)",
+							zeroLineColor: "rgb(234, 236, 244)",
+							drawBorder: false,
+							borderDash: [2],
+							zeroLineBorderDash: [2]
+						}
+					}],
+				},
+				legend: {
+					display: false
+				},
+				tooltips: {
+					backgroundColor: "rgb(255,255,255)",
+					bodyFontColor: "#858796",
+					titleMarginBottom: 10,
+					titleFontColor: '#6e707e',
+					titleFontSize: 14,
+					borderColor: '#dddfeb',
+					borderWidth: 1,
+					xPadding: 15,
+					yPadding: 15,
+					displayColors: false,
+					intersect: false,
+					mode: 'index',
+					caretPadding: 10,
+
+					callbacks: {
+						label: function (tooltipItem, chart) {
+							var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+							return datasetLabel + ':' + number_format(tooltipItem.yLabel) + 'đ';
+						}
+					}
+				}
+			}
+		});
+	</script>
+	<!-- BIỂU ĐỒ TRÒN -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var statsOrderStatus = /*[[${statsOrderStatus}]]*/ 'default';
+		/*]]>*/
+		var arrayLabels = statsOrderStatus[0];
+		var arrayData = statsOrderStatus[1];
+		// Area Chart Example
+		var ctx = document.getElementById("circleChart");
+		var myLineChart = new Chart(ctx, {
+			type: 'doughnut',
+			data: {
+				labels:arrayLabels,
+				  datasets: [{
+				    label: 'Doanh thu',
+				    data: arrayData,
+				    backgroundColor: [
+				      'rgb(255, 205, 86)',
+				      'rgb(255, 99, 132)',
+				      'rgb(102, 255, 102)'
+				    ],
+				  }]
+			},
+			
+		});
+	</script>
+	<!-- BIỂU ĐỒ CỘT -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var statsRevenueProductsByCates = /*[[${statsRevenueProductsByCates}]]*/ 'default';
+		/*]]>*/
+		var arrayLabels = statsRevenueProductsByCates[0];
+		var arrayData = statsRevenueProductsByCates[1];
+		// Area Chart Example
+		var ctx = document.getElementById("barChart");
+		var myLineChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: arrayLabels,
+				datasets: [{
+					label: 'Doanh thu: ',
+					lineTension: 0.3,
+					backgroundColor: [
+							"rgba(78, 115, 223, 0.5)",
+							"rgb(153, 255, 187)",
+							"rgb(255, 153, 255)",
+							"rgb(255, 255, 153)",
+							"rgb(0, 255, 255)",
+							"rgb(255, 230, 238)"
+					],
+					borderColor: "rgba(78, 115, 223, 1)",
+					pointRadius: 3,
+					pointBackgroundColor: "rgba(78, 115, 223, 1)",
+					pointBorderColor: "rgba(78, 115, 223, 1)",
+					pointHoverRadius: 3,
+					pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+					pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+					pointHitRadius: 10,
+					pointBorderWidth: 2,
+					data: arrayData,
+				}],
+			},
+			options: {
+				maintainAspectRatio: false,
+				layout: {
+					padding: {
+						left: 10,
+						right: 25,
+						top: 25,
+						bottom: 0
+					}
+				},
+				scales: {
+					xAxes: [{
+						time: {
+							unit: 'date'
+						},
+						gridLines: {
+							display: false,
+							drawBorder: false
+						},
+						ticks: {
+							maxTicksLimit: 7
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							maxTicksLimit: 5,
+							padding: 10,
+							// Include a dollar sign in the ticks
+							callback: function (value, index, values) {
+								return value.toLocaleString("vi-VN", {
+									style: "currency",
+									currency: "VND"
+								});
+								// 	              return number_format(value)+'đ' ;
+							}
+						},
+						gridLines: {
+							color: "rgb(234, 236, 244)",
+							zeroLineColor: "rgb(234, 236, 244)",
+							drawBorder: false,
+							borderDash: [2],
+							zeroLineBorderDash: [2]
+						}
+					}],
+				},
+				legend: {
+					display: false
+				},
+				tooltips: {
+					backgroundColor: "rgb(255,255,255)",
+					bodyFontColor: "#858796",
+					titleMarginBottom: 10,
+					titleFontColor: '#6e707e',
+					titleFontSize: 14,
+					borderColor: '#dddfeb',
+					borderWidth: 1,
+					xPadding: 15,
+					yPadding: 15,
+					displayColors: false,
+					intersect: false,
+					mode: 'index',
+					caretPadding: 10,
+
+					callbacks: {
+						label: function (tooltipItem, chart) {
+							var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+							return datasetLabel + ':' + number_format(tooltipItem.yLabel) + 'đ';
+						}
+					}
+				}
+			}
+			
+		});
+	</script>
+</body>
+
+</html>
 
 <body class="hold-transition sidebar-mini" >
 	<div class="wrapper">
