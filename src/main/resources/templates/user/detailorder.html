@@ -107,9 +107,12 @@
 												<a th:if="${order.orderStatus == 'Đã hủy đơn'}" class="btn btn-danger w-100 h-25 text-dark font-weight-bold" >ĐÃ HỦY ĐƠN</a>
 											</div>
 											<div>
-												<button th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-info w-100 h-25 text-white font-weight-bold" >THANH TOÁN PAYPAL</button>
-											</div>																						
-										</div>
+												<button th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-warning text-white"
+													style="width:30%;margin-left:400px;margin-top:10px">
+													THANH TOÁN PAYPAL
+												</button>
+												<!--<button th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 2}" type="submit" class="btn btn-info w-100 h-25 text-white font-weight-bold" >THANH TOÁN PAYPAL</button>-->											
+											</div>
 										</form>
 									</div>
 								</div>

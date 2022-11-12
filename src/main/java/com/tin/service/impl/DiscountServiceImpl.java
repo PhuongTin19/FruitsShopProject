@@ -67,4 +67,9 @@ public class DiscountServiceImpl implements DiscountService{
 	public List<Discount> findByKeyword(String keyword) {
 		return discountRepo.findByKeyword(keyword);
 	}
+
+	@Override
+	public void deleteLogical(Integer id) {
+		discountRepo.deleteLogical(id);
+	}
 }

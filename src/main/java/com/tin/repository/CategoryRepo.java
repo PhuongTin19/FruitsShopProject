@@ -30,4 +30,7 @@ public interface CategoryRepo extends JpaRepository<Category,Integer> {
 	
 	@Query(value = "select c from Category c where c.name like %?1%")
 	List<Category> findByKeyword(String keyword);
+	
+	@Query(value="update Categories set is_enable = true where category_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

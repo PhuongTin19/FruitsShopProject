@@ -55,6 +55,11 @@ public class BrandServiceImpl implements BrandService{
 	public List<Brand> findByKeyword(String keyword) {
 		return brandRepo.findByKeyword(keyword);
 	}
+
+	@Override
+	public void deleteLogical(Integer id) {
+		brandRepo.deleteLogical(id);
+	}
 	
 //	@Override
 //	public Brand findByBrandId(Integer id) {

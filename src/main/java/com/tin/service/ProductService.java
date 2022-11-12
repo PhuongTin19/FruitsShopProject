@@ -42,7 +42,7 @@ public interface ProductService {
 	
 	void updateQuantity(Integer newQuantity, Integer productId);
 	
-	
+
 	/*ADMIN*/
 	void save(Product product);
 	
@@ -54,5 +54,7 @@ public interface ProductService {
 
 	void delete(Integer id) ;
 	
+	void deleteLogical(Integer id);
+
 	List<Product> findByKeyword(String keyword);
 }

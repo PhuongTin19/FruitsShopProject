@@ -21,7 +21,8 @@ public interface BlogService {
 	List<Blog>ListNewBlogsHomePage();
 	void save(Blog blog);
 	Page<Blog> blogPages(int page);
-	
+	//
+	void deleteLogical(Integer id);
 	List<Blog> findAllByAdmin();
 	/************************************/
 	

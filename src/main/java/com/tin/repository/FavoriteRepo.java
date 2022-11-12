@@ -49,4 +49,7 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	//Like
 	@Query(value = "insert into favorites(account_id,product_id,likedate) values(?1,?2,?3)",nativeQuery = true)
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
+	
+	@Query(value="update Favorites set is_enable = true where avorite_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

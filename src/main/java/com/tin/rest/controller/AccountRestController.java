@@ -55,5 +55,9 @@ public class AccountRestController {
 	public List<Account> getMany(@PathVariable("keyword") String keyword) {
 		return accountService.findByKeyword(keyword);
 	}
+	@PutMapping("{id}")
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Account account) {
+		accountService.deleteLogical(id);
+	}
 
 }

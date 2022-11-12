@@ -14,11 +14,15 @@ import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import com.tin.repository.PayMentRepo;
 import com.tin.service.PaymentService;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
-
+	
+	@Autowired
+	PayMentRepo paymentRepo;
+	
 	@Autowired
 	private APIContext apiContext;
 	 
@@ -62,4 +66,9 @@ public class PaymentServiceImpl implements PaymentService{
 		return payment.execute(apiContext, paymentExecute);
 	}
 
+	@Override
+	public void deleteLogical(Integer id) {
+		paymentRepo.deleteLogical(id);
+	}
+	
 }

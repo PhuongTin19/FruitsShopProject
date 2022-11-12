@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tin.entity.Account;
 import com.tin.entity.Blog;
 import com.tin.entity.Brand;
 import com.tin.service.BlogService;
@@ -46,5 +47,10 @@ public class BlogRestController {
 	@GetMapping("/keyword/{keyword}")
 	public List<Blog> getMany(@PathVariable("keyword") String keyword) {
 		return blogService.findByKeyword(keyword);
+	}
+	
+	@PutMapping("{id}")
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Blog blog) {
+		blogService.deleteLogical(id);
 	}
 }

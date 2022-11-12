@@ -27,5 +27,7 @@ public interface BlogRepo extends JpaRepository<Blog,Integer> {
 	@Query(value = "select b from Blog b where b.title like %?1%")
 	List<Blog> findByKeyword(String keyword);
 	
+	@Query(value="update Blogs set is_enable = true where blog_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 
 }

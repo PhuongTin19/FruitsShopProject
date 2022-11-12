@@ -91,5 +91,10 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<Category> findByKeyword(String keyword) {
 		return categoryRepo.findByKeyword(keyword);
 	}
+
+	@Override
+	public void deleteLogical(Integer id) {
+		categoryRepo.deleteLogical(id);
+	}
 	
 }

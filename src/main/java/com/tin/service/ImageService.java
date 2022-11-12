@@ -20,5 +20,5 @@ public interface ImageService {
 	
 	List<Images> findByKeyword(String keyword);
 	
-	
+	void deleteLogical(Integer id);
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tin.custom.UserServices;
+import com.tin.entity.Brand;
 import com.tin.entity.Order;
 import com.tin.service.OrderService;
 import com.tin.service.ProductService;
@@ -42,9 +44,5 @@ public class OrderRestController {
 	@PostMapping()
 	public Order purchase(@RequestBody JsonNode orderData) {
 		return orderService.create(orderData);
-		
 	}
-	
-	
-	
 }

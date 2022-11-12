@@ -30,4 +30,7 @@ public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	
 	@Query(value = "select a from Discount a where a.name like %?1%")
 	List<Discount> findByKeyword(String keyword);
+	
+	@Query(value="update Discounts set is_enable = true where discount_id?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

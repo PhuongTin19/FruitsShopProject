@@ -21,4 +21,7 @@ public interface BrandRepo extends JpaRepository<Brand,Integer> {
 	
 	@Query(value = "select b from Brand b where b.name like %?1%")
 	List<Brand> findByKeyword(String keyword);
+	
+	@Query(value="update Brands set is_enable = true where brand_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

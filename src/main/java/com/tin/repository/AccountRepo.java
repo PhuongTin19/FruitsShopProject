@@ -18,8 +18,6 @@ import com.tin.entity.Provider;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Account,Integer> {
-
-	
 	//Tìm Email
 	public Account findByEmail(String email);
   
@@ -65,6 +63,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	@Query(value = "select a from Account a where a.username like %?1%")
 	List<Account> findByKeyword(String keyword);
 	
+	@Query(value="update Accounts set is_enable = true where account_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 //	@Query(value = "update")
 //	void deleteLogicalById(Integer id);
 	

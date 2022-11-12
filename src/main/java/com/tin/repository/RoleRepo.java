@@ -16,5 +16,6 @@ public interface RoleRepo extends JpaRepository<Role,Integer> {
 	@Query("SELECT u FROM Role u WHERE u.name = ?1")
     Role findByRoleName(String roleName);
 
-
+	@Query(value="update Roles set is_enable = true where role_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

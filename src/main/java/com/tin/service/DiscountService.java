@@ -24,5 +24,5 @@ public interface DiscountService {
 	Discount update(Discount discount);
 	void delete(int id);
 	List<Discount> findByKeyword(String keyword);
-	
+	void deleteLogical(Integer id);
 }

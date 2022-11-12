@@ -20,4 +20,7 @@ public interface ImageRepo extends JpaRepository<Images,Integer> {
 	
 	@Query(value = "select i from Images i where i.name like %?1%")
 	List<Images> findByKeyword(String keyword);
+	
+	@Query(value="update Images set is_enable = true where image_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

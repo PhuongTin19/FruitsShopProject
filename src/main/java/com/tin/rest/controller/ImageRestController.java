@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tin.entity.Brand;
 import com.tin.entity.Images;
 import com.tin.service.ImageService;
 
@@ -46,5 +47,9 @@ public class ImageRestController {
 	@GetMapping("/keyword/{keyword}")
 	public List<Images> getMany(@PathVariable("keyword") String keyword) {
 		return imageService.findByKeyword(keyword);
+	}
+	@PutMapping("{id}")
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Images images) {
+		imageService.deleteLogical(id);
 	}
 }

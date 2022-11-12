@@ -14,4 +14,6 @@ public interface PaymentService {
 			String description,
 			String cancelUrl,
 			String successUrl) throws PayPalRESTException;
+	
+	void deleteLogical(Integer id);
 }

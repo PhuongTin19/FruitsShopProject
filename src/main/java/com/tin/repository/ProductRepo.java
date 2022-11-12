@@ -89,4 +89,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	
 	@Query(value = "select p from Product p where p.name like %?1%")
 	List<Product> findByKeyword(String keyword);
+	
+	@Query(value="update Products set is_enable = true where product_id=?", nativeQuery=true)
+	void deleteLogical(Integer id);
 }

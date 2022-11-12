@@ -80,4 +80,9 @@ public class BlogServiceImpl implements BlogService{
 	public List<Blog> findByKeyword(String keyword) {
 		return blogRepo.findByKeyword(keyword);
 	}
+	@Override
+	public void deleteLogical(Integer id) {
+		blogRepo.deleteLogical(id);
+		
+	}
 }

@@ -139,4 +139,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findByKeyword(String keyword) {
 		return productRepo.findByKeyword(keyword);
 	}
+
+	@Override
+	public void deleteLogical(Integer id) {
+		productRepo.deleteLogical(id);
+	}
 }

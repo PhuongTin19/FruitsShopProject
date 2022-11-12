@@ -50,4 +50,9 @@ public class ImageServiceImpl implements ImageService{
 		return imageRepo.findByKeyword(keyword);
 	}
 
+	@Override
+	public void deleteLogical(Integer id) {
+		imageRepo.deleteLogical(id);
+	}
+
 }

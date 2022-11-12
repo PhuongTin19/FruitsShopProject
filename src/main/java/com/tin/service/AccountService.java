@@ -40,7 +40,8 @@ public interface AccountService {
     void updateProviderType(String username, Provider provider);
     //
     void update(Account account) throws Exception;
-
+    //
+    void deleteLogical(Integer id);
     /*ADMIN*/
     List<Account> findAll();
     void save(Account account);
@@ -51,7 +52,6 @@ public interface AccountService {
     Page<Account> accountPage(int page);
     Account create(Account account) ;
     Account updateAccountAdmin(Account account) ;
-	void deleteLogical(Integer id) ;
 	List<Account> findByKeyword(String keyword);
 }
 

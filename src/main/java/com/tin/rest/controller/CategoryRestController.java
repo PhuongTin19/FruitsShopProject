@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tin.entity.Brand;
 import com.tin.entity.Category;
 import com.tin.entity.Product;
 import com.tin.service.CategoryService;
@@ -50,5 +51,9 @@ public class CategoryRestController {
 	@GetMapping("/keyword/{keyword}")
 	public List<Category> getMany(@PathVariable("keyword") String keyword) {
 		return categoryService.findByKeyword(keyword);
+	}
+	@PutMapping("{id}")
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Category category) {
+		categoryService.deleteLogical(id);
 	}
 }
