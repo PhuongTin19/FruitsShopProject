@@ -47,7 +47,7 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
+								<tr class="h5">
 									<th class="align-middle" scope="col">#</th>
 									<th class="align-middle" scope="col">Name</th>
 									<th class="align-middle" scope="col">Image</th>
@@ -56,16 +56,16 @@
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr class="h6">
 									<th class="align-middle" scope="row">{{item.image_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="align-middle">
 										<img alt="" th:src="@{|/user/img/product/{{item.name}}|}"
-											style="width: 150px; height: 150px;">
+											style="width: 100px; height: 100px;">
 									</td>
 									<td class="align-middle">{{item.product.name}}</td>
 									<td>
-										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary mt-4 align-center" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 								</tr>
