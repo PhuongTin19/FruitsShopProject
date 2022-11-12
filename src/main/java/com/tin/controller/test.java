@@ -29,23 +29,5 @@ public class test {
 	public static void main(String[] args) {
 		
 	}
-	@RequestMapping("/checkout")
-	public String test5() {
-		return "user/checkout";
-	}
-
-	@RequestMapping("/contact")
-	public String test8() {
-		return "user/contact";
-	}
-
-	@RequestMapping("/detailorder")
-	public String test12() {
-		return "user/detailorder";
-	}
-	@RequestMapping("/listorder")
-	public String test13() {
-		return "user/listorder";
-	}
 
 }
