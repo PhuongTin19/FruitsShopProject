@@ -10,6 +10,4 @@ import com.tin.entity.Payment_Methods;
 @Repository
 public interface PayMentRepo extends JpaRepository<Payment_Methods,Integer> {
 	
-	@Query(value="update Payment_methods set is_enable = true where payment_method_id=?", nativeQuery=true)
-	void deleteLogical(Integer id);
 }

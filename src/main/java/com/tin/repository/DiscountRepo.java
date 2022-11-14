@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +23,7 @@ public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	void updateDiscountById(Integer id, String name, Double Discount, Date start_time, 
 			Date end_time, Boolean is_enable);
 	
-	@Query(value = "select d from Discount d where d.is_enable = true")
+	@Query(value = "select d from Discount d where d.is_enable = false")
 	List<Discount> findByIsEnable();
 	
 	@Query(value = "select d from Discount d where d.discount_id = ?1")
@@ -31,6 +32,11 @@ public interface DiscountRepo extends JpaRepository<Discount,Integer> {
 	@Query(value = "select a from Discount a where a.name like %?1%")
 	List<Discount> findByKeyword(String keyword);
 	
-	@Query(value="update Discounts set is_enable = true where discount_id?", nativeQuery=true)
+	@Modifying
+	@Query(value="update Discounts set is_enable = 1 where discount_id = ?", nativeQuery=true)
 	void deleteLogical(Integer id);
+	
+	@Modifying
+	@Query(value="update Discounts set is_enable = 0 where discount_id = ?", nativeQuery=true)
+	void updateLogical(Integer id);
 }

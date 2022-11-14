@@ -47,7 +47,7 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
+								<tr class="h5">
 									<th class="align-middle" scope="col">#</th>
 									<th class="align-middle" scope="col">Name</th>
 									<th class="align-middle" scope="col">Image</th>
@@ -62,12 +62,11 @@
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr class="h6">
 									<th class="align-middle" scope="row">{{item.product_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="align-middle">
-										<img alt="" th:src="@{|/user/img/product/{{item.image}}|}"
-											style="width: 150px; height: 150px;">
+										<img alt="" th:src="@{|/photos/products/{{item.image}}|}" style="width: 100px; height: 100px;">
 									</td>
 									<td class="align-middle">{{item.quantity}}</td>
 									<td class="align-middle">{{item.weight}}</td>
@@ -75,14 +74,14 @@
 									<td class="align-middle">{{item.brand.name}}</td>
 									<td class="align-middle">{{item.category.name}}</td>
 									<td class="align-middle">{{item.discount.name}}</td>
-									<td class="align-middle" ng-if="item.is_enable == false">
+									<td class="badge badge-success" style="margin-top:40px" ng-if="item.is_enable == false">
 										Is Enable
 									</td>
-									<td class="align-middle" ng-if="item.is_enable == true">
+									<td class="badge badge-danger" style="margin-top:40px" ng-if="item.is_enable == true">
 										Is Disable
 									</td>
 									<td>
-										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary align-center" style="margin-top:28px" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 								</tr>
@@ -106,12 +105,17 @@
 							<!-- general form elements -->
 							<div id="form" class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">User Details</h3>
+									<h3 class="card-title">Product Details</h3>
 								</div>
 								<form >
 									<div class="card-body">
 										<div class="row">
 											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="name">ID</label>
+													<input ng-model="form.product_id" type="text" class="form-control"
+														id="product_id" name="product_id" placeholder="Product Name">
+												</div>
 												<div class="form-group">
 													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
@@ -158,7 +162,7 @@
 															{{c.name}}</option>
 													</select>
 												</div>
-												<fieldset class="form-group row">
+												<fieldset style="display:none" class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
@@ -192,7 +196,7 @@
 													<div class="card-body box-profile">
 														<div class="text-center">
 															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
-															<img ng-src="{{'/user/img/product/' + form.image}}"
+															<img ng-src="{{'/photos/products/' + form.image}}"
 																style="max-width:100%;" height="200px">
 														</div>
 														<input type="file" class="form-control" id="image"
@@ -213,14 +217,17 @@
 										</div>
 									</div>
 									<div class="form-row p-2">
-										<button ng-click="create()" class="btn btn-primary">
+										<button ng-if="form.is_enable==null" ng-click="create()" class="btn btn-primary mr-3">
 											<b class="glyphicon glyphicon-plus"></b>Create
 										</button>
-										<button ng-click="update()" class="btn btn-success">
+										<button ng-if="form.is_enable!=null" ng-click="update()" class="btn btn-warning mr-3">
 											<b class="glyphicon glyphicon-save"></b>Update
 										</button>
-										<button ng-click="delete()" class="btn btn-danger">
+										<button ng-if="form.is_enable==false" ng-click="delete()" class="btn btn-danger mr-3">
 											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-if="form.is_enable==true" ng-click="updateLogical()" class="btn btn-success mr-3">
+											<b class="glyphicon glyphicon-trash"></b>Enable
 										</button>
 										<button ng-click="reset()" class="btn btn-info">
 											<b class="glyphicon glyphicon-refresh"></b>Reset
@@ -270,20 +277,20 @@
 				$http.get("/rest/products").then(resp => {
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
-						//$scope.form.image = "user.png";
+						$scope.form.image = "user.png";
+						$scope.form.discount.discount_id = 5;
 					})
 				});
 				//load categories trong combobox form admin
-				$http.get("/rest/categories").then(resp => {
+				$http.get("/rest/categories/enable").then(resp => {
 					$scope.cates = resp.data;
 				})
-				$http.get("/rest/brands").then(resp => {
+				$http.get("/rest/brands/enable").then(resp => {
 					$scope.brands = resp.data;
 				})
-				$http.get("/rest/discounts").then(resp => {
+				$http.get("/rest/discounts/enable").then(resp => {
 					$scope.discounts = resp.data;
 				})
-				$scope.form.is_enable = false;
 
 			}
 			//Khởi đầu
@@ -300,7 +307,6 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
 					image: "user.png"
 				}
 			}
@@ -317,47 +323,59 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name ){
+		             	alert("Sản phẩm này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập tên sản phẩm!");
 					return;
-				}
-				if(document.getElementById("price").value == ""){
+				}else if(document.getElementById("price").value == ""){
 					alert("Chưa nhập giá!");
 					return;
-				}
-				if(document.getElementById("quantity").value == ""){
+				}else if(document.getElementById("price").value < 1){
+					alert("Giá không hợp lệ");
+					return;
+				}else if(document.getElementById("quantity").value == ""){
 					alert("Chưa nhập số lượng")
 					return;
-				}
-				if(document.getElementById("weight").value == ""){
+				}else if(document.getElementById("quantity").value < 0){
+					alert("Số lượng không hợp lệ")
+					return;
+				}else if(document.getElementById("weight").value == ""){
 					alert("Chưa nhập khối lượng!");
 					return;
-				}
-				if(document.getElementById("brand").value == ""){
+				}else if(document.getElementById("weight").value < 0){
+					alert("Khối lượng chưa hợp lệ!");
+					return;
+				}else if(document.getElementById("brand").selectedIndex < 0){
 					alert("Chưa nhập nhãn hiệu!");
 					return;
-				}
-				if(document.getElementById("discount").value == ""){
+				}else if(document.getElementById("discount").selectedIndex < 0){
 					alert("Bạn chưa chọn khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("category").value == ""){
+				}else if(document.getElementById("category").selectedIndex < 0){
 					alert("Bạn chưa chọn loại mặt hàng!");
 					return;
-				}
-				if(document.getElementById("description").value == ""){
+				}else if(document.getElementById("description").value == ""){
 					alert("Bạn chưa nhập mô tả!");
 					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
-				if(document.getElementById("image").value == ""){
+				/*if(document.getElementById("image").value == ""){
 					alert("Bạn chưa chọn hình!");
 					return;
-				}
-				var item = angular.copy($scope.form);
+				}*/
+				
 				$http.post(`/rest/products`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
 					alert("Thêm mới sản phẩm thành công!");
+					location.reload();
 				}).catch(error => {
 					alert("Lỗi thêm mới sản phẩm!");
 					console.log("Error", error);
@@ -368,47 +386,49 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name && $scope.form.product_id != $scope.items[i].product_id ){
+		             	alert("Sản phẩm này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập tên sản phẩm!");
 					return;
-				}
-				if(document.getElementById("price").value == ""){
+				}else if(document.getElementById("price").value == ""){
 					alert("Chưa nhập giá!");
 					return;
-				}
-				if(document.getElementById("quantity").value == ""){
+				}else if(document.getElementById("quantity").value == ""){
 					alert("Chưa nhập số lượng")
 					return;
-				}
-				if(document.getElementById("weight").value == ""){
+				}else if(document.getElementById("weight").value == ""){
 					alert("Chưa nhập khối lượng!");
 					return;
-				}
-				if(document.getElementById("brand").value == ""){
+				}else if(document.getElementById("brand").selectedIndex < 0){
 					alert("Chưa nhập nhãn hiệu!");
 					return;
-				}
-				if(document.getElementById("discount").value == ""){
+				}else if(document.getElementById("discount").selectedIndex < 0){
 					alert("Bạn chưa chọn khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("category").value == ""){
+				}else if(document.getElementById("category").selectedIndex < 0){
 					alert("Bạn chưa chọn loại mặt hàng!");
 					return;
-				}
-				if(document.getElementById("description").value == ""){
+				}else if(document.getElementById("description").value == ""){
 					alert("Bạn chưa nhập mô tả!");
 					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
-				if(document.getElementById("image").value == ""){
-					alert("Bạn chưa chọn hình!");
-					return;
-				}
-				var item = angular.copy($scope.form);
+				//if(document.getElementById("image").value == ""){
+				//	alert("Bạn chưa chọn hình!");
+				//	return;
+				//}
 				$http.put(`/rest/products/${item.product_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
 					alert("Cập nhật sản phẩm thành công!");
+					location.reload();
 				})
 					.catch(error => {
 						alert("Lỗi cập nhật sản phẩm!");
@@ -418,14 +438,31 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
-				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.put(`/rest/products/${item.product_id}`, item).then(resp => {
+					$http.put(`/rest/products/deleteLogical/${item.product_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
 						$scope.reset();
 						alert("Xóa sản phẩm thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi xóa sản phẩm!");
+						console.log("Error", error);
+					})
+				}
+			}
+			
+			//Cập nhật tình trạng
+			$scope.updateLogical = function (item) {
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn khôi phục sản phẩm này?")) {
+					$http.put(`/rest/products/updateLogical/${item.product_id}`, item).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items[index] = item;
+						$scope.reset();
+						alert("Khôi phục sản phẩm thành công!");
+						location.reload();
 					}).catch(error => {
 						alert("Lỗi xóa sản phẩm!");
 						console.log("Error", error);
@@ -452,7 +489,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

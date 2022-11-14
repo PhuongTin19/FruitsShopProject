@@ -3,6 +3,8 @@ package com.tin.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -81,8 +83,14 @@ public class BlogServiceImpl implements BlogService{
 		return blogRepo.findByKeyword(keyword);
 	}
 	@Override
+	@Transactional
 	public void deleteLogical(Integer id) {
 		blogRepo.deleteLogical(id);
 		
+	}
+	@Override
+	@Transactional
+	public void updateLogical(Integer id) {
+		blogRepo.updateLogical(id);
 	}
 }

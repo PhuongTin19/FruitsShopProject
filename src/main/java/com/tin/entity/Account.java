@@ -61,22 +61,23 @@ public class Account implements Serializable{
 	private String email;
  
 	
-	@Transient
-    public String getPhotosImagePath() {
-        if (image == null || username == null) {
-            return "/dashboard/img/user.png";
-        }else if(image.equals("") || image.equals("user.png")){
-            return "/dashboard/img/user.png";
-        }
-        else if(provider == null || provider.equals(Provider.DATABASE) || provider.equals(Provider.FACEBOOK)){
-            return "/photos/" + username + "/" + image;
-        }
-        else if(provider.equals(Provider.GOOGLE)){
-            return image;
-        }
-
-        return "/photos/" + username + "/" + image;
-    }
+//	@Transient
+//    public String getPhotosImagePath() {
+//        if (image == null || username == null) {
+//            return "/dashboard/img/user.png";
+//        }else if(image.equals("") || image.equals("user.png")){
+//            return "/dashboard/img/user.png";
+//        }
+//        else if(provider == null || provider.equals(Provider.DATABASE) || provider.equals(Provider.FACEBOOK)){
+//            return "/photos/" + username + "/" + image;
+//        }
+//        else if(provider.equals(Provider.GOOGLE)){
+//            return image;
+//        }
+//
+//       // return "/photos/" + username + "/" + image;
+//        return "/photos/" +  image;
+//    }
 	
 	 
 	@Column(name = "image")

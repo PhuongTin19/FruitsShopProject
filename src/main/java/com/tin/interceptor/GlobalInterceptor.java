@@ -69,7 +69,7 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		//Hiển thị đậu mới nhất - Trang Khuyến Mãi
 		request.setAttribute("listBean", productService.findAllProduct(3));
 		//
-		request.setAttribute("cates",categoryService.findAll());
+		request.setAttribute("cates",categoryService.FillterListCate());
 		//load sản phẩm được yêu thích
 		request.setAttribute("countLike", favoriteService.countLike(request.getRemoteUser()));
 		//load sản phẩm được yêu thích gg/fb

@@ -49,8 +49,12 @@ public class BlogRestController {
 		return blogService.findByKeyword(keyword);
 	}
 	
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Blog blog) { blogService.deleteLogical(id); }
-	 */
+	 @PutMapping("/deleteLogical/{id}") 
+	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Blog blog) { 
+		 blogService.deleteLogical(id); 
+	 }
+	 @PutMapping("/updateLogical/{id}") 
+	 public void updateLogical(@PathVariable("id")Integer id,@RequestBody Blog blog) { 
+		 blogService.updateLogical(id);
+	 }
 }

@@ -60,7 +60,7 @@
 									<th class="align-middle" scope="row">{{item.image_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="align-middle">
-										<img alt="" th:src="@{|/user/img/product/{{item.name}}|}"
+										<img alt="" th:src="@{|/photos/products/{{item.name}}|}"
 											style="width: 100px; height: 100px;">
 									</td>
 									<td class="align-middle">{{item.product.name}}</td>
@@ -94,14 +94,17 @@
 								<form >
 									<div class="card-body">
 										<div class="row">
-											<div class="col-7">
-												<div class="form-group">
+											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="name">ID</label>
+													<input ng-model="form.image_id" type="text" class="form-control"
+														id="image_id" name="image_id" placeholder="Image Name">
+												</div>
+												<div style="display:none" class="form-group">
 													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
 														id="name" name="name" placeholder="Image Name">
 												</div>
-												
-												
 												<div class="form-group">
 													<label for="product">Product</label>
 													<select ng-model="form.product.product_id" id="product"
@@ -110,14 +113,14 @@
 														</option>
 													</select>
 												</div>
-												
-											<div class="col-5">
+											</div>
+											<div class="col-4">
 												<!---->
 												<div class="card card-primary card-outline">
 													<div class="card-body box-profile">
 														<div class="text-center">
 															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
-															<img ng-src="{{'/user/img/product/' + form.name}}"
+															<img ng-src="{{'/photos/products/' + form.name}}"
 																style="max-width:100%;" height="200px">
 														</div>
 														<input type="file" class="form-control" id="image"
@@ -138,13 +141,13 @@
 										</div>
 									</div>
 									<div class="form-row p-2">
-										<button ng-click="create()" class="btn btn-primary">
+										<button ng-if="form.image_id==null" ng-click="create()" class="btn btn-primary mr-3">
 											<b class="glyphicon glyphicon-plus"></b>Create
 										</button>
-										<button ng-click="update()" class="btn btn-success">
+										<button ng-if="form.image_id!=null" ng-click="update()" class="btn btn-warning mr-3">
 											<b class="glyphicon glyphicon-save"></b>Update
 										</button>
-										<button ng-click="delete()" class="btn btn-danger">
+										<button ng-if="form.image_id!=null" ng-click="delete()" class="btn btn-danger mr-3">
 											<b class="glyphicon glyphicon-trash"></b>Delete
 										</button>
 										<button ng-click="reset()" class="btn btn-info">
@@ -195,11 +198,11 @@
 				$http.get("/rest/images").then(resp => {
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
-						//$scope.form.image = "user.png";
+						$scope.form.name = "user.png";
 					})
 				});
 				//load categories trong combobox form admin
-				$http.get("/rest/products").then(resp => {
+				$http.get("/rest/products/enable").then(resp => {
 					$scope.products = resp.data;
 				})
 
@@ -218,8 +221,7 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
-					image: "user.png"
+					name: "user.png"
 				}
 			}
 
@@ -235,19 +237,24 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
-				if(document.getElementById("name").value == ""){
-					alert("Chưa nhập tên ảnh!");
-					return;
-				}
-				if(document.getElementById("product").value == ""){
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name){
+		             	alert("Ảnh này đã tồn tại");
+		               	return;
+		             }
+	            }
+				if(document.getElementById("product").selectedIndex < 0){
 					alert("Chưa chọn sản phẩm!");
 					return;
 				}
-				if(document.getElementById("image").value == ""){
+				/*else if(document.getElementById("image").value == ""){
 					alert("Chưa chọn ảnh")
 					return;
+				}*/
+				else{
+					var item = angular.copy($scope.form);
 				}
-				var item = angular.copy($scope.form);
+				
 				$http.post(`/rest/images`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
@@ -262,7 +269,23 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
-				var item = angular.copy($scope.form);
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name && $scope.form.image_id != $scope.items[i].image_id){
+		             	alert("Ảnh này đã tồn tại");
+		               	return;
+		             }
+	            }
+				if(document.getElementById("product").selectedIndex < 0){
+					alert("Chưa chọn sản phẩm!");
+					return;
+				}
+			/*	else if(document.getElementById("image").value == ""){
+					alert("Chưa chọn ảnh")
+					return;
+				}*/
+				else{
+					var item = angular.copy($scope.form);
+				}
 				$http.put(`/rest/images/${item.image_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
@@ -278,7 +301,7 @@
 			$scope.delete = function (item) {
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa sản phẩm này?")) {
-					$http.delete(`/rest/images/${item.image_id}`).then(resp => {
+					$http.delete(`/rest/images/deleteLogical/${item.image_id}`).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items.splice(index, 1);
 						$scope.reset();
@@ -298,7 +321,7 @@
 					transformRequest: angular.identity,
 					headers: {'Content-Type': undefined}
 				}).then(resp => {
-					$scope.form.image = resp.data.name;
+					$scope.form.name = resp.data.name;
 				}).catch(error => {
 					alert("Lỗi upload hình ảnh");
 					console.log("Error", error);
@@ -309,7 +332,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

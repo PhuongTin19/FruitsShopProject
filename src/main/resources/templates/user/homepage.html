@@ -62,7 +62,7 @@
 								<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}">
 									<h6>[[${#strings.capitalizeWords(p.name)}]]</h6>
 								</a>
-								<h5 class="text-danger">[[${#numbers.formatInteger(p.price - ((p.discount.discount * p.price)/100),3,'POINT')}]]<sup>đ</sup>
+								<h5  class="text-danger">[[${#numbers.formatInteger(p.price - ((p.discount.discount * p.price)/100),3,'POINT')}]]<sup>đ</sup>
 									<th:block th:unless="${p.discount.discount==0}">
 										<strike class="text-dark ml-3">[[${#numbers.formatInteger(p.price,3,'POINT')}]]<sup>đ</sup></strike>
 									</th:block>

@@ -35,7 +35,7 @@ public class UploadRestController {
 	
 	@PostMapping("/rest/upload/{folder}")
 	public JsonNode upload(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
-		String uploadDir = "C:\\Users\\USUS\\eclipse-workspace\\FruitsShopProject2\\src\\main\\resources\\static\\user\\img\\product\\" ;
+		String uploadDir = "/photos/products/" ;
 		String fileName = file.getOriginalFilename();
 		Path uploadPath = Paths.get(uploadDir);
 
@@ -90,7 +90,7 @@ public class UploadRestController {
 	
 	@PostMapping("/rest/upload/blog/{folder}")
 	public JsonNode upload3(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) throws IOException {
-		String uploadDir = "C:\\Users\\USUS\\eclipse-workspace\\FruitsShopProject2\\src\\main\\resources\\static\\user\\img\\blog" ;
+		String uploadDir = "/photos/blogs/" ;
 		String fileName = file.getOriginalFilename();
 		Path uploadPath = Paths.get(uploadDir);
 
@@ -105,7 +105,7 @@ public class UploadRestController {
 			e.printStackTrace();
 		}
 		//
-		File savedFile = uploadService.saveImageAccount(file, folder);
+		File savedFile = uploadService.saveImageBlog(file, folder);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.createObjectNode();
 		

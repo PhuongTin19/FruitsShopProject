@@ -20,6 +20,9 @@ import com.tin.entity.Report;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
+	@Query("SELECT p FROM Product p WHERE p.quantity > 0 and is_enable = 0")
+	List<Product> findProductEnable();
+	
 	@Query("SELECT p FROM Product p WHERE p.category.category_id=?1")
 	List<Product> findByCategoryId(Integer cid);
 
@@ -44,15 +47,15 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	Page<Product> filterByCate(Integer id, Pageable pageable);
 
 	// Sản phẩm mới nhất - Trang chủ
-	@Query(value = "select TOP 3 * from Products order by createdDate desc", nativeQuery = true)
+	@Query(value = "select TOP 3 * from Products where is_enable = 0 order by createdDate desc", nativeQuery = true)
 	List<Product> productHomepage();
 
 	// top4 sản phẩm liên quan để hiển thị ở trang detail
-	@Query(value = "select TOP 4 * from Products where category_id = ?", nativeQuery = true)
+	@Query(value = "select TOP 4 * from Products where category_id = ? and is_enable = 0", nativeQuery = true)
 	List<Product> FindByIdTop4(Integer cid);
 
 	// Tìm kiểm theo keyword
-	@Query(value = "select * from products where name like ?1", nativeQuery = true)
+	@Query(value = "select * from products where name like ?1 and is_enable = 0", nativeQuery = true)
 	List<Product> searchByKeyword(String name);
 
 	// Top sản phẩm nổi bật - Trang chủ
@@ -67,7 +70,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	@Query(value = "select TOP 3 p.name,p.price,p.image,p.product_id,p.category_id,d.discount,count(od.product_id) "
 			+ "from Products p\r\n" + "inner join Oder_details od\r\n" + "on od.product_id = p.product_id\r\n"
 			+ "inner join Discounts d\r\n" + "on d.discount_id = p.discount_id\r\n"
-			+ "group by p.name,p.price,p.image,p.product_id,p.category_id,d.discount\r\n"
+			+ " where p.is_enable = 0 group by p.name,p.price,p.image,p.product_id,p.category_id,d.discount\r\n"
 			+ "order by count(od.product_id) desc", nativeQuery = true)
 	List<Object[]> countMostBuys();
 
@@ -90,6 +93,11 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	@Query(value = "select p from Product p where p.name like %?1%")
 	List<Product> findByKeyword(String keyword);
 	
-	@Query(value="update Products set is_enable = true where product_id=?", nativeQuery=true)
+	@Modifying
+	@Query(value="update Products set is_enable = 1 where product_id=?", nativeQuery=true)
 	void deleteLogical(Integer id);
+	
+	@Modifying
+	@Query(value="update Products set is_enable = 0 where product_id=?", nativeQuery=true)
+	void updateLogical(Integer id);
 }

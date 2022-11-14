@@ -41,7 +41,15 @@ public class AccountServiceImpl implements AccountService {
     //Cập nhật Tài Khoản
     @Override
     public Account updateAccount(Account account) {
-        return AccountRepo.save(account);
+		Account a = accDao.findById(account.getAccount_id()).get();
+    	boolean checkPassword = account.getPassword().equals(a.getPassword());
+    	if(checkPassword) {
+    		account.setPassword(a.getPassword());
+    		return AccountRepo.save(account);
+    	}else {
+    		 account.setPassword(bcrypt.encode(account.getPassword()));
+    		 return AccountRepo.save(account);
+    	}  
     }
     
     //Xác định mã code của account
@@ -156,6 +164,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteLogical(Integer id) {
 		accDao.deleteLogical(id);
 	}
@@ -174,5 +183,16 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional
 	public void updateReliability(Integer reliability, String username) {
 		accDao.updateReliability(reliability, username);
+	}
+
+	@Override
+	@Transactional
+	public void updateLogical(Integer id) {
+		accDao.updateLogical(id);
+	}
+
+	@Override
+	public List<Account> findAllEnable() {
+		return accDao.findAllEnable();
 	}
 }

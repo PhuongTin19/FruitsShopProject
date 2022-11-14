@@ -2,6 +2,8 @@ package com.tin.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,10 @@ public class BrandServiceImpl implements BrandService{
 	private BrandRepo brandRepo; 
 
 //	/*ADMIN*/
-//	@Override
-//	public List<Brand> findAllByIsEnable() {
-//		return brandRepo.findAllByIsEnable();
-//	}
+	@Override
+	public List<Brand> findAllByIsEnable() {
+		return brandRepo.findAllByIsEnable();
+	}
 	
 	@Override
 	public List<Brand> findAll() {
@@ -57,8 +59,15 @@ public class BrandServiceImpl implements BrandService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteLogical(Integer id) {
 		brandRepo.deleteLogical(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateLogical(Integer id) {
+		brandRepo.updateLogical(id);
 	}
 	
 //	@Override

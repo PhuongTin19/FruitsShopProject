@@ -30,6 +30,12 @@ public class BrandRestController {
 	public List<Brand> findAll() {
 		return brandService.findAll();
 	}
+	
+	@GetMapping("/enable")
+	public List<Brand> findAllEnable() {
+		return brandService.findAllByIsEnable();
+	}
+	
 	@GetMapping("{id}")
 	public Brand getOne(@PathVariable("id")Integer id) {
 		return brandService.findByBrandId(id);
@@ -50,8 +56,13 @@ public class BrandRestController {
 	public List<Brand> getMany(@PathVariable("keyword") String keyword) {
 		return brandService.findByKeyword(keyword);
 	}
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Brand brand) { brandService.deleteLogical(id); }
-	 */
+	 @PutMapping("/deleteLogical/{id}") 
+	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Brand brand) { 
+		 brandService.deleteLogical(id); 
+	}
+	 @PutMapping("/updateLogical/{id}") 
+	 public void updateLogical(@PathVariable("id")Integer id,@RequestBody Brand brand) { 
+		 brandService.updateLogical(id); 
+	}
+
 }

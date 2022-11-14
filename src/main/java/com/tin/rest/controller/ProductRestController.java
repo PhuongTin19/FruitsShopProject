@@ -28,6 +28,12 @@ public class ProductRestController {
 	public List<Product> getAll() {
 		return productService.findAll();
 	}
+	
+	@GetMapping("/enable")
+	public List<Product> getAllEnable() {
+		return productService.findProductEnable();
+	}
+
 	@GetMapping("{id}")
 	public Product getOne(@PathVariable("id")Integer id) {
 		return productService.findById(id);
@@ -48,8 +54,13 @@ public class ProductRestController {
 	public List<Product> getMany(@PathVariable("keyword") String keyword) {
 		return productService.findByKeyword(keyword);
 	}
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Product product) { productService.deleteLogical(id); }
-	 */
+	@PutMapping("/deleteLogical/{id}") 
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Product product) { 
+		productService.deleteLogical(id); 
+	}
+	
+	@PutMapping("/updateLogical/{id}") 
+	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Product product) { 
+		productService.updateLogical(id); 
+	}
 }

@@ -3,6 +3,7 @@ package com.tin.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,11 @@ public interface BrandRepo extends JpaRepository<Brand,Integer> {
 	@Query(value = "select b from Brand b where b.name like %?1%")
 	List<Brand> findByKeyword(String keyword);
 	
-	@Query(value="update Brands set is_enable = true where brand_id=?", nativeQuery=true)
+	@Modifying
+	@Query(value="update Brands set is_enable = 1 where brand_id=?", nativeQuery=true)
 	void deleteLogical(Integer id);
+	
+	@Modifying
+	@Query(value="update Brands set is_enable = 0 where brand_id=?", nativeQuery=true)
+	void updateLogical(Integer id);
 }

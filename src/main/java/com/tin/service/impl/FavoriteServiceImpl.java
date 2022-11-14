@@ -49,11 +49,5 @@ public class FavoriteServiceImpl implements FavoriteService{
 	}
 
 
-	@Override
-	public void deleteLogical(Integer id) {
-		favoriteRepo.deleteLogical(id);
-	}
-
-
 	
 }

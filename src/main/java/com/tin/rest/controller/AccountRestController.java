@@ -30,6 +30,12 @@ public class AccountRestController {
 	public List<Account> getAll() {
 		return accountService.findAll();
 	}
+	
+	@GetMapping("/enable")
+	public List<Account> getAllEnable() {
+		return accountService.findAllEnable();
+	}
+	
 	@GetMapping("{id}")
 	public Account getOne(@PathVariable("id")Integer id) {
 		return accountService.findById(id);
@@ -42,13 +48,15 @@ public class AccountRestController {
 	}
 	@PutMapping("{id}")
 	public Account update(@PathVariable("id")Integer id,@RequestBody Account account) {
-		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-		account.setPassword(bcrypt.encode(account.getPassword()));
 		return accountService.updateAccount(account);
 	}
-	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id")Integer id) {
+	@PutMapping("/deleteLogical/{id}")
+	public void delete(@PathVariable("id")Integer id,@RequestBody Account account) {
 		accountService.deleteLogical(id);
+	}
+	@PutMapping("/updateLogical/{id}")
+	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Account account) {
+		accountService.updateLogical(id);
 	}
 	@GetMapping("/keyword/{keyword}")
 	public List<Account> getMany(@PathVariable("keyword") String keyword) {

@@ -11,7 +11,7 @@ public interface BrandService {
 
 	/*ADMIN*/
 
-	//List<Brand> findAllByIsEnable();
+	List<Brand> findAllByIsEnable();
 	List<Brand> findAll();
 	void save(Brand brand);
 	//Brand findByBrandId(Integer id);
@@ -21,4 +21,5 @@ public interface BrandService {
 	void delete(int id);
 	List<Brand> findByKeyword(String keyword);
 	void deleteLogical(Integer id);
+	void updateLogical(Integer id);
 }

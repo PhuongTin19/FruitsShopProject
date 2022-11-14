@@ -8,7 +8,5 @@ public interface RoleService {
 	
 	Role findByRoleName(String roleName);
 	
-	void deleteLogical(Integer id);
-
 	List<Role> findAll();
 }

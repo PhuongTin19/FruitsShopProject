@@ -26,34 +26,47 @@ public class CategoryRestController {
 
 	@Autowired
 	CategoryService categoryService;
-	
+
 	@GetMapping
 	public List<Category> findAll() {
 		return categoryService.findAll();
 	}
 	
+	@GetMapping("/enable")
+	public List<Category> findAllEnable() {
+		return categoryService.FillterListCate();
+	}
+
 	@GetMapping("{id}")
-	public Category getOne(@PathVariable("id")Integer id) {
+	public Category getOne(@PathVariable("id") Integer id) {
 		return categoryService.findById(id);
 	}
+
 	@PostMapping
 	public Category create(@RequestBody Category category) {
 		return categoryService.create(category);
 	}
+
 	@PutMapping("{id}")
-	public Category update(@PathVariable("id")Integer id,@RequestBody Category category) {
+	public Category update(@PathVariable("id") Integer id, @RequestBody Category category) {
 		return categoryService.update(category);
 	}
+
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id")Integer id) {
+	public void delete(@PathVariable("id") Integer id) {
 		categoryService.delete(id);
 	}
+
 	@GetMapping("/keyword/{keyword}")
 	public List<Category> getMany(@PathVariable("keyword") String keyword) {
 		return categoryService.findByKeyword(keyword);
 	}
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Category category) { categoryService.deleteLogical(id); }
-	 */
+	 @PutMapping("/deleteLogical/{id}") 
+	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Category category) {
+		 categoryService.deleteLogical(id); 
+	 }
+	 @PutMapping("/updateLogical/{id}") 
+	 public void updateLogical(@PathVariable("id")Integer id,@RequestBody Category category) {
+		 categoryService.updateLogical(id); 
+	 }
 }

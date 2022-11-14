@@ -23,5 +23,6 @@ public interface CategoryService {
 	void delete(Integer id);
 	List<Category> findByKeyword(String keyword);
 	void deleteLogical(Integer id);
+	void updateLogical(Integer id);
 
 }

@@ -25,8 +25,4 @@ public class RoleServiceImpl implements RoleService{
 		return roleRepo.findAll();
 	}
 
-	@Override
-	public void deleteLogical(Integer id) {
-		roleRepo.deleteLogical(id);
-	}
 }

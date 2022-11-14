@@ -41,8 +41,9 @@ public interface AccountService {
     //
     void update(Account account) throws Exception;
     //
-    void deleteLogical(Integer id);
     /*ADMIN*/
+    void deleteLogical(Integer id);
+    
     List<Account> findAll();
     void save(Account account);
     Account findById(Integer id);
@@ -53,6 +54,8 @@ public interface AccountService {
     Account create(Account account) ;
     Account updateAccountAdmin(Account account) ;
 	List<Account> findByKeyword(String keyword);
+	void updateLogical(Integer id);
+	List<Account> findAllEnable();
 }
 
 

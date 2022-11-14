@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
 					System.out.println("Đang chạy timer else");
 				}
 			}
-		}, 600000);
+		}, 120000);
 		//
 		try { 
 			userServices.purchaseOrder(order);

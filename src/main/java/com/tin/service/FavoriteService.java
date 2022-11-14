@@ -19,6 +19,4 @@ public interface FavoriteService {
 	Integer countLike(String username);
 	
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
-	
-	void deleteLogical(Integer id);
 }

@@ -70,14 +70,14 @@
 									<td class="align-middle">{{item.phone}}</td>
 									<td class="align-middle">{{item.address}}</td>
 									<td class="align-middle">{{item.role.name}}</td>
-									<td class="align-middle" ng-if="item.is_enable == false" >
+									<td class="badge badge-success mt-5" ng-if="item.is_enable == false" >
 										Is Enable
 									</td>
-									<td class="align-middle" ng-if="item.is_enable == true" >
+									<td class="badge badge-danger mt-5" ng-if="item.is_enable == true" >
 										Is Disable
 									</td>
 									<td>
-										<a class="btn btn-primary mt-4 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary align-center" style="margin-top:35px" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 									
@@ -108,21 +108,25 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-8">
-
+												<div style="display:none" class="form-group">
+													<label for="inputPrice">Id</label>
+													<input ng-model="form.account_id" type="text" class="form-control"
+														 name="account_id" id="account_id">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">Username</label>
+													<input ng-model="form.username" type="text" class="form-control"
+														 name="username" id="username">
+												</div>				
 												<div class="form-group">
 													<label for="inputName">Password</label>
-													<input ng-model="form.password"  type="text" class="form-control"
+													<input  type="password" class="form-control"
 														id="password" >
 												</div>
 												<div class="form-group">
 													<label for="inputName">Fullname</label>
 													<input ng-model="form.fullname" type="text" class="form-control"
 														 name="fullname" id="fullname">
-												</div>
-												<div class="form-group">
-													<label for="inputPrice">Username</label>
-													<input ng-model="form.username" type="text" class="form-control"
-														 name="username" id="username">
 												</div>
 												<div class="form-group">
 														<label for="inputQuantity">Email</label>
@@ -139,13 +143,13 @@
 													<input ng-model="form.address" type="text" class="form-control"
 														id="address" name="address">
 												</div>
-											<!--	<fieldset class="form-group row">
+											<!---->	<fieldset style="display:none" class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
 														<div class="form-check">
 															<input ng-model="form.is_enable" ng-value="false"
-																class="form-check-input" type="radio" id="gridRadios1"
+																class="form-check-input" type="radio" 
 																name="is_enable">
 															<label class="form-check-label" for="gridRadios1">
 																Enable
@@ -153,14 +157,14 @@
 														</div>
 														<div class="form-check">
 															<input ng-model="form.is_enable" ng-value="true"
-																class="form-check-input" type="radio" id="gridRadios2"
+																class="form-check-input" type="radio" 
 																 name="is_enable">
 															<label class="form-check-label" for="gridRadios2">
 																Disable
 															</label>
 														</div>
 													</div>
-												</fieldset>-->
+												</fieldset>
 												<!----><fieldset class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Role:
 													</legend>
@@ -168,14 +172,14 @@
 														<div class="form-check">
 															<input ng-model="form.role.role_id" ng-value="2"
 																class="form-check-input" type="radio" id="gridRadios1"
-																ng-checked="true" name="role">
+																 name="role">
 															<label class="form-check-label" for="gridRadios1">
 																User
 															</label>
 														</div>
 														<div class="form-check">
 															<input ng-model="form.role.role_id" ng-value="1"
-																class="form-check-input" type="radio" id="gridRadios1"
+																class="form-check-input" type="radio" id="gridRadios2"
 																checked name="role">
 															<label class="form-check-label" for="gridRadios1">
 																Admin
@@ -212,14 +216,17 @@
 										</div>
 									</div>
 									<div class="form-row p-2">
-										<button ng-click="create()" class="btn btn-primary">
+										<button ng-if="form.is_enable==null" ng-click="create()" class="btn btn-primary mr-3">
 											<b class="glyphicon glyphicon-plus"></b>Create
 										</button>
-										<button ng-click="update()" class="btn btn-success">
+										<button ng-if="form.is_enable!=null" ng-click="update()" class="btn btn-warning mr-3">
 											<b class="glyphicon glyphicon-save"></b>Update
 										</button>
-										<button ng-click="delete()" class="btn btn-danger">
+										<button ng-if="form.is_enable==false" ng-click="delete()" class="btn btn-danger mr-3">
 											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-if="form.is_enable==true" ng-click="updateLogical()" class="btn btn-success mr-3">
+											<b class="glyphicon glyphicon-trash"></b>Enable
 										</button>
 										<button ng-click="reset()" class="btn btn-info">
 											<b class="glyphicon glyphicon-refresh"></b>Reset
@@ -269,11 +276,9 @@
 				$http.get("/rest/accounts").then(resp => {
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
-						//$scope.form.image = "user.png";
+						$scope.form.image = "user.png";
 					})
 				});
-				
-				$scope.form.is_enable = false;
 			}
 			//Khởi đầu
 			$scope.initialize();
@@ -293,8 +298,8 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
-					image: "user.png"
+					image: "user.png",
+					//role_id = 1
 				}
 			}
 
@@ -310,40 +315,72 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
-				var item = angular.copy($scope.form);
+				var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				 for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.username == $scope.items[i].username){
+		             	alert("Username này đã tồn tại");
+		               	return;
+		             }else if($scope.form.email == $scope.items[i].email){
+		             	alert("Email này đã tồn tại");
+		               	return;
+		             }else if($scope.form.phone == $scope.items[i].phone){
+		             	alert("Số điện thoại này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("username").value == ""){
 					alert("Chưa nhập username");
 					return;
-				}
-				if(document.getElementById("password").value == ""){
+				}else if(document.getElementById("username").value.length < 5){
+					alert("Username phải ít nhất 5 kí tự");
+					return;
+				}else if(document.getElementById("password").value == ""){
 					alert("Chưa nhập password");
 					return;
-				}
-				if(document.getElementById("fullname").value == ""){
+				}else if(document.getElementById("password").value.length < 6){
+					alert("Password quá ngắn");
+					return;
+				}else if(document.getElementById("fullname").value == ""){
 					alert("Chưa nhập họ tên")
 					return;
-				}
-				if(document.getElementById("phone").value == ""){
-					alert("Chưa nhập số điện thoại");
-					return;
-				}
-				if(document.getElementById("address").value == ""){
-					alert("Chưa nhập địa chỉ");
-					return;
-				}
-				if(document.getElementById("email").value == ""){
+				}else if(document.getElementById("email").value == ""){
 					alert("Chưa nhập email");
 					return;
+				}else if(!document.getElementById("email").value.match(mailformat)){
+					alert("Email không hợp lệ");
+					return;
+				}else if(document.getElementById("phone").value == ""){
+					alert("Chưa nhập số điện thoại");
+					return;
+				}else if(!document.getElementById("phone").value.match(/^\d{10}$/)){
+					alert("Số điện thoại không hợp lệ");
+					return;
+				}else if(document.getElementById("address").value == ""){
+					alert("Chưa nhập địa chỉ");
+					return;
+				}else if(document.getElementById("gridRadios1").checked === false && document.getElementById("gridRadios2").checked === false){
+					alert("Chọn vai trò");
+					return;
 				}
-				/*if(document.getElementById("image").value == ""){
+				/*else if(document.getElementById("image").value == ""){
 					alert("Chưa chọn hình");
 					return;
 				}*/
+				else{
+					$scope.form.password = document.getElementById("password").value;
+					$scope.form.is_enable = false;
+					//$scope.form.image = "user.png";
+					var item = angular.copy($scope.form);
+				}
+				/*
+				*/
+				 
 				$http.post(`/rest/accounts`, item).then(resp => {
-					$scope.items.push(resp.data);
-					$scope.reset();
-					alert("Thêm mới người dùng thành công!");
-				}).catch(error => {
+	            		$scope.items.push(resp.data);
+						$scope.reset();
+						alert("Thêm mới người dùng thành công!");
+						location.reload();
+	        	}).catch(error => {
 					alert("Lỗi thêm mới người dùng!");
 					console.log("Error", error);
 				});
@@ -353,39 +390,72 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				 for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.username == $scope.items[i].username && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Username này đã tồn tại");
+		               	return;
+		             }else if($scope.form.email == $scope.items[i].email && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Email này đã tồn tại");
+		               	return;
+		             }else if($scope.form.phone == $scope.items[i].phone && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Số điện thoại này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("username").value == ""){
 					alert("Chưa nhập username");
 					return;
-				}
-				if(document.getElementById("password").value == ""){
-					alert("Chưa nhập password");
+				}else if(document.getElementById("username").value.length < 5){
+					alert("Username phải ít nhất 5 kí tự");
 					return;
-				}
-				if(document.getElementById("fullname").value == ""){
+				}else if(document.getElementById("password").value.length >= 1 && document.getElementById("password").value.length < 6){
+					alert("Password quá ngắn");
+					return;
+				}else if(document.getElementById("fullname").value == ""){
 					alert("Chưa nhập họ tên")
 					return;
-				}
-				if(document.getElementById("phone").value == ""){
-					alert("Chưa nhập số điện thoại");
-					return;
-				}
-				if(document.getElementById("address").value == ""){
-					alert("Chưa nhập địa chỉ");
-					return;
-				}
-				if(document.getElementById("email").value == ""){
+				}else if(document.getElementById("email").value == ""){
 					alert("Chưa nhập email");
 					return;
+				}else if(!document.getElementById("email").value.match(mailformat)){
+					alert("Email không hợp lệ");
+					return;
+				}else if(document.getElementById("phone").value == ""){
+					alert("Chưa nhập số điện thoại");
+					return;
+				}else if(!document.getElementById("phone").value.match(/^\d{10}$/)){
+					alert("Số điện thoại không hợp lệ");
+					return;
+				}else if(document.getElementById("address").value == ""){
+					alert("Chưa nhập địa chỉ");
+					return;
+				}else if(document.getElementById("gridRadios1").checked === false && document.getElementById("gridRadios2").checked === false){
+					alert("Chọn vai trò");
+					return;
 				}
-				/*if(document.getElementById("image").value == ""){
+			/*	else if(document.getElementById("image").value == ""){
 					alert("Chưa chọn hình");
 					return;
 				}*/
+				else{
+					if(document.getElementById("password").value == ""){
+						$scope.form.is_enable = false;
+						//$scope.form.image = "user.png";
+						var item = angular.copy($scope.form);
+					}else{
+						$scope.form.password = document.getElementById("password").value;
+						$scope.form.is_enable = false;
+						//$scope.form.image = "user.png";
+						var item = angular.copy($scope.form);
+					}
+				}
 				var item = angular.copy($scope.form);
 				$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
 					alert("Cập nhật người dùng thành công!");
+					location.reload();
 				})
 					.catch(error => {
 						alert("Lỗi cập nhật người dùng!");
@@ -395,23 +465,40 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
-				
-				$scope.form.is_enable = true
+				//$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa người dùng này?")) {
-					$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
+					$http.put(`/rest/accounts/deleteLogical/${item.account_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
 						$scope.reset();
-						alert("Tắt trạng thái hoạt động người dùng thành công!");
+						alert("Xóa người dùng thành công!");
 						location.reload();
 					}).catch(error => {
-						alert("Lỗi tắt hoạt động người dùng!");
+						alert("Người dùng hiện đang sử dụng dịch vụ!");
 						console.log("Error", error);
 					})
 				}
 			}
 
+			//Cập nhật tình trạng
+			$scope.updateLogical = function (item) {
+				//$scope.form.is_enable = true;
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn khôi phục người dùng này?")) {
+					$http.put(`/rest/accounts/updateLogical/${item.account_id}`, item).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items[index] = item;
+						$scope.reset();
+						alert("Khôi phục người dùng thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi bật hoạt động người dùng!");
+						console.log("Error", error);
+					})
+				}
+			}
+				
 			//Upload hình
 			$scope.imageChanged = function (files) {
 				var data = new FormData();
@@ -431,7 +518,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

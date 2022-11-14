@@ -58,14 +58,14 @@
 								<tr class="h5">
 									<th class="align-middle" scope="row">{{item.brand_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
-									<td class="align-middle" ng-if="item.is_enable == false">
+									<td class="badge badge-success mt-4" ng-if="item.is_enable == false">
 										Is Enable
 									</td>
-									<td class="align-middle" ng-if="item.is_enable == true">
+									<td class="badge badge-danger mt-4" ng-if="item.is_enable == true">
 										Is Disable
 									</td>
 									<td>
-										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary align-center" style="margin-top:15px" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 								</tr>
@@ -89,18 +89,23 @@
 							<!-- general form elements -->
 							<div id="form" class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">User Details</h3>
+									<h3 class="card-title">Brand Details</h3>
 								</div>
 								<form >
 									<div class="card-body">
 										<div class="row">
 											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="name">ID</label>
+													<input ng-model="form.brand_id" type="text" class="form-control"
+														id="brand_id" name="brand_id" placeholder="Brand Name">
+												</div>
 												<div class="form-group">
 													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
 														id="name" name="name" placeholder="Brand Name">
 												</div>
-												<fieldset class="form-group row">
+												<fieldset style="display:none" class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
@@ -123,20 +128,23 @@
 													</div>
 												</fieldset>
 											</div>
-									<div class="form-row p-2 col-5">
-										<button ng-click="create()" class="btn btn-primary">
-											<b class="glyphicon glyphicon-plus"></b>Create
-										</button>
-										<button ng-click="update()" class="btn btn-success">
-											<b class="glyphicon glyphicon-save"></b>Update
-										</button>
-										<button ng-click="delete()" class="btn btn-danger">
-											<b class="glyphicon glyphicon-trash"></b>Delete
-										</button>
-										<button ng-click="reset()" class="btn btn-info">
-											<b class="glyphicon glyphicon-refresh"></b>Reset
-										</button>
-									</div>
+										<div class="form-row p-2 col-5">
+											<button ng-if="form.is_enable==null" ng-click="create()" class="btn btn-primary mr-3">
+												<b class="glyphicon glyphicon-plus"></b>Create
+											</button>
+											<button ng-if="form.is_enable!=null" ng-click="update()" class="btn btn-warning mr-3">
+												<b class="glyphicon glyphicon-save"></b>Update
+											</button>
+											<button ng-if="form.is_enable==false" ng-click="delete()" class="btn btn-danger mr-3">
+												<b class="glyphicon glyphicon-trash"></b>Delete
+											</button>
+											<button ng-if="form.is_enable==true" ng-click="updateLogical()" class="btn btn-success mr-3">
+												<b class="glyphicon glyphicon-trash"></b>Enable
+											</button>
+											<button ng-click="reset()" class="btn btn-info">
+												<b class="glyphicon glyphicon-refresh"></b>Reset
+											</button>
+										</div>
 								</form>
 
 							</div>
@@ -181,14 +189,9 @@
 				$http.get("/rest/brands").then(resp => {
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
-						//$scope.form.image = "user.png";
+					
 					})
 				});
-				
-				$scope.form = {
-						is_enable: false,
-				}
-
 			}
 			
 			//Khởi đầu
@@ -197,7 +200,6 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
 				}
 			}
 
@@ -224,15 +226,25 @@
 			
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name){
+		             	alert("Thương hiệu này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập nhập tên thương hiệu!")
 					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
 				var item = angular.copy($scope.form);
 				$http.post(`/rest/brands`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
 					alert("Thêm mới thương hiệu thành công!");
+					location.reload();
 				}).catch(error => {
 					alert("Lỗi thêm mới thương hiệu!");
 					console.log("Error", error);
@@ -243,15 +255,24 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name && $scope.form.brand_id != $scope.items[i].brand_id){
+		             	alert("Thương hiệu này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập nhập tên thương hiệu!")
 					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
-				var item = angular.copy($scope.form);
 				$http.put(`/rest/brands/${item.brand_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
 					alert("Cập nhật thương hiệu thành công!");
+					location.reload();
 				})
 					.catch(error => {
 						alert("Lỗi cập nhật thương hiệu!");
@@ -261,14 +282,29 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
-				$scope.form.is_enable = true;
 				var item = angular.copy($scope.form);
-				if (confirm("Bạn muốn tắt hoạt động của thương hiệu này?")) {
-					$http.put(`/rest/brands/${item.brand_id}`, item).then(resp => {
+				if (confirm("Bạn muốn xóa thương hiệu này?")) {
+					$http.put(`/rest/brands/deleteLogical/${item.brand_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
 						$scope.reset();
-						alert("Tắt thương hiệu thành công!");
+						alert("Xóa thương hiệu thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi xóa thương hiệu!");
+						console.log("Error", error);
+					})
+				}
+			}
+			$scope.updateLogical = function (item) {
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn khôi phục thương hiệu này?")) {
+					$http.put(`/rest/brands/updateLogical/${item.brand_id}`, item).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items[index] = item;
+						$scope.reset();
+						alert("Khôi phục thương hiệu thành công!");
+						location.reload();
 					}).catch(error => {
 						alert("Lỗi tắt thương hiệu!");
 						console.log("Error", error);
@@ -280,7 +316,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

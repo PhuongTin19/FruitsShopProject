@@ -17,7 +17,7 @@ public class UploadServiceImpl implements UploadService{
 	ServletContext app;
 
 	public File save(MultipartFile file, String folder) {
-		File dir = new File(app.getRealPath("/user/img/product/" + folder ));
+		File dir = new File(app.getRealPath("/photos/products/" + folder ));
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
@@ -53,7 +53,7 @@ public class UploadServiceImpl implements UploadService{
 
 	@Override
 	public File saveImageBlog(MultipartFile file, String folder) {
-		File dir = new File(app.getRealPath("/user/img/blog/" + folder ));
+		File dir = new File(app.getRealPath("/photos/blogs/" + folder ));
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}

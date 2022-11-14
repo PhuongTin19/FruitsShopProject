@@ -32,6 +32,11 @@ public class DiscountRestController {
 		return discountService.findAll();
 	}
 	
+	@GetMapping("/enable")
+	public List<Discount> findAllEnable() {
+		return discountService.findByIsEnable();
+	}
+	
 	@GetMapping("{id}")
 	public Discount getOne(@PathVariable("id")Integer id) {
 		return discountService.findByDiscountId(id);
@@ -52,8 +57,12 @@ public class DiscountRestController {
 	public List<Discount> getMany(@PathVariable("keyword") String keyword) {
 		return discountService.findByKeyword(keyword);
 	}
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Discount discount) { discountService.deleteLogical(id); }
-	 */
+	@PutMapping("/deleteLogical/{id}") 
+	public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Discount discount) { 
+		discountService.deleteLogical(id); 
+	}
+	@PutMapping("/updateLogical/{id}") 
+	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Discount discount) { 
+		discountService.updateLogical(id); 
+	}
 }

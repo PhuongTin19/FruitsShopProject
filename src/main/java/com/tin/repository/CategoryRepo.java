@@ -3,6 +3,7 @@ package com.tin.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,11 @@ public interface CategoryRepo extends JpaRepository<Category,Integer> {
 	@Query(value = "select c from Category c where c.name like %?1%")
 	List<Category> findByKeyword(String keyword);
 	
-	@Query(value="update Categories set is_enable = true where category_id=?", nativeQuery=true)
+	@Modifying
+	@Query(value="update Categories set is_enable = 1 where category_id=?", nativeQuery=true)
 	void deleteLogical(Integer id);
+	
+	@Modifying
+	@Query(value="update Categories set is_enable = 0 where category_id=?", nativeQuery=true)
+	void updateLogical(Integer id);
 }

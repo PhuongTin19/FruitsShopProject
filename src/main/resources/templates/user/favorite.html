@@ -50,7 +50,7 @@
 								<a th:href="@{|/index/product/detail/${f[3]}/${f[4]}|}">
 									<h6 th:text="${f[0]}"></h6>
 								</a>
-								<h5 class="text-danger">[(${#numbers.formatInteger(f[1],3, 'POINT')})]<sup>đ</sup>
+								<h5 class="text-danger">[(${#numbers.formatInteger(f[1] - ((f[5] * f[1])/100),3, 'POINT')})]<sup>đ</sup>
 									<th:block th:unless="${f[5]==0}">
 										<strike class="text-dark ml-3">[[${#numbers.formatInteger(f[1],3,'POINT')}]]<sup>đ</sup></strike>
 									</th:block>

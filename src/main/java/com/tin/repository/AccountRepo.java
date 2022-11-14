@@ -28,7 +28,9 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	//
 	@Query(value="select password from accounts where username= ?1",nativeQuery = true)
 	String findByPassword(String username);
-	
+	//
+	@Query(value = "select a from Account a where a.is_enable = 0 and a.role.role_id = 1")
+	List<Account> findAllEnable();
 	//change password
 	@Modifying
 	@Query(value="update accounts set password = ?1 where username = ?2",nativeQuery = true)
@@ -63,7 +65,12 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	@Query(value = "select a from Account a where a.username like %?1%")
 	List<Account> findByKeyword(String keyword);
 	
-	@Query(value="update Accounts set is_enable = true where account_id=?", nativeQuery=true)
+	@Modifying
+	@Query(value="update Accounts set reliability=5 where account_id=?", nativeQuery=true)
 	void deleteLogical(Integer id);
+	
+	@Modifying
+	@Query(value="update Accounts set reliability=0 where account_id=?", nativeQuery=true)
+	void updateLogical(Integer id);
 }
 

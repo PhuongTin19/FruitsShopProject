@@ -181,7 +181,7 @@
 			<!-- Sidebar user panel (optional) -->
 			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 				<div>
-					<img style="height:40px;width:70px" th:src="@{|/photos/*{username}/*{image}|}" class="img-circle elevation-2" alt="User Image">
+					<img style="height:40px;width:70px" th:src="@{|/photos/*{image}|}" class="img-circle elevation-2" alt="User Image">
 				</div>
 				<div class="info">
 					<a href="#" class="d-block">Xin Chào,[[${nameAdmin}]]</a>
@@ -208,73 +208,66 @@
 	               with font-awesome or any other icon font library -->
 
 					<!-- MANAGE PRODUCTS -->
-					<li class="nav-header">MANAGE</li>
-					<li class="nav-item">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-edit"></i>
-							<p>
-								Forms
-								<i class="fas fa-angle-left right"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
+					<li class="nav-header">Quản Lý</li>
+
+						<!--<ul class="nav nav-treeview">-->
 							<li class="nav-item">
 								<a th:href="@{/admin}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Reports</p>
+									<i class="nav-icon fas fa-flag"></i>
+									<p>Thống Kê</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/accounts}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Accounts</p>
+									<i class="nav-icon fas fa-user"></i>
+									<p>Quản lý Tài Khoản</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/blogs}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Blogs</p>
+									<i class="nav-icon fas fa-blog"></i>
+									<p>Quản lý Blog</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/brands}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Brands</p>
+									<i class="nav-icon fas fa-copyright"></i>
+									<p>Quản lý Thương Hiệu</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/categories}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Catagories</p>
+									<i class="nav-icon fas fa-edit"></i>
+									<p>Quản Lý Loại Hàng</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/discounts}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Discounts</p>
+									<i class="nav-icon fas fa-tag"></i>
+									<p>Quản Lý Khuyến Mãi</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/products}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Products</p>
+									<i class="nav-icon fas fa-list"></i>
+									<p>Quản Lý Sản Phẩm</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/images}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Images</p>
+									<i class="nav-icon fas fa-image"></i>
+									<p>Quản Lý Hình Ảnh</p>
 								</a>
 							</li>
 
 							<li class="nav-item">
 								<a th:href="@{/admin-order}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Manage Orders</p>
+									<i class="nav-icon fas fa-edit"></i>
+									<p>Quản Lý Đơn Hàng</p>
 								</a>
 							</li>
-						</ul>
-					</li>
+						<!--</ul>-->
+					<!--</li>-->
 
 				</ul>
 			</nav>

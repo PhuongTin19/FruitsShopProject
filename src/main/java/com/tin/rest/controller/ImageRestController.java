@@ -48,8 +48,9 @@ public class ImageRestController {
 	public List<Images> getMany(@PathVariable("keyword") String keyword) {
 		return imageService.findByKeyword(keyword);
 	}
-	/*
-	 * @PutMapping("{id}") public void DeleteLogical(@PathVariable("id")Integer
-	 * id,@RequestBody Images images) { imageService.deleteLogical(id); }
-	 */
+	
+	 @PutMapping("/deleteLogical/{id}") 
+	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Images images) { 
+		 imageService.deleteLogical(id); 
+	}
 }

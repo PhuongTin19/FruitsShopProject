@@ -18,7 +18,7 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	
 	//Những sản phẩm đc thích bởi account nào đó - Trang Yêu Thích
 	@Query("Select distinct f.product.name,f.product.price,f.product.image,f.product.product_id,f.product.category.category_id, "
-			+ "f.product.discount.discount "
+			+ "f.product.discount.discount,f.product.discount.is_enable "
 			+ "from Favorite f "
 			+ "where f.account.account_id = ?1")
 	List<Object[]>findAllFavorite(Integer id);
@@ -49,7 +49,5 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	//Like
 	@Query(value = "insert into favorites(account_id,product_id,likedate) values(?1,?2,?3)",nativeQuery = true)
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
-	
-	@Query(value="update Favorites set is_enable = true where avorite_id=?", nativeQuery=true)
-	void deleteLogical(Integer id);
+
 }

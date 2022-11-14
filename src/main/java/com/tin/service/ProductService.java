@@ -12,6 +12,8 @@ import com.tin.entity.Product;
 
 public interface ProductService {
 	
+	List<Product> findProductEnable();
+	
 	List<Product>findByNewProduct();
 	
 	Page<Product>findAllByNameLike(String keywords,Pageable page);
@@ -56,5 +58,7 @@ public interface ProductService {
 	
 	void deleteLogical(Integer id);
 
+	void updateLogical(Integer id);
+	
 	List<Product> findByKeyword(String keyword);
 }

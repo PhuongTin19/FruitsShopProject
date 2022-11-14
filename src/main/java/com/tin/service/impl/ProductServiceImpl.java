@@ -141,7 +141,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteLogical(Integer id) {
 		productRepo.deleteLogical(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateLogical(Integer id) {
+		productRepo.updateLogical(id);
+	}
+
+	@Override
+	public List<Product> findProductEnable() {
+		return productRepo.findProductEnable();
 	}
 }

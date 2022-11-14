@@ -108,9 +108,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                Account account = accountService.findByUsername(username);
 	                String password = account.getPassword();
 	                String roles = account.getRole().getName();
-//	                Boolean isEnable = account.getIs_enable();
-		            //return User.withUsername(username).password(password).roles(roles).accountExpired(isEnable).build();
-	                return User.withUsername(username).password(password).roles(roles).build();
+	                Boolean isEnable = account.getIs_enable();
+		            return User.withUsername(username).password(password).roles(roles).accountExpired(isEnable).build();
+	                //return User.withUsername(username).password(password).roles(roles).build();
 	            } catch (NoSuchElementException e) {
 	                throw new UsernameNotFoundException(username + "Not Found !");
 	            }

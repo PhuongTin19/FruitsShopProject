@@ -62,14 +62,13 @@
 									<th class="align-middle" scope="row">{{item.blog_id}}</th>
 									<td class="align-middle">{{item.title}}</td>
 									<td class="align-middle">
-										<img alt="" th:src="@{|/user/img/blog/{{item.image}}|}"
-											style="width: 100px; height: 100px;"></td>
+										<img alt="" th:src="@{|/photos/blogs/{{item.image}}|}" style="width: 100px; height: 100px;"></td>
 									<td class="align-middle" th:text="'{{item.description.substring(0, 20)}}' + '...'"></td>
 									<td class="align-middle">{{item.account.username}}</td>
-									<td class="align-middle" th:if="item.is_enable != true" th:text="'Is Enable'"></td>
-									<td class="align-middle" th:if="item.is_enable == true" th:text="'Is Disable'"></td>
+									<td class="badge badge-success mt-5" ng-if="item.is_enable == false" th:text="'Is Enable'"></td>
+									<td class="badge badge-danger mt-5" ng-if="item.is_enable == true" th:text="'Is Disable'"></td>
 									<td>
-										<a class="btn btn-primary mt-4 align-center" ng-click="edit(item)"
+										<a class="btn btn-primary align-center" style="margin-top:35px" ng-click="edit(item)"
 											th:text="'Edit'"></a>
 									</td>
 								</tr>
@@ -99,6 +98,11 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="title">Id</label>
+													<input ng-model="form.blog_id" type="text" class="form-control"
+														id="blog_id" name="blog_id" placeholder="Blog Title">
+												</div>
 												<div class="form-group">
 													<label for="title">Title</label>
 													<input ng-model="form.title" type="text" class="form-control"
@@ -106,10 +110,9 @@
 												</div>
 												<div class="form-group col-md-4">
 													<label for="account">Account</label>
-													<select ng-model="form.account.account_id" id="account"
-														class="form-control" name="account">
-														<option ng-repeat="b in accounts" ng-value="b.account_id">{{b.username}}
-														</option>
+													<select id="account" 
+														class="form-control" name="account" ng-model="form.account.account_id" >
+														<option   ng-repeat="b in accounts"  ng-value="b.account_id">{{b.username}}</option>
 													</select>
 												</div>
 												<div class="form-group">
@@ -117,6 +120,28 @@
 													<textarea ng-model="form.description" class="form-control"
 														id="description" rows="4" name="description"></textarea>
 												</div>
+												<fieldset style="display:none" class="form-group row">
+													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
+													</legend>
+													<div class="col-sm-8 ml-3">
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="false"
+																class="form-check-input" type="radio" id="gridRadios1"
+																name="is_enable">
+															<label class="form-check-label" for="gridRadios1">
+																Enable
+															</label>
+														</div>
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="true"
+																class="form-check-input" type="radio" id="gridRadios2"
+																 name="is_enable">
+															<label class="form-check-label" for="gridRadios2">
+																Disable
+															</label>
+														</div>
+													</div>
+												</fieldset>
 											</div>
 											<div class="col-4">
 												<!---->
@@ -124,7 +149,7 @@
 													<div class="card-body box-profile">
 														<div class="text-center">
 															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
-															<img ng-src="{{'/user/img/blog/' + form.image}}"
+															<img ng-src="{{'/photos/blogs/' + form.image}}"
 																style="max-width:100%;" height="200px">
 														</div>
 														<input type="file" class="form-control" id="image"
@@ -145,14 +170,17 @@
 										</div>
 									</div>
 									<div class="form-row p-2">
-										<button ng-click="create()" class="btn btn-primary">
+										<button ng-if="form.is_enable==null" ng-click="create()" class="btn btn-primary mr-3">
 											<b class="glyphicon glyphicon-plus"></b>Create
 										</button>
-										<button ng-click="update()" class="btn btn-success">
+										<button ng-if="form.is_enable!=null" ng-click="update()" class="btn btn-warning mr-3">
 											<b class="glyphicon glyphicon-save"></b>Update
 										</button>
-										<button ng-click="delete()" class="btn btn-danger">
+										<button ng-if="form.is_enable==false" ng-click="delete()" class="btn btn-danger mr-3">
 											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-if="form.is_enable==true" ng-click="updateLogical()" class="btn btn-success mr-3">
+											<b class="glyphicon glyphicon-trash"></b>Enable
 										</button>
 										<button ng-click="reset()" class="btn btn-info">
 											<b class="glyphicon glyphicon-refresh"></b>Reset
@@ -189,6 +217,7 @@
 
 	<div th:replace="/admin/fragments :: scripts">
 	</div>
+
 	<script>
 		const app = angular.module("myblog", []);
 		app.controller("blog-ctrl", function ($scope, $http) {
@@ -198,15 +227,17 @@
 			$scope.form = {};
 			
 			$scope.initialize = function () {
+				
 				//load products
 				$http.get("/rest/blogs").then(resp => {
 					$scope.items = resp.data;
 					$scope.items.forEach(item => {
-						//$scope.form.image = "user.png";
+						$scope.form.image = "user.png";
 					})
+					
 				});
 				//load categories trong combobox form admin
-				$http.get("/rest/accounts").then(resp => {
+				$http.get("/rest/accounts/enable").then(resp => {
 					$scope.accounts = resp.data;
 				})
 			}
@@ -217,7 +248,7 @@
 			$scope.reset = function () {
 				$scope.form = {
 					//is_enable: true,
-					image: "user.png"
+					image: "user.png",
 				}
 			}
 			// Search by keyword
@@ -240,18 +271,27 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
-				var item = angular.copy($scope.form);
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.title == $scope.items[i].title){
+		             	alert("Bài viết này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("title").value == ""){
 					alert("Chưa nhập tiêu đề");
 					return;
-				}
-				if(document.getElementById("account").value == ""){
-					alert("Chưa nhập tài khoảng");
+				}else if(document.getElementById("account").selectedIndex < 0){
+					alert("Chưa chọn tài khoản");
 					return;
-				}
-				if(document.getElementById("description").value == ""){
-					alert("Chưa nhập ghi chú");
+				}else if(document.getElementById("description").value == ""){
+					alert("Chưa nhập mô tả");
 					return;
+				}else if(document.getElementById("description").value.length < 100){
+					alert("Mô tả phải ít nhất 100 kí tự");
+					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
 				/*if(document.getElementById("image").value == ""){
 					alert("Chưa chọn hình");
@@ -261,6 +301,7 @@
 					$scope.items.push(resp.data);
 					$scope.reset();
 					alert("Thêm mới blog thành công!");
+					location.reload();
 				}).catch(error => {
 					alert("Lỗi thêm mới blog!");
 					console.log("Error", error);
@@ -271,18 +312,27 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
-				var item = angular.copy($scope.form);
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.title == $scope.items[i].title && $scope.form.blog_id != $scope.items[i].blog_id){
+		             	alert("Bài viết này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("title").value == ""){
 					alert("Chưa nhập tiêu đề");
 					return;
-				}
-				if(document.getElementById("account").value == ""){
-					alert("Chưa nhập tài khoảng");
+				}else if(document.getElementById("account").selectedIndex < 0){
+					alert("Chưa chọn tài khoản");
 					return;
-				}
-				if(document.getElementById("description").value == ""){
+				}else if(document.getElementById("description").value == ""){
 					alert("Chưa nhập ghi chú");
 					return;
+				}else if(document.getElementById("description").value.length < 100){
+					alert("Mô tả phải ít nhất 100 kí tự");
+					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
 				/*if(document.getElementById("image").value == ""){
 					alert("Chưa chọn hình");
@@ -292,6 +342,7 @@
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
 					alert("Cập nhật blog thành công!");
+					location.reload();
 				})
 					.catch(error => {
 						alert("Lỗi cập nhật blog!");
@@ -303,18 +354,35 @@
 			$scope.delete = function (item) {
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa blog này?")) {
-					$http.put(`/rest/blogs/${item.blog_id}`, item).then(resp => {
+					$http.put(`/rest/blogs/deleteLogical/${item.blog_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
 						$scope.reset();
 						alert("Xóa blog thành công!");
+						location.reload();
 					}).catch(error => {
 						alert("Lỗi xóa blog!");
 						console.log("Error", error);
 					})
 				}
 			}
-
+			//Cập nhật tình trạng
+			$scope.updateLogical = function (item) {
+				//$scope.form.is_enable = true;
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn khôi phục blog này?")) {
+					$http.put(`/rest/blogs/updateLogical/${item.blog_id}`, item).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items[index] = item;
+						$scope.reset();
+						alert("Khôi phục blog thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi bật hoạt động người dùng!");
+						console.log("Error", error);
+					})
+				}
+			}
 			//Upload hình
 			$scope.imageChanged = function (files) {
 				var data = new FormData();
@@ -334,7 +402,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

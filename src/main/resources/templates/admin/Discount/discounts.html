@@ -62,10 +62,10 @@
 									<td class="align-middle">{{item.discount}}</td>
 									<td class="align-middle">{{item.start_time | date:'dd/MM/yyyy'}}</td>
 									<td class="align-middle">{{item.end_time | date:'dd/MM/yyyy'}}</td>
-									<td class="align-middle" ng-if="item.is_enable == false">
+									<td class="badge badge-success mt-3" ng-if="item.is_enable == false">
 										Is Enable
 									</td>
-									<td class="align-middle" ng-if="item.is_enable == true">
+									<td class="badge badge-danger mt-3" ng-if="item.is_enable == true">
 										Is Disable
 									</td>
 									<td>
@@ -93,12 +93,17 @@
 							<!-- general form elements -->
 							<div id="form" class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">User Details</h3>
+									<h3 class="card-title">Discount Details</h3>
 								</div>
 								<form >
 									<div class="card-body">
 										<div class="row">
 											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="name">ID</label>
+													<input ng-model="form.discount_id" type="text" class="form-control"
+														id="discount_id" name="discount_id" placeholder="Discount Name">
+												</div>
 												<div class="form-group">
 													<label for="name">Name</label>
 													<input ng-model="form.name" type="text" class="form-control"
@@ -121,7 +126,7 @@
 															class="form-control" id="endTime" name="weight">
 													</div>
 												</div>
-												<fieldset class="form-group row">
+												<fieldset style="display:none" class="form-group row">
 													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
 													</legend>
 													<div class="col-sm-8 ml-3">
@@ -146,15 +151,18 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-row p-2 col-5">
-										<button ng-click="create()" class="btn btn-primary">
+									<div class="form-row p-2">
+										<button ng-if="form.is_enable==null" ng-click="create()" class="btn btn-primary mr-3">
 											<b class="glyphicon glyphicon-plus"></b>Create
 										</button>
-										<button ng-click="update()" class="btn btn-success">
+										<button ng-if="form.is_enable!=null" ng-click="update()" class="btn btn-warning mr-3">
 											<b class="glyphicon glyphicon-save"></b>Update
 										</button>
-										<button ng-click="delete()" class="btn btn-danger">
+										<button ng-if="form.is_enable==false" ng-click="delete()" class="btn btn-danger mr-3">
 											<b class="glyphicon glyphicon-trash"></b>Delete
+										</button>
+										<button ng-if="form.is_enable==true" ng-click="updateLogical()" class="btn btn-success mr-3">
+											<b class="glyphicon glyphicon-trash"></b>Enable
 										</button>
 										<button ng-click="reset()" class="btn btn-info">
 											<b class="glyphicon glyphicon-refresh"></b>Reset
@@ -191,6 +199,7 @@
 
 	<div th:replace="/admin/fragments :: scripts">
 	</div>
+
 	<script>
 		const app = angular.module("mydiscount", []);
 		app.controller("discount-ctrl", function ($scope, $http) {
@@ -207,7 +216,6 @@
 						//$scope.form.image = "user.png";
 					//})
 				});
-				$scope.form.is_enable = false;
 			}
 			//Khởi đầu
 			$scope.initialize();
@@ -223,7 +231,6 @@
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
-					is_enable: true,
 				}
 			}
 
@@ -240,32 +247,47 @@
 
 			//Thêm sản phẩm mới
 			$scope.create = function () {
+				 
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name){
+		             	alert("Sự kiện khuyến mãi này đã tồn tại");
+		               	return;
+		             }
+	            }
+	            var d = new Date();
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập tên khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("startTime").value == ""){
-					alert("Chưa nhập thời gian bắt đầu!");
-					return;
-				}
-				if(document.getElementById("endTime").value == ""){
-					alert("Chưa nhập thời gian kết thúc")
-					return;
-				}
-				if(document.getElementById("discount").value == ""){
+				}else if(document.getElementById("discount").value == ""){
 					alert("Chưa nhập số giá trị khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("discount").value > 100 || 
+				}else if(document.getElementById("discount").value > 100 || 
 						document.getElementById("discount").value < 0){
 					alert("Giá trị của khuyến mãi phải nằm trong 0 - 100%!");
 					return;
+				}else if(document.getElementById("startTime").value == ""){
+					alert("Chưa nhập thời gian bắt đầu!");
+					return;
+				}else if(document.getElementById("endTime").value == ""){
+					alert("Chưa nhập thời gian kết thúc")
+					return;
+				}else if(document.getElementById("endTime").value < document.getElementById("startTime").value){
+					alert("Ngày kết thúc không được nhỏ hơn ngày bắt đầu!");
+					return;
+				}else if(document.getElementById("startTime").value < d.toLocaleDateString("en-CA") 
+								|| document.getElementById("endTime").value < d.toLocaleDateString("en-CA")){
+					alert("Không được chọn thời điểm trong quá khứ!");
+					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
-				var item = angular.copy($scope.form);
+				
 				$http.post(`/rest/discounts`, item).then(resp => {
 					$scope.items.push(resp.data);
 					$scope.reset();
 					alert("Thêm mới khuyến mãi thành công!");
+					location.reload();
 				}).catch(error => {
 					alert("Lỗi thêm mới khuyến mãi!");
 					console.log("Error", error);
@@ -276,32 +298,41 @@
 
 			//Cập nhật sản phẩm
 			$scope.update = function () {
+				for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.name == $scope.items[i].name && $scope.form.discount_id != $scope.items[i].discount_id){
+		             	alert("Sự kiện khuyến mãi này đã tồn tại");
+		               	return;
+		             }
+	            }
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập tên khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("startTime").value == ""){
+				}else if(document.getElementById("startTime").value == ""){
 					alert("Chưa nhập thời gian bắt đầu!");
 					return;
-				}
-				if(document.getElementById("endTime").value == ""){
+				}else if(document.getElementById("endTime").value == ""){
 					alert("Chưa nhập thời gian kết thúc")
 					return;
-				}
-				if(document.getElementById("discount").value == ""){
+				}else if(document.getElementById("discount").value == ""){
 					alert("Chưa nhập số giá trị khuyến mãi!");
 					return;
-				}
-				if(document.getElementById("discount").value > 100 || 
+				}else if(document.getElementById("discount").value > 100 || 
 						document.getElementById("discount").value < 0){
 					alert("Giá trị của khuyến mãi phải nằm trong 0 - 100%!");
 					return;
+				}else if(document.getElementById("endTime").value < document.getElementById("startTime").value){
+					alert("Ngày kết thúc không được lớn hơn ngày bắt đầu!");
+					return;
+				}else{
+					$scope.form.is_enable = false;
+					var item = angular.copy($scope.form);
 				}
-				var item = angular.copy($scope.form);
+				//var item = angular.copy($scope.form);
 				$http.put(`/rest/discounts/${item.discount_id}`, item).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items[index] = item;
 					alert("Cập nhật khuyến mãi thành công!");
+					location.reload();
 				})
 					.catch(error => {
 						alert("Lỗi cập nhật khuyến mãi!");
@@ -311,14 +342,31 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
-				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
-				if (confirm("Bạn muốn ngừng khuyến mãi này?")) {
-					$http.put(`/rest/discounts/${item.discount_id}`, item).then(resp => {
+				if (confirm("Bạn muốn xóa khuyến mãi này?")) {
+					$http.put(`/rest/discounts/deleteLogical/${item.discount_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
 						$scope.reset();
-						alert("Tắt khuyến mãi công!");
+						alert("Xóa khuyến mãi thành công!");
+						location.reload();
+					}).catch(error => {
+						alert("Lỗi tắt khuyến mãi!");
+						console.log("Error", error);
+					})
+				}
+			}
+			
+			//Cập nhật tình trạng
+			$scope.updateLogical = function (item) {
+				var item = angular.copy($scope.form);
+				if (confirm("Bạn muốn khôi phục khuyến mãi này?")) {
+					$http.put(`/rest/discounts/updateLogical/${item.discount_id}`, item).then(resp => {
+						var index = $scope.items.findIndex(p => p.id == item.id);
+						$scope.items[index] = item;
+						$scope.reset();
+						alert("Khôi phục khuyến mãi thành công!");
+						location.reload();
 					}).catch(error => {
 						alert("Lỗi tắt khuyến mãi!");
 						console.log("Error", error);
@@ -329,7 +377,7 @@
 			//Phân trang
 			$scope.pager = {
 				page: 0,
-				size: 10,
+				size: 5,
 				get items() {
 					var start = this.page * this.size;
 					return $scope.items.slice(start, start + this.size)

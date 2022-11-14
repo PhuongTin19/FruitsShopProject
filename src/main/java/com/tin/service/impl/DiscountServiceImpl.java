@@ -3,6 +3,8 @@ package com.tin.service.impl;
 import java.sql.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +71,14 @@ public class DiscountServiceImpl implements DiscountService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteLogical(Integer id) {
 		discountRepo.deleteLogical(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateLogical(Integer id) {
+		discountRepo.updateLogical(id);
 	}
 }

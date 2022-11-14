@@ -23,6 +23,7 @@ public interface BlogService {
 	Page<Blog> blogPages(int page);
 	//
 	void deleteLogical(Integer id);
+	void updateLogical(Integer id);
 	List<Blog> findAllByAdmin();
 	/************************************/
 	
