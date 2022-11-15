@@ -28,11 +28,11 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
-                           <img class="product__details__pic__item--large" th:src="@{|/user/img/product/*{image}|}" alt="">
+                           <img class="product__details__pic__item--large" th:src="@{|/photos/products/*{image}|}" alt="">
                         </div>
                         <div  class="product__details__pic__slider owl-carousel">
                             <img th:each="i:${image}" 
-                                th:src="@{|/user/img/product/${i.name}|}" alt="">
+                                th:src="@{|/photos/products/${i.name}|}" alt="">
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
 						  <tbody>
 						    <tr>
 						      <td class="col-4 font-weight-bold">Giao hàng</td>
-						      <td class="col8">Giao hàng trong ngày. <samp class="text-danger">Miễn phí vẫn chuyển với hóa đơn trên 500.000 vnđ</samp></span></td>
+						      <td class="col8">Giao hàng trong ngày. <samp class="text-danger">Miễn phí vẫn chuyển</samp></span></td>
 						    </tr>
 						    <tr>
 						      <td class="col-4 font-weight-bold">Trọng lượng</td>
@@ -91,7 +91,7 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg product__discount__item__pic">
                         	<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}">
-                        		<img th:src="@{ |/user/img/product/${p.image}| }" height=190px alt="">
+                        		<img th:src="@{ |/photos/products/${p.image}| }" height=190px alt="">
                         	</a>
                         	<th:block th:unless="${p.discount.discount==0}">
 									<div class="product__discount__percent">

@@ -49,46 +49,36 @@
 			<!-- Main content -->
 			<div class="content">
 				<div class="container-fluid">
-
-					<div class="row bg-dark">
-							<div class="text-center" style="margin-right:100px"><b style="font-size:20px">Username</b><hr>
-								<div th:each="order:${ordersAll}">
-									<td style="background-color:red;margin-left:130px"> [[${order[0]}]]</td>
+					<div class="row" style="background-color: #10ac84;">
+						<div class="text-center" style="margin-right:150px;margin-left:10px"><b style="font-size:20px">Username</b><hr>
+								<div class="text-warning" th:each="order:${ordersAll}">
+									<td style="background-color:red;margin-left:130px;"> [[${order[0]}]]</td>
 									<hr>
 								</div>
 							</div>
 						
-							<div class="text-center" style="margin-right:100px"><b style="font-size:20px">Tổng hóa đơn</b><hr>
-								<div th:each="order:${ordersAll}">
+							<div class="text-center" style="margin-right:150px"><b style="font-size:20px">Tổng hóa đơn</b><hr>
+								<div class="text-warning" th:each="order:${ordersAll}">
 									<td> [[${order[1]}]]</td>
 									<hr>
 								</div>
 							</div>
-							<div class="text-center" style="margin-right:100px"><b style="font-size:20px">Chưa thanh toán</b><hr>
-								<div th:each="order:${orderListStatus1}">
+							<div class="text-center" style="margin-right:150px"><b style="font-size:20px">Chưa thanh toán</b><hr>
+								<div class="text-warning" th:each="order:${orderListStatus1}">
 									<td  th:if="${order}!=null"> [[${order[1]}]]</td>
 									<hr>
 								</div>
-								<!--<div th:each="order:${ordersAll}">
-									<td  th:if="${order}==null">0</td>
-									<hr>
-								</div>-->
 							</div>
-							<div class="text-center" style="margin-right:100px "><b style="font-size:20px">Hoàn thành</b><hr>
-								<div th:each="order:${orderListStatus2}">
+							<div class="text-center" style="margin-right:150px "><b style="font-size:20px">Hoàn thành</b><hr>
+								<div class="text-warning" th:each="order:${orderListStatus2}">
 									<td> [[${order[1]}]]</td>
 									<hr>
 								</div>
 							</div>
-							<div class="text-center" style="margin-right:100px"><b style="font-size:20px">Hủy đơn</b><hr>
-								<div th:each="order:${orderListStatus3}">
+							<div class="text-center" style="margin-right:150px"><b style="font-size:20px">Hủy đơn</b><hr>
+								<div class="text-warning" th:each="order:${orderListStatus3}">
 									<td> [[${order[1]}]]</td>
 									<hr>
-								</div>
-							</div>
-							<div class="text-center"><b style="font-size:20px">Enable</b><hr>
-								<div>
-									<a class="btn btn-primary"><b>Enable</b></a>
 								</div>
 							</div>
 				</div>

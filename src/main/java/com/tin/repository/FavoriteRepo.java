@@ -43,11 +43,17 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	Integer countLike(String username);
 	
 	//Unlike
+	@Modifying
 	@Query(value="delete from favorites where account_id = ?1 and product_id = ?2",nativeQuery = true)
 	void deleteFavorites(Integer id,Integer pid);
 	
 	//Like
+	@Modifying
 	@Query(value = "insert into favorites(account_id,product_id,likedate) values(?1,?2,?3)",nativeQuery = true)
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
+	
+	//Những sản phẩm được thích bởi account
+	@Query(value = "select * from Favorites where account_id = ?1",nativeQuery = true)
+	List<Favorite>favorites(Integer id);
 
 }

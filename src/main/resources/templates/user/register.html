@@ -26,34 +26,7 @@
               <h2 class="text-uppercase text-center mb-5">Tạo một tài khoản</h2>
 
 				<form th:action="@{/user/register}" th:object="${account}" method="post">
-                <!-- nhập họ tên -->
-                <div class="form-outline mb-4">
-                  <label class="form-label" for="form3Example1cg">Họ tên của bạn</label>
-                  <input th:field="*{fullname}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{fullname}"></i>
-                </div>
-               	<!-- nhập số điện thoại -->
-                <div class="form-outline mb-4">
-                	<label class="form-label" for="form3Example1cg">Số điện thoại</label>
-                  <input th:field="*{phone}" type="number" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{phone}"></i>
-                  
-                </div>
-                <!-- nhập địa chỉ nhà -->
-             	<div class="form-outline mb-4">
-             		 <label class="form-label" for="form3Example1cg">Địa chỉ nhà của bạn</label>
-                  <input th:field="*{address}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{address}"></i>
-                 
-                </div>
-                <!-- nhập email -->
-                <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example3cg">Địa chỉ email của bạn</label>
-                  <input th:field="*{email}" type="email" id="form3Example3cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{email}"></i>
-                  
-                </div>
-                <!-- nhập username -->
+				 <!-- nhập username -->
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1cg">Tên tài khoản</label>
                   <input th:field="*{username}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
@@ -63,7 +36,7 @@
 				<!-- nhập passwrord -->
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example4cg">Mật khẩu</label>
-                  <input  th:field="*{password}" type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                  <input name="password"  th:field="*{password}" type="password" id="form3Example4cg" class="form-control form-control-lg" />
                   <i class="text-danger" th:errors="*{password}"></i>
                 </div>
 				<!-- nhập lại passwrord -->
@@ -71,9 +44,32 @@
                 <label class="form-label" for="form3Example4cdg">Điền lại mật khẩu</label>
                   <input name="confirm" type="password" id="form3Example4cdg" class="form-control form-control-lg" />
                 </div>
+                <!-- nhập họ tên -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="form3Example1cg">Họ tên của bạn</label>
+                  <input th:field="*{fullname}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                  <i class="text-danger" th:errors="*{fullname}"></i>
+                </div>
+               	<!-- nhập số điện thoại -->
+                <div class="form-outline mb-4">
+                	<label class="form-label" for="form3Example1cg">Số điện thoại</label>
+                  <input name="phone" th:field="*{phone}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                  <i class="text-danger" th:errors="*{phone}"></i>
+                  
+                </div>
+                <!-- nhập email -->
+                <div class="form-outline mb-4">
+                	<label class="form-label" for="form3Example3cg">Địa chỉ email của bạn</label>
+                  <input name="email" th:field="*{email}" type="email" id="form3Example3cg" class="form-control form-control-lg" />
+                  <i class="text-danger" th:errors="*{email}"></i>
+                </div>
+                <!-- nhập địa chỉ nhà -->
+             	<div class="form-outline mb-4">
+             		 <label class="form-label" for="form3Example1cg">Địa chỉ nhà của bạn</label>
+                  <input th:field="*{address}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                  <i class="text-danger" th:errors="*{address}"></i>
+                </div>
  				<hr class="my-4">
-		
-
                 <div class="d-flex justify-content-center">
                 	<button class="btn btn-lg btn-block btn-primary" type="submit"> Đăng ký</button>
                 </div>

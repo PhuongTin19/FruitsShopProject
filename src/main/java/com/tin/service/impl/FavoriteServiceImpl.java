@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.tin.entity.Account;
 import com.tin.entity.Favorite;
 import com.tin.repository.FavoriteRepo;
 import com.tin.service.FavoriteService;
@@ -33,6 +34,7 @@ public class FavoriteServiceImpl implements FavoriteService{
 
 
 	@Override
+	@Transactional
 	public void deleteFavorites(Integer id, Integer pid) {
 		favoriteRepo.deleteFavorites(id, pid);
 	}
@@ -44,8 +46,15 @@ public class FavoriteServiceImpl implements FavoriteService{
 
 
 	@Override
+	@Transactional
 	public void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate) {
 		favoriteRepo.LikeProducts(account_id, product_id,likedate);
+	}
+
+
+	@Override
+	public List<Favorite> favorites(Integer id) {
+		return favoriteRepo.favorites(id);
 	}
 
 

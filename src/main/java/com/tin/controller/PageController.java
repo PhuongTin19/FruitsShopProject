@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tin.entity.Account;
 import com.tin.entity.Blog;
 import com.tin.entity.Favorite;
 import com.tin.entity.Product;
 import com.tin.repository.ProductRepo;
+import com.tin.service.AccountService;
 import com.tin.service.BlogService;
 import com.tin.service.CategoryService;
 import com.tin.service.FavoriteService;
@@ -44,7 +47,13 @@ public class PageController {
 	private FavoriteService favoriteService;
 	
 	@Autowired
-	SessionService session;
+	private AccountService accountService;
+	
+	@Autowired
+	SessionService sessionService;
+	
+	@Autowired
+	HttpSession session;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -72,7 +81,7 @@ public class PageController {
 	@RequestMapping("/user/product")
 	public String doGetDiscount(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("keywords") Optional<String> kw) {
-		String kwords = kw.orElse(session.get("keywords",""));
+		String kwords = kw.orElse(sessionService.get("keywords",""));
 		
 //		session.set("keywords", kwords);
 		Pageable pageable = PageRequest.of(page.orElse(0),9);
@@ -109,11 +118,25 @@ public class PageController {
 	}
 
 	// trang yêu thích	
+//	@GetMapping("/user/favorite")
+//	public String doGetFavorite(Model model,
+//			@RequestParam("id") Integer id) {
+//		List<Object[]>listFavorite = favoriteService.findAllFavorite(id);
+//		model.addAttribute("favorite", listFavorite);
+//		return "/user/favorite";
+//	}
+	
 	@GetMapping("/user/favorite")
-	public String doGetFavorite(Model model,
-			@RequestParam("id") Integer id) {
-		List<Object[]>listFavorite = favoriteService.findAllFavorite(id);
-		model.addAttribute("favorite", listFavorite);
+	public String doGetFavorite(Model model,HttpServletRequest request) {
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		if(account!=null) {
+			List<Object[]>listFavorite = favoriteService.findAllFavorite(account.getAccount_id());
+			model.addAttribute("favorite", listFavorite);
+		}else {
+			Account account2 = (Account)session.getAttribute("currentUser");
+			List<Object[]>listFavorite = favoriteService.findAllFavorite(account2.getAccount_id());
+			model.addAttribute("favorite", listFavorite);
+		}
 		return "/user/favorite";
 	}
 	
@@ -122,12 +145,8 @@ public class PageController {
 	public String doGetLike(Model model,@RequestParam("pid") Integer pid,
 			@RequestParam("id") Integer id) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		try {
-			favoriteService.LikeProducts(id,pid,timestamp);
-		} catch (Exception e) {
-		}
-		return "redirect:/index";
-			
+		favoriteService.LikeProducts(id,pid,timestamp);
+		return "redirect:/user/favorite";
 	}
 
 	
@@ -135,10 +154,7 @@ public class PageController {
 	@GetMapping("/user/favorite/unlike/{pid}")
 	public String doGetUnLike(Model model,@PathVariable("pid") Integer pid,
 			@RequestParam("id") Integer id) {
-		try {
-			favoriteService.deleteFavorites(id,pid);
-		} catch (Exception e) {
-		}
-		return "redirect:/index";
+		favoriteService.deleteFavorites(id,pid);
+		return "redirect:/user/favorite";
 	}
 }

@@ -160,13 +160,22 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account create(Account account) {
+		account.setReliability(0);
+		account.setProvider(Provider.DATABASE);
 		return accDao.save(account);
 	}
 
 	@Override
 	@Transactional
 	public void deleteLogical(Integer id) {
-		accDao.deleteLogical(id);
+		String orderStatus = accDao.CheckOrderStatus(id);
+		if(orderStatus.equals("Chưa thanh toán")) {
+			System.out.println("Người dùng đang sử dụng dịch vụ");
+			throw new RuntimeException();
+		}else {
+			accDao.deleteLogical(id);
+		}
+		
 	}
 
 	@Override
@@ -194,5 +203,15 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Account> findAllEnable() {
 		return accDao.findAllEnable();
+	}
+
+	@Override
+	public String CheckOrderStatus(Integer id) {
+		return accDao.CheckOrderStatus(id);
+	}
+
+	@Override
+	public Account findByPhone(String phone) {
+		return accDao.findByPhone(phone);
 	}
 }

@@ -31,7 +31,7 @@ public class Favorite {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favorite_id")
+    @Column(name = "avorite_id")
 	private Integer favorite_id;
 
 	
@@ -45,7 +45,7 @@ public class Favorite {
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Product product;
 	
-	@Column(name = "likeDate")
+	@Column(name = "likedate")
 	@CreationTimestamp
 	private Timestamp likedate;
 }

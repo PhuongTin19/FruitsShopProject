@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thanh toán thành công | Nice Travel</title>
+    <title>Thanh toán thành công</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" th:href="@{/assets/img/logoNiceIco.ico}">
@@ -55,27 +55,55 @@
 										<div class="p-5">
 											<!-- product -->
 											<div class="d-flex justify-content-between mb-1">
-												<h3 class="fw-bold mb-1 mt-2 pt-1 text-center text-uppercase">Cảm ơn bạn [[${account.fullname}]] đã mua sắm</h3>
+												<h3 class="fw-bold mb-1 mt-2 pt-1 text-center m-auto text-uppercase">Cảm ơn [[${account.fullname}]] đã mua sắm</h3>
 											</div>
+											<div class="d-flex justify-content-between mb-1">
+												<h4 style="border: 2px solid black;
+      											border-radius: 10px;padding: 5px; " class="fw-bold text-center m-auto text-uppercase">
+      											Đơn Hàng #[[${order.order_id}]] <span class="badge badge-success">Đã thanh toán</span></h1>
+      											</h4>
+											</div>
+											<div class="d-flex justify-content-between mb-1">
+												<h6 class="fw-bold mb-1 mt-2 pt-1 text-center m-auto text-uppercase">
+      											Thời gian mua Hàng : [[${order.orderdate}]]
+      											</h6>
+											</div>
+											<hr class="my-4 bg-dark">
+											<table class="table table-striped">
+											  <thead>
+											    <tr>
+											      <th scope="col">Tên Mặt Hàng</th>
+											      <th scope="col">Giá</th>
+											      <th scope="col">Số Lượng</th>
+											      <th scope="col">Thành Tiền</th>
+											    </tr>
+											  </thead>
+											  <tbody>
+											    <tr th:each="detail:*{orderDetails}" th:object="${detail}">
+											      <td>[[*{product.name}]]</td>
+											      <td>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</td>
+											      <td class="text-center">[[*{totalQuantity}]]</td>
+											      <td class="text-center">[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
+											    </tr>
+											  </tbody>
+											  	<tr>
+											    	<td>Tổng thanh toán</td>
+											    	<td></td>
+											    	<td></td>
+											    	<td class="text-center"><span>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</span></td>
+											    </tr>
+											</table>
 											<hr class="my-4 bg-dark">	
 											<form method="post">
   												<input style="display:none" type="text">
 												<input style="display:none" type="text">
   											  <div class="form-group">
-											 	<span class="text-danger">*</span><label class="font-weight-bold">Mã đơn hàng : </label> 
-											    <label th:text="*{order_id}"></label>
-											  </div>
-  											<div class="form-group">
 											    <span class="text-danger">*</span><label>Tên Khách Hàng : </label> 
 											    <label th:text="*{account.fullname}"></label>
 											  </div>
   											  <div class="form-group">
 											    <span class="text-danger">*</span><label>Số Điện Thoại : </label> 
 											    <label  th:text="*{phone}"></label>
-											  </div>
-  											  <div class="form-group">
-											    <span class="text-danger">*</span><label>Thời gian mua hàng : </label> 
-											    <label th:text="*{orderdate}"></label>
 											  </div>
   											  <div class="form-group">
 											    <span class="text-danger">*</span><label>Địa chỉ : </label> 
@@ -85,6 +113,13 @@
 											    <label>Ghi Chú Của Bạn : </label>
 											    <label th:text="*{notes}"></label>
 											  </div>
+											  <hr class="my-4 bg-dark">
+											  <h5 class="mb-0 btn btn-info text-white">
+													<i class="bi bi-columns-gap"></i> 
+													<a  th:href="@{/order/list}" class="">
+														Theo Dõi Đơn Hàng
+													</a>
+											  </h5>
 											  <!--</form>-->
 											  </form>
 											<!-- end product -->

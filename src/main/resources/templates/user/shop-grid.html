@@ -87,7 +87,7 @@
 												<a
 													th:href="@{|/index/product/detail/${fruits.product_id}/${fruits.category.category_id}|}">
 													<div class="latest-product__item__pic">
-														<img th:src="@{ |/user/img/product/${fruits.image}| }"
+														<img th:src="@{ |/photos/products/${fruits.image}| }"
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
@@ -103,7 +103,7 @@
 												<a
 													th:href="@{|/index/product/detail/${vegetables.product_id}/${vegetables.category.category_id}|}">
 													<div class="latest-product__item__pic">
-														<img th:src="@{ |/user/img/product/${vegetables.image}| }"
+														<img th:src="@{ |/photos/products/${vegetables.image}| }"
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
@@ -118,7 +118,7 @@
 												<a
 													th:href="@{|/index/product/detail/${bean.product_id}/${bean.category.category_id}|}">
 													<div class="latest-product__item__pic">
-														<img th:src="@{ |/user/img/product/${bean.image}| }"
+														<img th:src="@{ |/photos/products/${bean.image}| }"
 															height="70px" alt="">
 													</div>
 													<div class="latest-product__item__text">
@@ -152,7 +152,7 @@
 								<div class="product__item">
 									<div class="product__item__pic set-bg product__discount__item__pic">
 									<a th:href="@{|/index/product/detail/${d.product_id}/${d.category.category_id}|}">
-										<img th:src="@{ |/user/img/product/${d.image}| }" height=190px alt="">
+										<img th:src="@{ |/photos/products/${d.image}| }" height=190px alt="">
 									</a>
 										<th:block th:unless="${d.discount.discount==0}">
 											<div class="product__discount__percent">

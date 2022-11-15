@@ -97,10 +97,11 @@
 												</tr>
 										   </tbody>
 										  </table> 
+										  	<span class="h4" style="margin-left:350px">Tổng cộng: <b class="text-danger h4">[[${#numbers.formatInteger(order.totalPrice,3,'POINT')}]]</b></span>
 											<!-- chọn hình thức thanh toán -->
 											<hr class="my-4">
 											<div>
-												<a th:if="${order.orderStatus == 'Đã thanh toán'}" type="button" class="btn btn-warning w-100 h-25 text-white font-weight-bold" >ĐÃ THANH TOÁN</a>
+												<a th:if="${order.orderStatus == 'Hoàn thành'}" type="button" class="btn btn-warning w-100 h-25 text-white font-weight-bold" >ĐÃ THANH TOÁN</a>
 											</div>
 											<div>
 												<a th:if="${order.orderStatus == 'Đã hủy đơn'}" class="btn btn-danger w-100 h-25 text-dark font-weight-bold" >ĐÃ HỦY ĐƠN</a>

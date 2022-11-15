@@ -37,7 +37,7 @@ public class BlogServiceImpl implements BlogService{
 	}
 	@Override
 	public Page<Blog> blogList(Pageable pageble) {
-		return blogRepo.findAll(pageble);
+		return blogRepo.blogList(pageble);
 	}
 	@Override
 	public List<Blog> ListNewBlogsHomePage() {

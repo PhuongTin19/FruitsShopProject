@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tin.entity.Account;
 import com.tin.entity.Blog;
+import com.tin.entity.Favorite;
 import com.tin.entity.Images;
 import com.tin.entity.OrderDetail;
 import com.tin.entity.Product;
@@ -50,7 +51,7 @@ public class HomeController {
 	@Autowired
 	ReportService reportService;
 	@GetMapping("/index")
-	public String list(Model model,HttpServletRequest request) {	
+	public String list(Model model,HttpServletRequest request) {
 		// load sản phẩm
 		List<Product> list = productService.findProductOutstanding();
 		model.addAttribute("items", list);

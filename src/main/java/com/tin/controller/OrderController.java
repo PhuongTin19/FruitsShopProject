@@ -128,7 +128,7 @@ public class OrderController {
 				if (links.getRel().equals("approval_url")) {
 					return "redirect:" + links.getHref();
 				}
-			}
+			}  
 		} catch (PayPalRESTException e) {
 			System.out.println("lỗi dòng 68");
 			log.error(e.getMessage());
@@ -137,8 +137,10 @@ public class OrderController {
 	}
 
 	@GetMapping(URL_PAYPAL_CANCEL)
-	public String cancelPay() {
+	public String cancelPay(Model model,@PathVariable("id") Integer id) {
 		System.out.println("trong hàm cancel");
+		Order order = orderService.findById(id);
+		model.addAttribute("order",order);
 		return "user/cancel2";
 	}
 
@@ -174,7 +176,6 @@ public class OrderController {
 		model.addAttribute("order", order);
 		return "/user/cancelOrder";
 	}
-
 	@PostMapping("/process-cancel-order")
 	public String processCancelOrder(Order order,HttpServletRequest request, Model model)
 			throws UnsupportedEncodingException, MessagingException {

@@ -23,6 +23,7 @@ import com.tin.custom.CustomOAuth2User;
 import com.tin.custom.UserServices;
 import com.tin.entity.Account;
 import com.tin.entity.Order;
+import com.tin.repository.OrderRepo;
 import com.tin.service.AccountService;
 import com.tin.service.OrderService;
  
@@ -169,6 +170,7 @@ public class AdminOrderController {
 //			model.addAttribute("totalPage", orderList.getTotalPages());
 //			model.addAttribute("currentPage", page);
 //		}
+		
 		List<Object[]>orderList = orderService.detailReceipt();
 		model.addAttribute("ordersAll", orderList);
 		List<Object[]>orderListStatus1 = orderService.detailReceiptStatus("Chưa thanh toán");
@@ -181,5 +183,8 @@ public class AdminOrderController {
 //		model.addAttribute("currentPage", page);
 		return "admin/Order/DetailReceipt";
 	}
+	
+	@Autowired
+	OrderRepo orderRepo;
 	
 }

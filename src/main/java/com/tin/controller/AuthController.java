@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
@@ -103,32 +104,7 @@ public class AuthController {
 		model.addAttribute("message", "Đăng xuất thành công");
 		return "redirect:/security/login";
 	}
-//	@GetMapping("/security/login")
-//	public String loginForm(Model model) {
-//		model.addAttribute("userRequest", new Account());
-//		return "user/login";
-//	}
 
-//	@PostMapping("/security/login")
-//	public String doPostLogin(@ModelAttribute("userRequest") Account userRequest,
-//			HttpSession session,Model model,HttpServletRequest request) {
-//			Account accountResponse = accountService.doLogin(userRequest.getUsername(), userRequest.getPassword());
-//			if(accountResponse != null) {
-//				session.setAttribute("currentUser", accountResponse);
-//				model.addAttribute("message","Đăng nhập thành công");
-//				return "redirect:/index";
-//			}else {
-//				model.addAttribute("message","Đăng nhập thất bại");
-//				return "/user/login";
-//			}
-//	}
-//	// dang xuat
-//	@GetMapping("/security/logoff")
-//	public String logOffSuccess(Model model,HttpSession session) {
-//		model.addAttribute("message","Bạn đã đăng xuất!");
-//		session.removeAttribute("currentUser");
-//		return "redirect:/index"; 
-//	}
 
 	// Đổi mật khẩu
 	@GetMapping("/user/change-password")
@@ -143,8 +119,11 @@ public class AuthController {
 			String oldPassword = request.getParameter("oldPassword");
 			String newPassword = request.getParameter("newPassword");
 			String password = request.getParameter("password");
+			
 			if(oldPassword.isEmpty() || newPassword.isEmpty() || password.isEmpty()) {
 				model.addAttribute("error", "Không để trống ô nhập");
+			}else if(newPassword.length() < 6 || password.length() < 6) {
+				model.addAttribute("error", "Mật khẩu quá ngắn");
 			}else if (getPassword == null) {
 				model.addAttribute("error", "Mật khẩu cũ không đúng");
 			} else if (oldPassword.equals(newPassword)) {
@@ -173,12 +152,20 @@ public class AuthController {
 				Errors error)
 			throws UnsupportedEncodingException, MessagingException {
 		Account accountsByUsername = accountService.findByUsername(account.getUsername());
+		Account accountsByEmail = accountService.findByEmail(account.getEmail());
+		Account accountsByPhone = accountService.findByPhone(account.getPhone());
 		String confirmPassword = request.getParameter("confirm");
 		try {
 			if (accountsByUsername != null) {
 				model.addAttribute("error", "Tài khoản đã tồn tại");
 				return null;
-			} else if (!confirmPassword.matches(account.getPassword())) {
+			}else if(accountsByEmail != null) {
+				model.addAttribute("error", "Email đã tồn tại");
+				return null;
+			}else if(accountsByPhone != null) {
+				model.addAttribute("error", "Số điện thoại này đã tồn tại");
+				return null;
+			}else if (!confirmPassword.matches(account.getPassword())) {
 				model.addAttribute("error", "Mật Khẩu không trùng khớp");
 			} else {
 				String encodedPassword = bcrypt.encode(account.getPassword());
@@ -193,6 +180,7 @@ public class AuthController {
 			}
 		} catch (Exception e) {
 			model.addAttribute("error", "Đã xảy ra lỗi khi đăng ký tài khoản");
+			e.printStackTrace();
 		}
 		return "/user/register";
 	}
@@ -227,43 +215,47 @@ public class AuthController {
 	public String doPostDetailEdit(Model model,@Valid @ModelAttribute("userRequest") Account userRequest,Errors error,
 			@RequestParam("fileImage") MultipartFile image, HttpServletRequest request, Authentication authentication)
 			throws IOException {
-
 		String username = userServices.getUserName(request, authentication);
-
 		Account account = accountService.findByUsername(username);
 		String password = account.getPassword();
-		try {
-			String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-			if (fileName.equals("") || fileName.length() == 0 || fileName == null) {
-				System.out.println("accountImg: " + account.getImage());
-				account.setImage(account.getImage());
-				account.setPassword(password);
-			} else {
-				account.setImage(fileName);
-			}
-			accountService.update(account);
-			accountService.update(userRequest);
-
-			String uploadDir = "photos\\" ;
-			
-			Path uploadPath = Paths.get(uploadDir);
-
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-			try (InputStream inputStream = image.getInputStream()) {
-				Path filePath = uploadPath.resolve(fileName);
-				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				
-			}
-//			FileUploadUtil.saveFile(uploadDir, fileName, image);
-			return "redirect:/user/infor";
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(userRequest.getAddress().isEmpty() || userRequest.getEmail().isEmpty() ||
+				userRequest.getFullname().isEmpty() || userRequest.getPhone().isEmpty()) {
 			return "/user/EditInformationCustomer";
+		}else if(userRequest.getPhone().length() > 10 || userRequest.getPhone().length() < 10){
+			return "/user/EditInformationCustomer";
+		}else { 
+			try {
+				String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+				if (fileName.equals("") || fileName.length() == 0 || fileName == null) {
+					System.out.println("accountImg: " + account.getImage());
+					account.setImage(account.getImage());
+					account.setPassword(password);
+				} else {
+					account.setImage(fileName);
+				}
+				accountService.update(account);
+				accountService.update(userRequest);
+	
+				String uploadDir = "photos\\" ;
+				
+				Path uploadPath = Paths.get(uploadDir);
+	
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
+				try (InputStream inputStream = image.getInputStream()) {
+					Path filePath = uploadPath.resolve(fileName);
+					Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					
+				}
+	//			FileUploadUtil.saveFile(uploadDir, fileName, image);
+				return "redirect:/user/infor";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "/user/EditInformationCustomer";
+			}
 		}
-		
 	}
 
 	@GetMapping("/")

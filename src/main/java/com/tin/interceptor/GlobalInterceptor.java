@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tin.entity.Account;
 import com.tin.entity.Category;
+import com.tin.entity.Favorite;
 import com.tin.entity.Product;
 import com.tin.service.AccountService;
 import com.tin.service.BlogService;
@@ -53,6 +54,14 @@ public class GlobalInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		//check favorite
+//		if(request.getRemoteUser()!=null) {
+//			Account account = accountService.findByUsername(request.getRemoteUser());
+//			List<Favorite>favorites = favoriteService.favorites(account.getAccount_id());
+//			request.setAttribute("checkFavorite", favorites);
+//		}
+//		
+		
 		//info user
 		Account account = accountService.findByUsername(request.getRemoteUser());
 		request.setAttribute("account", account);

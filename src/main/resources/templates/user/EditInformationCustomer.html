@@ -78,7 +78,8 @@
 					<ul class="navbar-nav ml-auto">
 	                    <li class="nav-item dropdown no-arrow">
 	                        <a class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()">
-	                            <img class="img-profile rounded-circle" th:src="@{${userRequest.getPhotosImagePath()}}"
+	                 <!--@{${userRequest.getPhotosImagePath()}}-->          
+	                  <img class="img-profile rounded-circle" th:src="@{|/photos/${userRequest.image}|}"  
 	                                 style="max-width: 60px">
 	                            <span class="ml-2 d-none d-lg-inline text-white small" sec:authentication="name">Username></span>
 	                        </a>
@@ -132,7 +133,7 @@
 									<div class="col-12">
 										<div class="avatar_account">
 											<img id="thumbnail"
-												th:src="@{${userRequest.getPhotosImagePath()}}"
+												th:src="@{|/photos/${userRequest.image}|}" 
 												alt="avatar-account"
 												style="width: 150px; height: 150px; border-radius: 50%">
 											<p><input path="image" type="file" accept="image/*" name="fileImage"
@@ -172,7 +173,7 @@
 									<label for="address">Địa chỉ</label>
 									<input th:field="*{address}" type="text" name="address"
 										class="form-control">
-										<i class="text-danger" th:error="*{address}"></i>
+										<i class="text-danger" th:errors="*{address}"></i>
 								</div>
 
 								<div class="right-button">
@@ -241,6 +242,7 @@
 	<script th:src="@{/dashboard/js/ruang-admin.min.js}"></script>
 	<script th:src="@{/dashboard/vendor/chart.js/Chart.min.js}"></script>
 	<script>
+		
 		var loadFile = function (event) {
 			var image = document.getElementById('thumbnail');
 			image.src = URL.createObjectURL(event.target.files[0]);

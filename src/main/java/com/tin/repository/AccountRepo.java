@@ -54,6 +54,9 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 
 	@Query(value = "select a from Account a where a.account_id = ?1")
 	Account findByAccountId(Integer id);
+	
+	@Query(value = "select a from Account a where a.phone = ?1")
+	Account findByPhone(String phone);
 
 	@Query(value = "select * from accounts a inner join roles r on a.role_id = r.role_id where r.role_id = 1", nativeQuery = true)
 	List<Account> findAllByRoleAdmin();
@@ -72,5 +75,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	@Modifying
 	@Query(value="update Accounts set reliability=0 where account_id=?", nativeQuery=true)
 	void updateLogical(Integer id);
+	
+	@Query(value="SELECT top 1 orderStatus from Orders where account_id = ?1  order by orderDate desc", nativeQuery=true)
+	String CheckOrderStatus(Integer id);
 }
 

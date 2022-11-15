@@ -143,10 +143,14 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 			if (document.getElementById("phone").value == "") {
 				alert("Chưa nhập số điện thoại")
 				return;
+			}if(!document.getElementById("phone").value.match(/^\d{10}$/)){
+				alert("Số điện thoại không hợp lệ")
+				return;
 			} if (document.getElementById("address").value == "") {
 				alert("Chưa nhập địa chỉ")
 				return;
 			}
+			
 			var v = grecaptcha.getResponse();
 		    if(v.length == 0)
 		    {

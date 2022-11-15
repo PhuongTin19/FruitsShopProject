@@ -28,7 +28,7 @@
 						<div class="product__item">
 							<div class="product__item__pic set-bg product__discount__item__pic">
 								<a th:href="@{|/index/product/detail/${f[3]}/${f[4]}|}">
-									<img th:src="@{ |/user/img/product/${f[2]}| }" height=190px alt="">
+									<img th:src="@{ |/photos/products/${f[2]}| }" height=190px alt="">
 								</a>
 								<th:block th:unless="${f[5]==0}">
 									<div class="product__discount__percent">

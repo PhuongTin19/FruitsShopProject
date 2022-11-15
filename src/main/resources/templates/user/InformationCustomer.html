@@ -77,8 +77,8 @@
                     <ul class="navbar-nav ml-auto">
 	                    <li class="nav-item dropdown no-arrow">
 	                        <a class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()">
-	                            <img class="img-profile rounded-circle" 
-	                            	th:src="@{${account.getPhotosImagePath()}}"
+	                            <!--@{${userRequest.getPhotosImagePath()}}-->          
+	                  <img class="img-profile rounded-circle" th:src="@{|/photos/${account.image}|}"  
 	                                 style="max-width: 60px">
 	                            <span class="ml-2 d-none d-lg-inline text-white small" sec:authentication="name">Username></span>
 	                        </a>
@@ -121,7 +121,7 @@
                         <!-- intro info -->
                         <div class="row box">
                             <div class="col-12" style="text-align: center">
-                                <img th:src="@{${account.getPhotosImagePath()}}"
+                                <img th:src="@{|/photos/${account.image}|}" 
                                      alt="" style="width: 200px; height: 200px; border-radius: 50%;">
                             </div>
                         </div>

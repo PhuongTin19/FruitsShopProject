@@ -34,7 +34,7 @@
 								<div th:each="b : ${newBlog}" class="blog__sidebar__recent ">
 									<a th:href="@{|/user/blog/${b.blog_id}|}"  class="blog__sidebar__recent__item">
 										<div class="blog__sidebar__recent__item__pic">
-											<img th:src="@{ |/user/img/blog/${b.image}| }" alt="" height=70px>
+											<img th:src="@{ |/photos/blogs/${b.image}| }" alt="" height=70px>
 										</div>
 										<div class="blog__sidebar__recent__item__text">
 											<h6 class="text-dark" th:text="${b.title}"></h6>
@@ -48,7 +48,7 @@
 								<div th:each="p : ${listProduct}" class="blog__sidebar__recent ">
 									<a th:href="@{|/index/product/detail/${p.product_id}/${p.category.category_id}|}" class="blog__sidebar__recent__item">
 										<div class="blog__sidebar__recent__item__pic">
-											<img th:src="@{ |/user/img/product/${p.image}| }" alt="" height=80px>
+											<img th:src="@{ |/photos/products/${p.image}| }" alt="" height=80px>
 										</div>
 										<div class="blog__sidebar__recent__item__text ">
 											<h6 class="text-dark" th:text="${p.name}"></h6>
@@ -62,7 +62,7 @@
 					</div>
 				<div th:object="${detailBlog}" class="col-lg-8 col-md-7 order-md-1 order-1">
 					<div class="blog__details__text">
-						<img th:src="@{ |/user/img/blog/*{image}| }" alt="" width=700px>
+						<img th:src="@{ |/photos/blogs/*{image}| }" alt="" width=700px>
 						<h2 th:text="*{title}"></h2>
 						<p th:text="*{description}"></p>
 					</div>
@@ -71,7 +71,7 @@
 							<div class="col-lg-6">
 								<div class="blog__details__author">
 									<div class="blog__details__author__pic">
-										<img th:src="@{ |/admin/images/icon/*{account.image}| }" alt="">
+										<img th:src="@{ |/photos/*{account.image}| }" alt="">
 									</div>
 									<div class="blog__details__author__text">
 										<h6 th:text="*{account.fullname}"></h6>

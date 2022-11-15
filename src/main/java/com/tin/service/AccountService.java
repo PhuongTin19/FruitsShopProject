@@ -19,10 +19,11 @@ public interface AccountService {
 
     //Xác định mã code của account
     Account findByVerificationCode(String code);
-
+    //Tìm theo phone
+    Account findByPhone(String phone);
     //Tìm Email
     Account findByEmail(String email);
-    //
+    //tìm theo username
     Account findByUsername(String username);
     //
     String findByPassword(String username);
@@ -56,6 +57,7 @@ public interface AccountService {
 	List<Account> findByKeyword(String keyword);
 	void updateLogical(Integer id);
 	List<Account> findAllEnable();
+	String CheckOrderStatus(Integer id);
 }
 
 

@@ -2,11 +2,22 @@ package com.tin.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -53,6 +64,7 @@ public class Account implements Serializable{
 	
 	@Column(name = "password")
 	@NotBlank(message = "Không để trống mật khẩu!")
+	@Size(min=6 ,message ="Mật khẩu quá ngắn!")
 	private String password;
 
 	@Column(name = "email")
@@ -61,23 +73,23 @@ public class Account implements Serializable{
 	private String email;
  
 	
-//	@Transient
-//    public String getPhotosImagePath() {
-//        if (image == null || username == null) {
-//            return "/dashboard/img/user.png";
-//        }else if(image.equals("") || image.equals("user.png")){
-//            return "/dashboard/img/user.png";
-//        }
-//        else if(provider == null || provider.equals(Provider.DATABASE) || provider.equals(Provider.FACEBOOK)){
-//            return "/photos/" + username + "/" + image;
-//        }
-//        else if(provider.equals(Provider.GOOGLE)){
-//            return image;
-//        }
-//
-//       // return "/photos/" + username + "/" + image;
-//        return "/photos/" +  image;
-//    }
+	@Transient
+    public String getPhotosImagePath() {
+        if (image == null || username == null) {
+            return "/dashboard/img/user.png";
+        }else if(image.equals("") || image.equals("user.png")){
+            return "/dashboard/img/user.png";
+        }
+        else if(provider == null || provider.equals(Provider.DATABASE) || provider.equals(Provider.FACEBOOK)){
+            return "/photos/" + username + "/" + image;
+        }
+        else if(provider.equals(Provider.GOOGLE)){
+            return image;
+        }
+
+       // return "/photos/" + username + "/" + image;
+        return "/photos/" +  image;
+    }
 	
 	 
 	@Column(name = "image")
@@ -85,7 +97,7 @@ public class Account implements Serializable{
 
 	@Column(name = "phone")
 	@NotBlank(message="Không để trống số điện thoại!")
-	@Size(min=0,max=10 ,message ="Số điện thoại phải là 10 số!")
+	@Size(min=9,max=10 ,message ="Số điện thoại phải là 10 số!")
 	private String phone;
 	
 	@Column(name = "address")

@@ -294,7 +294,6 @@
 					//})
 				});
 			}
-
 			//Xóa form
 			$scope.reset = function () {
 				$scope.form = {
@@ -458,7 +457,7 @@
 					location.reload();
 				})
 					.catch(error => {
-						alert("Lỗi cập nhật người dùng!");
+						alert("Người dùng hiện đang sử dụng dịch vụ!");
 						console.log("Error", error);
 					});
 			}
