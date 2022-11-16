@@ -2,6 +2,8 @@ package com.tin.controller;
 
 import java.awt.Image;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tin.entity.Account;
 import com.tin.entity.Blog;
+import com.tin.entity.Discount;
 import com.tin.entity.Favorite;
 import com.tin.entity.Images;
 import com.tin.entity.OrderDetail;
 import com.tin.entity.Product;
 import com.tin.service.AccountService;
 import com.tin.service.BlogService;
+import com.tin.service.DiscountService;
 import com.tin.service.FavoriteService;
 import com.tin.service.ImageService;
 import com.tin.service.OrderDetailsService;
@@ -50,6 +54,8 @@ public class HomeController {
 	OrderService orderService;
 	@Autowired
 	ReportService reportService;
+	@Autowired
+	DiscountService discountService;
 	@GetMapping("/index")
 	public String list(Model model,HttpServletRequest request) {
 		// load sản phẩm
@@ -74,6 +80,8 @@ public class HomeController {
 		//lượt mua nhiều nhất
 		List<Object[]>countMostBuys = productService.countMostBuys();
 		model.addAttribute("countMostBuys", countMostBuys);
+		//disable tự động discount hết hạn
+//		disableDiscountAuto();
 		return "/user/homepage";
 	}
 	@GetMapping("/index/product/detail/{id}/{cid}")
@@ -87,6 +95,25 @@ public class HomeController {
 		List<Images>findImageSupport = imageService.findImageSupport(id);
 		model.addAttribute("image", findImageSupport);
 		return "/user/shop-details";
+	}
+	
+	public void disableDiscountAuto() {
+		long millis=System.currentTimeMillis();   
+		List<Discount>discounts = discountService.findAll();
+		java.sql.Date date=new java.sql.Date(millis); 
+		TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+            	for (int i = 0; i < discounts.size(); i++) {
+            		if(discounts.get(i).getEnd_time().before(date)) {
+                		discountService.deleteLogical(discounts.get(i).getDiscount_id());
+                	}
+				} 
+            }
+        };
+        long delay = 100000L;
+        Timer timer = new Timer("Timer");
+        timer.schedule(timerTask, 0, delay);
 	}
 
 	

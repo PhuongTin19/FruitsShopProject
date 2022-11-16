@@ -35,17 +35,7 @@ public class test {
 	public static void main(String[] args) {
 //		boolean checkPassword = bcrypt.matches("456","$2a$10$Sn2G.oihgZwO4K6PbH6ezOMQaa5SyURHGuqztbx3zyeBNk7pLROGW");
 //		System.out.println(checkPassword);
-		SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf3.format(new Date());
-		TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println(sdf3.format(date));
-            }
-        };
-        long delay = 1000L;
-        Timer timer = new Timer("Timer");
-        timer.schedule(timerTask, 0, delay);
+		
 	}
 
 

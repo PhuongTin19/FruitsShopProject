@@ -3,6 +3,8 @@ package com.tin.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
+
 import com.tin.entity.Discount;
 
 public interface DiscountService {
