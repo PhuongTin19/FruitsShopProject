@@ -1,6 +1,7 @@
 package com.tin.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
 
 	@Autowired
 	OrderDetailRepo orderDetailRepo;
+
+	@Override
+	public List<OrderDetail> findByDetailId(Integer id) {
+		return orderDetailRepo.findByDetailId(id);
+	}
+
+
  
 	
 	

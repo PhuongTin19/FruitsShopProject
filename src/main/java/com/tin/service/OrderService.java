@@ -30,8 +30,6 @@ public interface OrderService {
 	
 	Double getRevenue();
 	
-	void cancelOrderAuto(Integer id);
-
 	Page<Order>findByOrder(Date startDate,Date endDate,int page, int size);
 	
 	Page<Order>findByOrder(int page, int size);

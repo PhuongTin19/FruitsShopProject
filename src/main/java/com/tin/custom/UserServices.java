@@ -1,7 +1,5 @@
 package com.tin.custom;
 
-import com.tin.entity.Account;
-
 import com.tin.entity.*;
 import com.tin.repository.AccountRepo;
 
@@ -38,6 +36,9 @@ public class UserServices {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private OrderDetailsService orderDetailsService;
 	
 	@Autowired
     private JavaMailSender mailSender;
@@ -100,8 +101,17 @@ public class UserServices {
 		order.setPhone(order.getPhone());
 		String random = RandomString.make(64);
 		order.setVerificationCode(random);
+		// Cập nhật độ uy tín
 		Account account = accountService.findByUsername(request.getRemoteUser());
 		account.setReliability(account.getReliability()+1);
+		//Cập nhật số lượng vào product
+		List<OrderDetail>details = orderDetailsService.findByDetailId(order.getOrder_id());
+		for (int i = 0; i < details.size(); i++) {
+			Product product = productService.findById(details.get(i).getProduct().getProduct_id());
+			Integer newQuanity = product.getQuantity() + details.get(i).getTotalQuantity();
+			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
+		}
+		//
 		try {
 			accountService.update(account);
 		} catch (Exception e) {

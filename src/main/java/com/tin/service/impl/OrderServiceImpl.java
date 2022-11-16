@@ -95,8 +95,16 @@ public class OrderServiceImpl implements OrderService {
 						order2.getPayment_method().getPayment_method_id() == 2) {
 					System.out.println("Đang chạy timer if");
 					order.setOrderStatus("Đã hủy đơn");
+					//Cập nhật số lượng vào product
+					for (int i = 0; i < orderData.get("orderDetails").size(); i++) {
+						Product product = productService.findById(details.get(i).getProduct().getProduct_id()).get();
+						Integer newQuanity = product.getQuantity() + details.get(i).getTotalQuantity();
+						productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
+					}
+					//Tăng độ uy tín
 					Account account = accountService.findByUsername(order2.getAccount().getUsername());
 					accountService.updateReliability(account.getReliability()+1, order2.getAccount().getUsername());
+					//
 					updateOrder(order);
 					try {
 						System.out.print(account.getReliability());							
@@ -170,26 +178,6 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepo.getRevenue();
 	}
 
-	@Override
-	public void cancelOrderAuto(Integer id) {
-		Order order = orderRepo.findById(id).get();
-		Calendar now = Calendar.getInstance();
-		Timer t = new Timer();
-		t.schedule(new TimerTask() {
-			public void run() {
-				if (!order.getOrderStatus().equalsIgnoreCase("Hoàn thành")) {
-					System.out.println("Đang chạy timer if");
-					order.setOrderStatus("Đã hủy đơn");
-					updateOrder(order);
-				} else {
-					System.out.println("Đang chạy timer else");
-				}
-			}
-		}, 60000);
-		
-	}
-	
-	
 	@Override
 	public Page<Order> findByOrder(int page, int size) {
 		return orderRepo.findByOrder(PageRequest.of(page, size));
