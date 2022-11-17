@@ -166,6 +166,7 @@ public class UserServices {
 
         System.out.println("Email đã được gửi");
     }
+
     //Mail hủy đơn tự động
     public void sendMailCancelOrderOnline(Order order) throws MessagingException, UnsupportedEncodingException{
         String toAddress = order.getAccount().getEmail();
@@ -206,7 +207,44 @@ public class UserServices {
 
         System.out.println("Email đã được gửi");
     }
-    
+    //Mail khôi phục đơn hàng
+    public void sendMailRestoreOrder(Order order) throws MessagingException, UnsupportedEncodingException{
+        String toAddress = order.getAccount().getEmail();
+        String fromAddress = "gfthotel12@gmail.com";
+        String senderName = "Five House";
+        String subject = "Đơn hàng đã được khôi phục";
+        String content = "Thân chào <b>[[name]]</b>,<br>"
+                + "Đơn hàng của bạn đã được khôi phục theo yêu cầu <br>"
+                + "Kiện hàng sẽ được chuyển đến bạn sớm.Nếu đã nhận được hàng và hài lòng về sản phẩm,bạn vui lòng tiến hành thanh toán<br>"
+                + "Cảm ơn bạn,<br>"
+                + "Five House.<br>"
+                + "<a href='http://localhost:8081'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+ 
+        content = content.replace("[[name]]", order.getAccount().getFullname());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String strDate = formatter.format(order.getOrderdate());
+        content = content.replace("[[orderDate]]", strDate);
+        
+        content = content.replace("[[notes]]",order.getNotes());
+
+        NumberFormat vn = NumberFormat.getInstance(new Locale("vi", "VI"));
+
+        content = content.replace("[[TotalPrice]]", vn.format(order.getTotalPrice()));
+
+        helper.setText(content, true);
+ 
+        mailSender.send(message);
+
+        System.out.println("Email đã được gửi");
+    }
     //Xử lý đặt hàng
   	public void purchaseOrder(Order order) throws UnsupportedEncodingException, MessagingException{
   		order.setAccount(order.getAccount());

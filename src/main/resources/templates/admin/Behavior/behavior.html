@@ -51,22 +51,7 @@
 				<div class="container-fluid">
 
 					<div class="row">
-						<!-- lọc theo trạng thái -->
-						<div class="dropdown no-arrow ml-5" style="margin-right:600px">
-							<a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-								id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Lọc trạng thái <i class="fas fa-chevron-down"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-								aria-labelledby="dropdownMenuLink">
-								<div class="dropdown-header">Tùy chọn</div>
-								<a class="dropdown-item" href="/admin-order">Tất cả</a>
-								<a class="dropdown-item" href="/admin-order/unpaid">Chưa thanh
-									toán</a>
-								<a class="dropdown-item " href="/admin-order/cancel">Đã hủy đơn</a>
-								<a class="dropdown-item" href="/admin-order/success">Hoàn thành</a>
-							</div>
-						</div>
+					
 						<!-- lọc theo ngày -->
 						<div class="admin-search-date-1">
 							<form th:action="@{/admin-order}" method="post">
@@ -88,53 +73,26 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th class="shoping__product">Mã đơn hàng</th>
-									<th>Thời Gian</th>
-									<th>Địa Chỉ</th>
-									<th>Hình Thức TT</th>
-									<th>Tình trạng</th>
-									<th></th>
+									<th>Id</th>
+									<th>Username</th>
+									<th>Ngày Thực Hiện</th>
+									<th>Hoạt Động</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="order,state:${orders}">
-									<td>[[${order.order_id}]]</td>
+							<tbody class="h5">
+								<tr th:each="behaviors:${behavior}">
+									<td>[[${behaviors.behaviorId}]]</td>
+									<td class="ml-3 mt-3">[[${behaviors.account.username}]]</td>
 									<td>
 										<h4><span
-												class="badge badge-primary">[[${#dates.format(order.orderdate,"dd-MM-yyyy
+												class="badge badge-primary">[[${#dates.format(behaviors.createDate,"dd-MM-yyyy
 												hh:mm:ss")}]]</span></h4>
 									</td>
-									<td>[[${order.address}]]</td>
-									<td>[[${order.payment_method.name}]]</td>
-									<td>
-										<h4
-											th:if="${order.orderStatus == 'Hoàn thành'}">
-											<span class="badge badge-success">[[${order.orderStatus}]]</span>
-										</h4>
-										<h4 th:if="${order.orderStatus == 'Đã hủy đơn'}"><span
-												class="badge badge-danger">[[${order.orderStatus}]]</span></h4>
-										<h4 th:if="${order.orderStatus == 'Chưa thanh toán'}"><span
-												class="badge badge-warning">[[${order.orderStatus}]]</span></h4>
-									</td>
-									<td>
-										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}"
-											th:href="@{|/admin-verifyOrder/${order.order_id}|}"
-											class="btn btn-success">Xác Nhận</a>
-										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}" 
-											th:href="@{|/admin-cancelOrder/${order.order_id}|}" class="btn btn-danger"><span
-												class="icon_close">Hủy</span></a>
-										<a th:if="${order.orderStatus == 'Đã hủy đơn' && order.payment_method.payment_method_id == 1}" 
-											th:href="@{|/admin-restoreOrder/${order.order_id}|}"
-											class="btn btn-success">Khôi phục</a>
-										<a th:href="@{|/admin-detailOrder/${order.order_id}|}" class="btn btn-warning">
-											Chi tiết
-										</a>
-
-									</td>
+									<td class="badge badge-warning mt-2">[[${behaviors.description}]]</td>
 								</tr>
 							</tbody>
 						</table>
-						<div class="text-center" style="margin-left:450px">
+					<div class="text-center" style="margin-left:450px">
 							<nav aria-label="Page navigation example" th:if="${totalPage >1}">
 								<ul class="pagination justify-content-center">
 									<li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
@@ -147,8 +105,6 @@
 									<li th:each="i : ${#numbers.sequence(1,totalPage)}" class="page-item">
 										<a class="page-link" th:href="@{'?page='+ ${i} }" th:text="${i}"></a>
 									</li>
-									<!--                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-									<!--                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
 									<li class="page-item" th:class="${currentPage == totalPage} ? 'disabled' : ''">
 										<a th:href="@{${currentPage < totalPage} ? ${'?page=' + (currentPage+1)} : '' }"
 											class="page-link" href="#" aria-label="Next">

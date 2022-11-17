@@ -15,5 +15,5 @@ public interface OrderDetailRepo extends JpaRepository<OrderDetail,Integer> {
 	
 	@Query(value = "select * from Oder_details where order_id = ?1",nativeQuery = true)
 	List<OrderDetail> findByDetailId(Integer id);
-	
+
 }

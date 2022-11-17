@@ -2,6 +2,7 @@ package com.tin.admin.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +24,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tin.custom.CustomOAuth2User;
 import com.tin.custom.UserServices;
 import com.tin.entity.Account;
+import com.tin.entity.Behavior;
 import com.tin.entity.Order;
+import com.tin.entity.OrderDetail;
+import com.tin.entity.Product;
 import com.tin.repository.OrderRepo;
 import com.tin.service.AccountService;
+import com.tin.service.OrderDetailsService;
 import com.tin.service.OrderService;
+import com.tin.service.ProductService;
+import com.tin.service.BehaviorService;
+
+import net.minidev.json.writer.BeansMapper.Bean;
  
 @Controller
 public class AdminOrderController {
@@ -37,7 +47,16 @@ public class AdminOrderController {
 	OrderService orderService;
 	
 	@Autowired
+	OrderDetailsService orderDetailsService;
+	
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
 	UserServices userServices;
+	
+	@Autowired
+	BehaviorService behaviorService;
 	 
 	@RequestMapping("/admin-order")
 	public String adminOrder(Model model, HttpServletRequest request, Authentication authentication,
@@ -65,19 +84,54 @@ public class AdminOrderController {
 		return "admin/Order/Order";
 	}
 	
+	@RequestMapping("/admin-behavior")
+	public String adminOrderBehavior(Model model, HttpServletRequest request, Authentication authentication,
+			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
+		userServices.getUserName(request, authentication);
+		//Danh sách đơn hàng đã đặt
+//		String day1 = request.getParameter("day"); 
+//		String end1 = request.getParameter("end");
+//		model.addAttribute("day",day1);
+//		model.addAttribute("end",end1);
+//		System.out.println(day1);
+//		System.out.println(end1);
+		Page<Behavior> behaviorList = behaviorService.findAll(page-1,10);
+		model.addAttribute("behavior", behaviorList.getContent());
+		model.addAttribute("totalPage", behaviorList.getTotalPages());
+		model.addAttribute("currentPage", page);
+//		if(day1 == null || end1 == null) {
+//			behaviorList = orderService.findByOrder(Date.valueOf("2022-01-01"),Date.valueOf("2022-12-31"),page-1,10);
+//			model.addAttribute("orders", orderList.getContent());
+//			model.addAttribute("totalPage", orderList.getTotalPages());
+//			model.addAttribute("currentPage", page);
+//		}else {
+//			orderList = orderService.findByOrder(Date.valueOf(day1),Date.valueOf(end1),page-1,10);
+//			model.addAttribute("orders", orderList.getContent());
+//			model.addAttribute("totalPage", orderList.getTotalPages());
+//			model.addAttribute("currentPage", page);
+//		}
+		return "admin/Behavior/Behavior";
+	}
+	
 	@RequestMapping("/admin-detailOrder/{id}")
 	public String adminDetailOrder(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("order", orderService.findById(id));
 		return "admin/Order/DetailOrder";
 	}
-	
+	//Xác nhận đơn hàng từ admin
 	@RequestMapping("/admin-verifyOrder/{id}")
-	public String adminVerifyOrder(@PathVariable("id") Integer id, Model model,
+	public String adminVerifyOrder(@PathVariable("id") Integer id, Model model,Principal p,
 			HttpServletRequest request, Authentication authentication,
 			@RequestParam(name="page",defaultValue = "1") int page) {
 		Order order = orderService.findById(id);
 		order.setOrderStatus("Hoàn thành");
 		orderService.updateOrder(order);
+		// 
+		Account account = accountService.findByUsername(p.getName());
+		Behavior be = new Behavior();
+		be.setAccount(account);
+		be.setDescription(request.getRemoteUser() + " đã xác nhận đơn hàng " + order.getOrder_id());
+		behaviorService.save(be);
 		//
 		userServices.getUserName(request, authentication);
 		//Danh sách đơn hàng đã đặt
@@ -92,16 +146,73 @@ public class AdminOrderController {
 		}
 		return "redirect:/admin-order";
 	}
-	//Hủy đơn
+	//Khôi phục đơn hàng
+	@RequestMapping("/admin-restoreOrder/{id}")
+	public String adminRestoreOrder(@PathVariable("id") Integer id, Model model,
+			HttpServletRequest request, Authentication authentication,
+			@RequestParam(name="page",defaultValue = "1") int page) {
+		Order order = orderService.findById(id);
+		order.setOrderStatus("Chưa thanh toán");
+		// Cập nhật độ uy tín
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		account.setReliability(account.getReliability()-1);
+		//Cập nhật số lượng vào product
+		List<OrderDetail>details = orderDetailsService.findByDetailId(order.getOrder_id());
+		for (int i = 0; i < details.size(); i++) {
+			Product product = productService.findById(details.get(i).getProduct().getProduct_id());
+			Integer newQuanity = product.getQuantity() - details.get(i).getTotalQuantity();
+			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
+		}
+		//
+		try {
+			accountService.update(account);
+			orderService.updateOrder(order);
+			Behavior be = new Behavior();
+			be.setAccount(account);
+			be.setDescription(request.getRemoteUser() + " đã khôi phục đơn hàng " + order.getOrder_id());
+			behaviorService.save(be);
+			userServices.getUserName(request, authentication);
+			userServices.sendMailRestoreOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//Danh sách đơn hàng đã đặt
+		Page<Order> orderList = orderService.findByOrder(page-1,10);
+		model.addAttribute("orders", orderList.getContent());
+		model.addAttribute("totalPage", orderList.getTotalPages());
+		model.addAttribute("currentPage", page);
+		return "admin/Order/Order";
+	}
+	//Hủy đơn từ admin
 	@RequestMapping("/admin-cancelOrder/{id}")
 	public String adminCancelOrder(@PathVariable("id") Integer id, Model model,
 			HttpServletRequest request, Authentication authentication,
 			@RequestParam(name="page",defaultValue = "1") int page) {
 		Order order = orderService.findById(id);
 		order.setOrderStatus("Đã hủy đơn");
-		orderService.updateOrder(order);
+		// Cập nhật độ uy tín
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		account.setReliability(account.getReliability()+1);
+		//Cập nhật số lượng vào product
+		List<OrderDetail>details = orderDetailsService.findByDetailId(order.getOrder_id());
+		for (int i = 0; i < details.size(); i++) {
+			Product product = productService.findById(details.get(i).getProduct().getProduct_id());
+			Integer newQuanity = product.getQuantity() + details.get(i).getTotalQuantity();
+			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
+		}
 		//
-		userServices.getUserName(request, authentication);
+		try {
+			accountService.update(account);
+			orderService.updateOrder(order);
+			Behavior be = new Behavior();
+			be.setAccount(account);
+			be.setDescription(request.getRemoteUser() + " đã hủy đơn hàng " + order.getOrder_id());
+			behaviorService.save(be);
+			userServices.getUserName(request, authentication);
+			userServices.sendMailCancelOrderOnline(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		//Danh sách đơn hàng đã đặt
 		Page<Order> orderList = orderService.findByOrder(page-1,10);
 		model.addAttribute("orders", orderList.getContent());
@@ -151,26 +262,6 @@ public class AdminOrderController {
 	public String detailReceipt(Model model, HttpServletRequest request, Authentication authentication,
 			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
 		userServices.getUserName(request, authentication);
-		//Danh sách đơn hàng đã đặt
-//		String day1 = request.getParameter("day"); 
-//		String end1 = request.getParameter("end");
-//		model.addAttribute("day",day1);
-//		model.addAttribute("end",end1);
-//		System.out.println(day1);
-//		System.out.println(end1);
-//		Page<Order> orderList ;
-//		if(day1 == null || end1 == null) {
-//			orderList = orderService.findByOrder(Date.valueOf("2022-01-01"),Date.valueOf("2022-12-31"),page-1,10);
-//			model.addAttribute("orders", orderList.getContent());
-//			model.addAttribute("totalPage", orderList.getTotalPages());
-//			model.addAttribute("currentPage", page);
-//		}else {
-//			orderList = orderService.findByOrder(Date.valueOf(day1),Date.valueOf(end1),page-1,10);
-//			model.addAttribute("orders", orderList.getContent());
-//			model.addAttribute("totalPage", orderList.getTotalPages());
-//			model.addAttribute("currentPage", page);
-//		}
-		
 		List<Object[]>orderList = orderService.detailReceipt();
 		model.addAttribute("ordersAll", orderList);
 		List<Object[]>orderListStatus1 = orderService.detailReceiptStatus("Chưa thanh toán");
@@ -183,8 +274,6 @@ public class AdminOrderController {
 //		model.addAttribute("currentPage", page);
 		return "admin/Order/DetailReceipt";
 	}
-	
-	@Autowired
-	OrderRepo orderRepo;
+
 	
 }

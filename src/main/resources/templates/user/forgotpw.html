@@ -37,6 +37,8 @@
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card shadow-2-strong" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
+          	<input style="display:none" type="text" id="kt" th:value="${kt}"/>
+			 <span th:if="${kt} == 'true'">Quay lại trang chủ sau:<span id="minu">10</span></span>
 			<div style="text-align: center" th:if="${message != null}">
 				<p class="text-success">[[${message}]]</p>
 			</div>
@@ -61,6 +63,21 @@
   </div>
 </section>
 </form> 
+<script>
+		var time = 10;
+	//	
+	       setInterval(function() {
+	       		if(document.getElementById("kt").value == "true"){
+			         time--;
+			         if (time === 0) {
+			                window.location.href = '/index';
+			         }
+			         document.getElementById("minu").innerText = time;
+			     }
+		     }, 1000);
+	  //  }
+	    
+</script>
 </main>
 </body>
 

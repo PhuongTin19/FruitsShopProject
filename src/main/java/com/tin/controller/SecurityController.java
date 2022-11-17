@@ -50,7 +50,8 @@ public class SecurityController {
 
     //Chuyển đến form forgot
     @GetMapping("/forgot_password")
-    public String showForgotPasswordForm() {
+    public String showForgotPasswordForm(Model model) {
+    	model.addAttribute("kt","false");
         return "/user/forgotpw";
     }
 
@@ -133,8 +134,9 @@ public class SecurityController {
         else{
             userServices.updatePassword(account, password);
             model.addAttribute("message", "Bạn đã thay đổi mật khẩu thành công.");
+            model.addAttribute("kt","true");
         }
-        return "redirect:/forgot_password";
+        return "/user/forgotpw"; 
     }
 
 }

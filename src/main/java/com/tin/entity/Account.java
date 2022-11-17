@@ -1,6 +1,7 @@
 package com.tin.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +47,10 @@ public class Account implements Serializable{
 	@JoinColumn(name = "role_id", referencedColumnName = "role_id")
 	@JsonIgnoreProperties(value = {"application", "hibernateLazyInitializer"})
 	private Role role;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "account")
+	List<Behavior> behaviors;
 	
 	@Enumerated(EnumType.STRING)
     @Column(name = "provider")

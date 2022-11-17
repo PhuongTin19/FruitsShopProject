@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tin.entity.Category;
+import com.tin.entity.OrderDetail;
 import com.tin.entity.Product;
 import com.tin.repository.ProductRepo;
+import com.tin.service.OrderDetailsService;
 import com.tin.service.ProductService;
 
 @Service
@@ -26,6 +28,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepo productRepo;
+	
+	@Autowired
+	private OrderDetailsService orderDetailsService;
 
 	@Override
 	public List<Product> findByNewProduct() {
@@ -143,7 +148,16 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public void deleteLogical(Integer id) {
-		productRepo.deleteLogical(id);
+		List<OrderDetail>list = orderDetailsService.findAll();
+		for (int i = 0; i < list.size(); i++) {
+			if(id == list.get(i).getProduct().getProduct_id()) {
+				System.out.println("Người dùng đang sử dụng dịch vụ");
+				throw new RuntimeException();
+			}else {
+				productRepo.deleteLogical(id);
+			}
+		}
+		
 	}
 
 	@Override
