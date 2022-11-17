@@ -38,7 +38,9 @@ public class test {
 		
 	}
 
-
+	 @GetMapping("/st") public String change() {
+		 return "user/reset_password_form"; 
+		 }
 	
 	@GetMapping("/contact")
 	public String contact() {
