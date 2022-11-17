@@ -59,10 +59,11 @@ public class AdminOrderController {
 	BehaviorService behaviorService;
 	 
 	@RequestMapping("/admin-order")
-	public String adminOrder(Model model, HttpServletRequest request, Authentication authentication,
+	public String adminOrder(Model model, HttpServletRequest request, Authentication authentication, Principal principal ,
 			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
 		userServices.getUserName(request, authentication);
 		//Danh sách đơn hàng đã đặt
+		
 		String day1 = request.getParameter("day"); 
 		String end1 = request.getParameter("end");
 		model.addAttribute("day",day1);

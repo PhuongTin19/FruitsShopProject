@@ -1,6 +1,8 @@
 package com.tin.rest.controller;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tin.entity.Account;
+import com.tin.entity.Behavior;
 import com.tin.entity.Brand;
 import com.tin.entity.Images;
+import com.tin.service.AccountService;
+import com.tin.service.BehaviorService;
 import com.tin.service.ImageService;
 
 
@@ -23,6 +29,15 @@ import com.tin.service.ImageService;
 public class ImageRestController {
 	@Autowired
 	ImageService imageService;
+	
+	@Autowired
+	AccountService accountService;
+	
+	@Autowired
+	HttpServletRequest request;
+	
+	@Autowired
+	BehaviorService behaviorService;
 	
 	@GetMapping()
 	public List<Images> getAll() {
@@ -34,11 +49,23 @@ public class ImageRestController {
 	}
 	@PostMapping
 	public Images create(@RequestBody Images image) {
-		return imageService.create(image);
+		imageService.create(image);
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		Behavior be = new Behavior();
+		be.setAccount(account);
+		be.setDescription(account.getUsername() + " Đã thêm mới một hình ảnh tên " + image.getName());
+		behaviorService.save(be);
+		return image;
 	}
 	@PutMapping("{id}")
 	public Images update(@PathVariable("id")Integer id,@RequestBody Images image) {
-		return imageService.update(image);
+		imageService.update(image);
+		Account account = accountService.findByUsername(request.getRemoteUser());
+		Behavior be = new Behavior();
+		be.setAccount(account);
+		be.setDescription(account.getUsername() + " Đã thêm mới một hình ảnh tên " + image.getName());
+		behaviorService.save(be);
+		return image;
 	}
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id")Integer id) {
@@ -50,7 +77,12 @@ public class ImageRestController {
 	}
 	
 	 @PutMapping("/deleteLogical/{id}") 
-	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Images images) { 
+	 public void DeleteLogical(@PathVariable("id")Integer id,@RequestBody Images image) { 
 		 imageService.deleteLogical(id); 
+		 Account account = accountService.findByUsername(request.getRemoteUser()); 
+		 Behavior be = new Behavior();
+		 be.setAccount(account);
+		 be.setDescription(account.getUsername() + " Đã thêm mới một hình ảnh tên " + image.getName());
+		 behaviorService.save(be);
 	}
 }

@@ -2,6 +2,8 @@ package com.tin.rest.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tin.entity.Account;
+import com.tin.entity.Behavior;
 import com.tin.service.AccountService;
+import com.tin.service.BehaviorService;
 
 
 @CrossOrigin("*")
@@ -25,6 +29,12 @@ public class AccountRestController {
 	
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	HttpServletRequest request;
+	
+	@Autowired
+	BehaviorService behaviorService;
 	
 	@GetMapping()
 	public List<Account> getAll() {
@@ -42,17 +52,47 @@ public class AccountRestController {
 	}
 	@PostMapping
 	public Account create(@RequestBody Account account) {
-		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-		account.setPassword(bcrypt.encode(account.getPassword()));
-		return accountService.create(account);
+		try {
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			account.setPassword(bcrypt.encode(account.getPassword()));
+			accountService.create(account);
+			Account accountRecord = accountService.findByUsername(request.getRemoteUser());
+			Behavior behavior =  new Behavior();
+			behavior.setAccount(accountRecord);
+			behavior.setDescription(accountRecord.getUsername() + " Đã tạo tài khoảng " + account.getUsername());
+			behaviorService.save(behavior);
+			return account;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	@PutMapping("{id}")
 	public Account update(@PathVariable("id")Integer id,@RequestBody Account account) {
-		return accountService.updateAccount(account);
+		try {
+			Account accountRecord = accountService.findByUsername(request.getRemoteUser());
+			Behavior behavior = new Behavior();
+			behavior.setAccount(accountRecord);
+			accountService.updateAccount(account);
+			behavior.setDescription(accountRecord.getUsername() + " Đã cập nhật user " + account.getUsername());
+			behaviorService.save(behavior);
+			return account;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	@PutMapping("/deleteLogical/{id}")
 	public void delete(@PathVariable("id")Integer id,@RequestBody Account account) {
-		accountService.deleteLogical(id);
+		try {
+			accountService.deleteLogical(id);
+			Account accountRecord = accountService.findByUsername(request.getRemoteUser());
+			Behavior behavior = new Behavior();
+			behavior.setAccount(accountRecord);
+			behavior.setDescription(accountRecord.getUsername() + " Đã tắt trạng thái hoạt động user " 
+					+ account.getUsername());
+			behaviorService.save(behavior);
+		} catch (Exception e) {
+			
+		}
 	}
 	@PutMapping("/updateLogical/{id}")
 	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Account account) {

@@ -464,7 +464,7 @@
 
 			//Xóa sản phẩm
 			$scope.delete = function (item) {
-				//$scope.form.is_enable = true
+				$scope.form.is_enable = true
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa người dùng này?")) {
 					$http.put(`/rest/accounts/deleteLogical/${item.account_id}`, item).then(resp => {
