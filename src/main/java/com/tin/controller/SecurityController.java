@@ -119,19 +119,12 @@ public class SecurityController {
     public String processResetPassword(HttpServletRequest request, Model model) throws Exception {
         String token = request.getParameter("token");
         String password = request.getParameter("password");
-
-        System.out.println("token: " + token);
-
-        System.out.println("pass: " + password);
-
         Account account = accountService.findByVerificationCode(token);
         model.addAttribute("title", "Đặt lại mật khẩu của bạn");
-
         if (account == null) {
             model.addAttribute("message", "Mã Token không hợp lệ, vui lòng thử lại.");
             return "/user/forgotpw";
-        }
-        else{
+        }else{
             userServices.updatePassword(account, password);
             model.addAttribute("message", "Bạn đã thay đổi mật khẩu thành công.");
             model.addAttribute("kt","true");

@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		</section>
-<form th:action="@{/forgot_password}" method="post">
+<form  name="frmForgotPW"  th:action="@{/forgot_password}" method="post">
 <section style="background: #23CFC4;background: linear-gradient(to top, #23CFC4 0%, #1F77CF 100%);">
   <div class="container py-5 h-75">
     <div class="row mt-4 d-flex justify-content-center align-items-center h-50">
@@ -47,7 +47,8 @@
 			</div>
             <h2 class="text-uppercase text-center mb-5">Quên mật khẩu</h2>
             <div class="form-outline mb-5">
-              	<input name="email" type="email" class="form-control" id="inputEmail"placeholder="Email của bạn">
+              	<input ng-model="email" required name="email" type="email"  class="form-control" id="inputEmail"placeholder="Email của bạn">
+              	<div style="margin-right:160px" class="text-danger font-italic" ng-show="frmForgotPW.email.$touched && frmForgotPW.email.$invalid">Không đúng định dạng email</div>
             </div>
 			<button class="btn btn-lg btn-block btn-primary" type="submit">Kiểm Tra Gmail</button>
 			 <div class="form-check d-flex justify-content-center">
@@ -63,9 +64,8 @@
   </div>
 </section>
 </form> 
-<script>
-		var time = 10;
-	//	
+	<script>
+			var time = 10;
 	       setInterval(function() {
 	       		if(document.getElementById("kt").value == "true"){
 			         time--;
@@ -75,9 +75,7 @@
 			         document.getElementById("minu").innerText = time;
 			     }
 		     }, 1000);
-	  //  }
-	    
-</script>
+	</script>
 </main>
 </body>
 

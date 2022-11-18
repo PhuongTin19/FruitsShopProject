@@ -120,16 +120,17 @@ public class AuthController {
 			String newPassword = request.getParameter("newPassword");
 			String password = request.getParameter("password");
 			
-			if(oldPassword.isEmpty() || newPassword.isEmpty() || password.isEmpty()) {
-				model.addAttribute("error", "Không để trống ô nhập");
-			}else if(newPassword.length() < 6 || password.length() < 6) {
-				model.addAttribute("error", "Mật khẩu quá ngắn");
-			}else if (getPassword == null) {
-				model.addAttribute("error", "Mật khẩu cũ không đúng");
+//			if(oldPassword.isEmpty() || newPassword.isEmpty() || password.isEmpty()) {
+//				model.addAttribute("errorBlank", "Không để trống ô nhập");
+//			}else if(newPassword.length() < 6 || password.length() < 6) {
+//				model.addAttribute("errorLength", "Mật khẩu phải ít nhất 6 kí tự");
+//			}else 
+			if (getPassword == null) {
+				model.addAttribute("errorOld", "Mật khẩu cũ không đúng");
 			} else if (oldPassword.equals(newPassword)) {
 				model.addAttribute("error", "Mật khẩu mới không được trùng mật khẩu cũ");
 			} else if (!newPassword.equals(password)) {
-				model.addAttribute("error", "Mật khẩu không khớp");
+				model.addAttribute("errorConfirm", "Mật khẩu không khớp");
 			} else {
 				String encodedPassword = bcrypt.encode(password);// Mã hóa mật khẩu
 				accountService.updatePassword(encodedPassword, username);
@@ -218,13 +219,7 @@ public class AuthController {
 		String username = userServices.getUserName(request, authentication);
 		Account account = accountService.findByUsername(username);
 		String password = account.getPassword();
-		if(userRequest.getAddress().isEmpty() || userRequest.getEmail().isEmpty() ||
-				userRequest.getFullname().isEmpty() || userRequest.getPhone().isEmpty()) {
-			return "/user/EditInformationCustomer";
-		}else if(userRequest.getPhone().length() > 10 || userRequest.getPhone().length() < 10){
-			return "/user/EditInformationCustomer";
-		}else { 
-			try {
+		try {
 				String fileName = StringUtils.cleanPath(image.getOriginalFilename());
 				if (fileName.equals("") || fileName.length() == 0 || fileName == null) {
 					System.out.println("accountImg: " + account.getImage());
@@ -255,7 +250,6 @@ public class AuthController {
 				e.printStackTrace();
 				return "/user/EditInformationCustomer";
 			}
-		}
 	}
 
 	@GetMapping("/")

@@ -12,7 +12,8 @@
 	<link th:href="@{/dashboard/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
 	<link th:href="@{/dashboard/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
 	<link th:href="@{/dashboard/css/ruang-admin.min.css}" rel="stylesheet">
-
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<!-- css customize -->
 	<link th:href="@{/dashboard/css/customer.style.css}" rel="stylesheet">
 
@@ -20,7 +21,7 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
-<body id="page-top">
+<body id="page-top" ng-app="myapp" ng-controller="myctrl">
 	<div id="wrapper">
 		<!-- Sidebar -->
 		<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -127,9 +128,9 @@
 
 						<!-- edit information -->
 						<div class="row box box-border">
-							<form th:action="@{/user/detailInfor}" th:object="${userRequest}" id="form" method="POST"
+							<form id="frmEdit" name="frmEdit" th:action="@{/user/detailInfor}" th:object="${userRequest}" method="POST"
 								enctype="multipart/form-data" style="width: 100%; border-radius: 10px; padding: 20px">
-								<div class="row box">
+								<div class="row box" >
 									<div class="col-12">
 										<div class="avatar_account">
 											<img id="thumbnail"
@@ -144,36 +145,39 @@
 									</div>
 								</div>
 
-								<!----><div class="form-row" style="display: none">
+								<div class="form-row" style="display: none">
 									<div class="form-group col-md-4">
 										<label for="username">Tài khoản</label>
-										<input  th:field="*{username}" name="username" id="username"
-											readonly="true" type="text" class="form-control">
+										<input ng-model="username" required minlength="5" th:field="*{username}" name="username" id="username"
+											type="text" class="form-control">
+										<div class="text-danger font-italic" ng-show="frmEdit.username.$touched && frmEdit.username.$invalid">Username phải 5 kí tự trở lên</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="email">Email</label>
-									<input th:field="*{email}" type="email" name="email"
-										class="form-control">
-									<i class="text-danger" th:errors="*{email}"></i>
+									<input ng-model="email"  th:field="*{email}" type="email" name="email"
+										class="form-control" required>
+									<div class="text-danger font-italic" ng-show="frmEdit.email.$touched && frmEdit.email.$invalid">Không đúng định dạng email</div>
+									<div class="text-danger font-italic" ng-show="frmEdit.email.$untouched && frmEdit.email.$invalid">Không để trống email</div>
 								</div>
 								<div class="form-group">
 									<label for="fullname">Họ và tên</label>
-									<input th:field="*{fullname}" type="text" name="fullname"
-										class="form-control">
-									<i class="text-danger" th:errors="*{fullname}"></i>
+									<input ng-model="fullname" th:field="*{fullname}" type="text" name="fullname"
+										class="form-control" required>
+									<div class="text-danger font-italic" ng-show="frmEdit.fullname.$invalid">Không để trống họ tên</div>
 								</div>
 								<div class="form-group">
 									<label for="phone">Điện thoại</label>
-									<input th:field="*{phone}" type="text" name="phone"
-										class="form-control">
-									<i class="text-danger" th:errors="*{phone}"></i>
+									<input ng-model="phone" th:field="*{phone}" type="text" name="phone"
+										class="form-control" minlength="10" maxlength="10" required >
+									<div class="text-danger font-italic" ng-show="frmEdit.phone.$touched && frmEdit.phone.$invalid">Số điện thoại không hợp lệ</div>
+									<div class="text-danger font-italic" ng-show="frmEdit.phone.$untouched && frmEdit.phone.$invalid">Không để trống số điện thoại</div>
 								</div>
 								<div class="form-group">
 									<label for="address">Địa chỉ</label>
-									<input th:field="*{address}" type="text" name="address"
-										class="form-control">
-										<i class="text-danger" th:errors="*{address}"></i>
+									<input ng-model="address" th:field="*{address}" type="text" name="address"
+										class="form-control" required>
+									<div class="text-danger font-italic" ng-show="frmEdit.address.$invalid">Không được để trống địa chỉ</div>
 								</div>
 
 								<div class="right-button">
@@ -235,7 +239,12 @@
 	<a class="scroll-to-top rounded" href="#page-top">
 		<i class="fas fa-angle-up"></i>
 	</a>
-
+	<script>
+	 	 var app = angular.module("myapp", []);
+    	app.controller("myctrl", function($scope) {
+	      
+        });
+	 </script>
 	<script th:src="@{/dashboard/vendor/jquery/jquery.min.js}"></script>
 	<script th:src="@{/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/dashboard/vendor/jquery-easing/jquery.easing.min.js}"></script>

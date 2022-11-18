@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		</section>
-		<form th:action="@{/security/login}" method="post" th:object="${userRequest}" id="form1">
+		<form th:action="@{/security/login}" method="post" th:object="${userRequest}" id="form1" name="frmLogin">
 			<section class="vh-100" style="background: #23CFC4;background: linear-gradient(to top, #23CFC4 0%, #1F77CF 100%);">
 				<div class="container py-5 h-100">
 					<div class="row d-flex justify-content-center align-items-center h-100">
@@ -54,15 +54,15 @@
 									<h2 class="text-uppercase text-center mb-5">Đăng nhập</h2>
 
 									<div class="form-outline mb-4">
-										<input th:field="*{username}" type="text" name="username" id="username"
-											placeholder="Nhập tên tài khoản" class="form-control form-control-lg" />
-										<i style="margin-right:183px" class="text-danger" th:errors="*{username}"></i>
+										<input th:field="*{username}" ng-model="username" type="text" name="username" id="username"
+											placeholder="Nhập tên tài khoản" class="form-control form-control-lg" required/>
+										<div style="margin-right:160px" class="text-danger font-italic" ng-show="frmLogin.username.$touched && frmLogin.username.$invalid">Username không được trống</div>
 									</div>
 
 									<div class="form-outline mb-4">
-										<input th:field="*{password}" type="password" name="password" placeholder="Nhập mật khẩu"
-											class="form-control form-control-lg" />
-										 <i style="margin-right:180px" class="text-danger" th:errors="*{password}"></i>
+										<input th:field="*{password}" ng-model="password" type="password" name="password" placeholder="Nhập mật khẩu"
+											class="form-control form-control-lg" required/>
+										<div style="margin-right:160px" class="text-danger font-italic"  ng-show="frmLogin.password.$touched &&frmLogin.password.$invalid">Password không được trống</div>
 									</div>
 
 									<div style="margin-right:233px">

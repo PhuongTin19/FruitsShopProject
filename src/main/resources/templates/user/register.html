@@ -29,8 +29,8 @@
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card mt-5 mb-5	" style="border-radius: 15px;">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6" style="margin-right:200px">
+          <div class="card mt-5 mb-5" style="border-radius:15px;width:900px">
             <div class="card-body p-5">
             <div th:if="${message!=null}">
             	<div th:text="${message}" class="alert alert-success text-center" role="alert"></div>
@@ -40,49 +40,48 @@
             </div>
               <h2 class="text-uppercase text-center mb-5">Tạo một tài khoản</h2>
 
-				<form th:action="@{/user/register}" th:object="${account}" method="post">
+				<form name="frmRegister" th:action="@{/user/register}" th:object="${account}" method="post">
 				 <!-- nhập username -->
                 <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example1cg">Tên tài khoản</label>
-                  <input th:field="*{username}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{username}"></i>
-                  
+                	<label class="form-label" for="form3Example1cg">Tên tài khoản</label>
+                  	<input ng-model="username" name="username" required minlength="5" th:field="*{username}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                	<div class="text-danger font-italic"  ng-show="frmRegister.username.$touched && frmRegister.username.$invalid">Username phải 5 kí tự trở lên</div>
                 </div>                
 				<!-- nhập passwrord -->
-                <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example4cg">Mật khẩu</label>
-                  <input name="password"  th:field="*{password}" type="password" id="form3Example4cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{password}"></i>
-                </div>
+	            <div class="form-outline mb-4">
+		            <label class="form-label" for="form3Example4cg">Mật khẩu</label>
+		            <input ng-model="password" name="password" required minlength="6"  th:field="*{password}" type="password" class="form-control form-control-lg" />
+	           		<div class="text-danger font-italic"  ng-show="frmRegister.password.$touched && frmRegister.password.$invalid">Mật khẩu phải 6 kí tự trở lên</div>
+	           </div>
 				<!-- nhập lại passwrord -->
                 <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example4cdg">Điền lại mật khẩu</label>
-                  <input name="confirm" type="password" id="form3Example4cdg" class="form-control form-control-lg" />
+	                  <label class="form-label" for="form3Example4cdg">Điền lại mật khẩu</label>
+	                  <input ng-model="confirm" name="confirm" required minlength="6" type="password" class="form-control form-control-lg" />
+	                  <div class="text-danger font-italic" ng-show="frmRegister.confirm.$touched && frmRegister.confirm.$invalid">Mật khẩu phải 6 kí tự trở lên</div>
                 </div>
                 <!-- nhập họ tên -->
                 <div class="form-outline mb-4">
-                  <label class="form-label" for="form3Example1cg">Họ tên của bạn</label>
-                  <input th:field="*{fullname}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{fullname}"></i>
-                </div>
+	                  <label class="form-label" for="form3Example1cg">Họ tên của bạn</label>
+	                  <input ng-model="fullname" name="fullname" required th:field="*{fullname}" type="text" class="form-control form-control-lg" />
+	            	  <div class="text-danger font-italic" ng-show="frmRegister.fullname.$touched && frmRegister.fullname.$invalid">Không để trống họ tên</div>
+	            </div>
                	<!-- nhập số điện thoại -->
                 <div class="form-outline mb-4">
-                	<label class="form-label" for="form3Example1cg">Số điện thoại</label>
-                  <input name="phone" th:field="*{phone}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{phone}"></i>
-                  
+	               	  <label class="form-label" for="form3Example1cg">Số điện thoại</label>
+	                  <input ng-model="phone" name="phone" required minlength="10" maxlength="10" th:field="*{phone}" type="text" class="form-control form-control-lg" />
+                	  <div class="text-danger font-italic" ng-show="frmRegister.phone.$touched && frmRegister.phone.$invalid">Số điện thoại không hợp lệ</div>
                 </div>
                 <!-- nhập email -->
                 <div class="form-outline mb-4">
                 	<label class="form-label" for="form3Example3cg">Địa chỉ email của bạn</label>
-                  <input name="email" th:field="*{email}" type="email" id="form3Example3cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{email}"></i>
+                  	<input ng-model="email" name="email" required th:field="*{email}" type="email" class="form-control form-control-lg" />
+                  	<div class="text-danger font-italic" ng-show="frmRegister.email.$touched && frmRegister.email.$invalid">Không đúng định dạng email</div>
                 </div>
                 <!-- nhập địa chỉ nhà -->
              	<div class="form-outline mb-4">
              		 <label class="form-label" for="form3Example1cg">Địa chỉ nhà của bạn</label>
-                  <input th:field="*{address}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <i class="text-danger" th:errors="*{address}"></i>
+                  	 <input ng-model="address" name="address" required th:field="*{address}" type="text" class="form-control form-control-lg" />
+                  	 <div class="text-danger font-italic" ng-show="frmRegister.address.$touched &&frmRegister.address.$invalid">Không được để trống địa chỉ</div>
                 </div>
  				<hr class="my-4">
                 <div class="d-flex justify-content-center">
