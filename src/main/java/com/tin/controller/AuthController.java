@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+
 import org.hibernate.validator.constraints.Mod11Check.ProcessingDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,6 +56,7 @@ import com.tin.service.FavoriteService;
 import com.tin.service.RoleService;
 
 import javassist.expr.NewArray;
+import lombok.experimental.var;
  
 @Controller
 public class AuthController {
@@ -68,6 +71,9 @@ public class AuthController {
 	@Autowired
 	RoleService roleService;
 
+	@Autowired
+	AccountRepo accountRepo;
+	
 	@Autowired
 	ServletContext app;
 
@@ -148,7 +154,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/user/register")
-	public String doPostRegister(Model model, HttpServletRequest request,
+	public String doPostRegister(Model model, HttpServletRequest request, RedirectAttributes r,
 				@Valid @ModelAttribute("account") Account account,
 				Errors error)
 			throws UnsupportedEncodingException, MessagingException {
@@ -156,19 +162,20 @@ public class AuthController {
 		Account accountsByEmail = accountService.findByEmail(account.getEmail());
 		Account accountsByPhone = accountService.findByPhone(account.getPhone());
 		String confirmPassword = request.getParameter("confirm");
-		try {
+		if(accountsByUsername != null || accountsByEmail != null || accountsByPhone != null ||
+				!confirmPassword.matches(account.getPassword())) {
 			if (accountsByUsername != null) {
-				model.addAttribute("error", "Tài khoản đã tồn tại");
-				return null;
-			}else if(accountsByEmail != null) {
-				model.addAttribute("error", "Email đã tồn tại");
-				return null;
-			}else if(accountsByPhone != null) {
-				model.addAttribute("error", "Số điện thoại này đã tồn tại");
-				return null;
-			}else if (!confirmPassword.matches(account.getPassword())) {
+				model.addAttribute("usernameValid", "Tài khoản đã tồn tại");
+			}if(accountsByEmail != null) {
+				model.addAttribute("emailValid", "Email đã tồn tại");
+			}if(accountsByPhone != null) {
+				model.addAttribute("phoneValid", "Số điện thoại này đã tồn tại");
+			}if (!confirmPassword.matches(account.getPassword())) {
 				model.addAttribute("error", "Mật Khẩu không trùng khớp");
-			} else {
+			}
+			return null;
+		}else {
+			try {
 				String encodedPassword = bcrypt.encode(account.getPassword());
 				account.setPassword(encodedPassword);
 				account.setRole(roleService.findByRoleName("User"));
@@ -178,12 +185,13 @@ public class AuthController {
 				account.setProvider(Provider.DATABASE);
 				accountService.createAccount(account);
 				model.addAttribute("message", "Đăng ký thành công");
+				return "/user/register";
+			} catch (Exception e) {
+				model.addAttribute("error", "Đã xảy ra lỗi khi đăng ký tài khoản");
+				e.printStackTrace();
+				return "/user/register";
 			}
-		} catch (Exception e) {
-			model.addAttribute("error", "Đã xảy ra lỗi khi đăng ký tài khoản");
-			e.printStackTrace();
 		}
-		return "/user/register";
 	}
 
 	// Thông tin tài khoản
@@ -219,7 +227,35 @@ public class AuthController {
 		String username = userServices.getUserName(request, authentication);
 		Account account = accountService.findByUsername(username);
 		String password = account.getPassword();
-		try {
+		List<Account>account2 = accountService.findAll();
+		for (int i = 0; i < account2.size(); i++) {
+			if(userRequest.getEmail().equals(account2.get(i).getEmail()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
+				model.addAttribute("emailValid", "Email đã tồn tại");
+				return "/user/EditInformationCustomer";
+			}if(userRequest.getPhone().equals(account2.get(i).getPhone()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
+				model.addAttribute("phoneValid", "Số điện thoại đã tồn tại");
+				return "/user/EditInformationCustomer";
+			}if(userRequest.getUsername().equals(account2.get(i).getUsername()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
+				model.addAttribute("usernameValid", "Username đã tồn tại");
+				return "/user/EditInformationCustomer";
+			}
+		}
+		if(userRequest.getUsername().equals("") || userRequest.getEmail().equals("") || userRequest.getFullname().equals("")
+				|| userRequest.getPhone().equals("") || userRequest.getAddress().equals("") || userRequest.getPhone().length() != 10) {
+			if(userRequest.getEmail().equals("") ) {
+				model.addAttribute("emailValid", "Email không được để trống");
+			}if(userRequest.getFullname().equals("")) {
+				model.addAttribute("fullnameValid", "Họ tên không được để trống");
+			}if(userRequest.getPhone().equals("")) {
+				model.addAttribute("phoneValid", "Số điện thoại không được để trống");
+			}if(userRequest.getAddress().equals("")) {
+				model.addAttribute("addressValid", "Địa chỉ không được để trống");
+			}if(userRequest.getPhone().length() != 10) {
+				model.addAttribute("phoneValid", "Số điện thoại phải là 10 số");
+			}
+			return "/user/EditInformationCustomer";
+		}else {
+			try {
 				String fileName = StringUtils.cleanPath(image.getOriginalFilename());
 				if (fileName.equals("") || fileName.length() == 0 || fileName == null) {
 					System.out.println("accountImg: " + account.getImage());
@@ -244,12 +280,14 @@ public class AuthController {
 				} catch (IOException e) {
 					
 				}
-	//			FileUploadUtil.saveFile(uploadDir, fileName, image);
+				//FileUploadUtil.saveFile(uploadDir, fileName, image);
 				return "redirect:/user/infor";
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "/user/EditInformationCustomer";
 			}
+		}
+			
 	}
 
 	@GetMapping("/")

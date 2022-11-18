@@ -46,6 +46,7 @@
                 	<label class="form-label" for="form3Example1cg">Tên tài khoản</label>
                   	<input ng-model="username" name="username" required minlength="5" th:field="*{username}" type="text" id="form3Example1cg" class="form-control form-control-lg" />
                 	<div class="text-danger font-italic"  ng-show="frmRegister.username.$touched && frmRegister.username.$invalid">Username phải 5 kí tự trở lên</div>
+                	<div class="text-danger font-italic">[[${usernameValid}]]</div>
                 </div>                
 				<!-- nhập passwrord -->
 	            <div class="form-outline mb-4">
@@ -70,12 +71,14 @@
 	               	  <label class="form-label" for="form3Example1cg">Số điện thoại</label>
 	                  <input ng-model="phone" name="phone" required minlength="10" maxlength="10" th:field="*{phone}" type="text" class="form-control form-control-lg" />
                 	  <div class="text-danger font-italic" ng-show="frmRegister.phone.$touched && frmRegister.phone.$invalid">Số điện thoại không hợp lệ</div>
+                	  <div class="text-danger font-italic">[[${phoneValid}]]</div>
                 </div>
                 <!-- nhập email -->
                 <div class="form-outline mb-4">
                 	<label class="form-label" for="form3Example3cg">Địa chỉ email của bạn</label>
                   	<input ng-model="email" name="email" required th:field="*{email}" type="email" class="form-control form-control-lg" />
                   	<div class="text-danger font-italic" ng-show="frmRegister.email.$touched && frmRegister.email.$invalid">Không đúng định dạng email</div>
+                  	<div class="text-danger font-italic">[[${emailValid}]]</div>
                 </div>
                 <!-- nhập địa chỉ nhà -->
              	<div class="form-outline mb-4">

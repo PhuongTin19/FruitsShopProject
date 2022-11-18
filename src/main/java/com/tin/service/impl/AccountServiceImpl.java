@@ -119,11 +119,11 @@ public class AccountServiceImpl implements AccountService {
         	accDao.updateNonPass(account.getFullname(), account.getEmail(), account.getPhone(),account.getAddress(), account.getUsername());
         }
         else if(account.getPassword().length() != 0 || account.getPassword() != null){
-        	accDao.update(account.getFullname(), account.getEmail(), account.getPassword(), account.getPhone(),account.getAddress(), account.getImage(), account.getUsername());
+        	accDao.update(account.getFullname(), account.getEmail(), account.getPassword(), account.getPhone(),account.getAddress(), account.getImage(),account.getUsername() ,account.getUsername());
         }
         else {
             account.setPassword(bcrypt.encode(account.getPassword()));
-            accDao.update(account.getFullname(), account.getEmail(), account.getPassword(), account.getPhone(),account.getAddress(), account.getImage(), account.getUsername());
+            accDao.update(account.getFullname(), account.getEmail(), account.getPassword(), account.getPhone(),account.getAddress(), account.getImage(), account.getUsername(), account.getUsername());
         }
 	}
 

@@ -145,43 +145,45 @@
 									</div>
 								</div>
 
-								<div class="form-row" style="display: none">
+								<div class="form-row" style="display:none">
+									<div class="form-group col-md-4">
+										<label for="username">ID</label>
+										<input th:field="*{account_id}"  id="account_id"
+											type="text" class="form-control">
+									</div>
 									<div class="form-group col-md-4">
 										<label for="username">Tài khoản</label>
-										<input ng-model="username" required minlength="5" th:field="*{username}" name="username" id="username"
+										<input th:field="*{username}" name="username" id="username"
 											type="text" class="form-control">
-										<div class="text-danger font-italic" ng-show="frmEdit.username.$touched && frmEdit.username.$invalid">Username phải 5 kí tự trở lên</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="email">Email</label>
-									<input ng-model="email"  th:field="*{email}" type="email" name="email"
-										class="form-control" required>
-									<div class="text-danger font-italic" ng-show="frmEdit.email.$touched && frmEdit.email.$invalid">Không đúng định dạng email</div>
-									<div class="text-danger font-italic" ng-show="frmEdit.email.$untouched && frmEdit.email.$invalid">Không để trống email</div>
+									<input th:field="*{email}" type="email" name="email"
+										class="form-control">
+									<div class="text-danger font-italic" id="email">[[${emailValid}]]</div>
 								</div>
 								<div class="form-group">
 									<label for="fullname">Họ và tên</label>
-									<input ng-model="fullname" th:field="*{fullname}" type="text" name="fullname"
-										class="form-control" required>
-									<div class="text-danger font-italic" ng-show="frmEdit.fullname.$invalid">Không để trống họ tên</div>
+									<input th:field="*{fullname}" type="text" name="fullname"
+										class="form-control">
+									<div class="text-danger font-italic" id="fullname">[[${fullnameValid}]]</div>
 								</div>
 								<div class="form-group">
 									<label for="phone">Điện thoại</label>
-									<input ng-model="phone" th:field="*{phone}" type="text" name="phone"
-										class="form-control" minlength="10" maxlength="10" required >
-									<div class="text-danger font-italic" ng-show="frmEdit.phone.$touched && frmEdit.phone.$invalid">Số điện thoại không hợp lệ</div>
-									<div class="text-danger font-italic" ng-show="frmEdit.phone.$untouched && frmEdit.phone.$invalid">Không để trống số điện thoại</div>
+									<input th:field="*{phone}" type="text" name="phone"
+										class="form-control">
+									<div class="text-danger font-italic" id="phone">[[${phoneValid}]]</div>
 								</div>
 								<div class="form-group">
 									<label for="address">Địa chỉ</label>
-									<input ng-model="address" th:field="*{address}" type="text" name="address"
-										class="form-control" required>
-									<div class="text-danger font-italic" ng-show="frmEdit.address.$invalid">Không được để trống địa chỉ</div>
+									<input th:field="*{address}" type="text" name="address"
+										class="form-control">
+									<div class="text-danger font-italic" id="address">[[${addressValid}]]</div>
 								</div>
 
 								<div class="right-button">
-									<button type="submit" id="submitUpdate" class="btn btn-primary">Chỉnh sửa
+									<button onclick="kiemTra()" type="submit" id="submitUpdate" class="btn btn-primary">Chỉnh sửa
 									</button>
 								</div>
 							</form>
@@ -240,23 +242,17 @@
 		<i class="fas fa-angle-up"></i>
 	</a>
 	<script>
-	 	 var app = angular.module("myapp", []);
-    	app.controller("myctrl", function($scope) {
-	      
-        });
-	 </script>
-	<script th:src="@{/dashboard/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/dashboard/vendor/jquery-easing/jquery.easing.min.js}"></script>
-	<script th:src="@{/dashboard/js/ruang-admin.min.js}"></script>
-	<script th:src="@{/dashboard/vendor/chart.js/Chart.min.js}"></script>
-	<script>
-		
 		var loadFile = function (event) {
 			var image = document.getElementById('thumbnail');
 			image.src = URL.createObjectURL(event.target.files[0]);
 		};
 	</script>
+	<script th:src="@{/dashboard/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/dashboard/vendor/jquery-easing/jquery.easing.min.js}"></script>
+	<script th:src="@{/dashboard/js/ruang-admin.min.js}"></script>
+	<script th:src="@{/dashboard/vendor/chart.js/Chart.min.js}"></script>
+
 
 </body>
 

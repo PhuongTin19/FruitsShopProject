@@ -49,8 +49,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     void updateReliability(Integer reliability,String username);
 	
     @Modifying(clearAutomatically =true)
-    @Query(value="UPDATE Accounts SET fullname = ?1, email = ?2,password = ?3, phone = ?4, address = ?5, image = ?6 WHERE username = ?7", nativeQuery = true)
-    void update (String fullname, String email,String password, String phone,String address, String img, String username);
+    @Query(value="UPDATE Accounts SET fullname = ?1, email = ?2,password = ?3, phone = ?4, address = ?5, image = ?6,username=?7 WHERE username = ?8", nativeQuery = true)
+    void update (String fullname, String email,String password, String phone,String address, String img,String username1 ,String username2);
 
 	@Query(value = "select a from Account a where a.account_id = ?1")
 	Account findByAccountId(Integer id);
@@ -78,5 +78,6 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	
 	@Query(value="SELECT top 1 orderStatus from Orders where account_id = ?1  order by orderDate desc", nativeQuery=true)
 	String CheckOrderStatus(Integer id);
+
 }
 
