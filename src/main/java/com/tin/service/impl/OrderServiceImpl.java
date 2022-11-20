@@ -261,9 +261,8 @@ public class OrderServiceImpl implements OrderService {
 	public List<Object[]> detailReceiptStatus(String orderStatus) {
 		return orderRepo.detailReceiptStatus(orderStatus);
 	}
-	
-	
-
-
-
+	@Override
+	public List<Order> findAll() {
+		return orderRepo.findAll(Sort.by("orderdate").descending());
+	}
 }

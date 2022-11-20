@@ -84,7 +84,39 @@
 								</div>
 							</form>
 						</div>
+						<!-- <a class="btn btn-primary" th:href="@{|/admin-order/export/pdf|}" role="button"><i class="bi bi-file-earmark-pdf-fill"></i></a>
+						<a class="btn btn-primary" th:href="@{|/admin-order/export/excel|}" role="button"><i class="bi bi-filetype-xls"></i></a>
+						<a th:href="@{|/admin-order/export/pdf|}"><i class="bi bi-file-earmark-pdf-fill"></i></a>
+						<a th:href="@{|/admin-order/export/excel|}"><i class="bi bi-filetype-xls"></i></a>
+						-->
+					
 						<!-- table category -->
+<!-- 						<div class="pt-5">
+							<h5 class="mb-0 btn btn-danger text-white">
+									<a th:href="@{|/admin-order/export/pdf|}" class="text-white">
+									Export 	PDF
+									</a>
+							</h5>
+						</div>
+						<div class="pt-5">
+							<h5 class="mb-0 btn btn-danger text-white">
+									<a th:href="@{|/admin-order/export/excel|}" class="text-white">
+									Export XLX
+									</a>
+							</h5>
+						</div> -->
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						  <label class="btn btn-success">
+						    <a th:href="@{|/admin-order/export/excel|}" class="text-white">
+							Export XLX
+							</a>
+						  </label>
+						  <label class="btn btn-danger">
+						    <a th:href="@{|/admin-order/export/pdf|}" class="text-white">
+									Export 	PDF
+							</a>
+						  </label>
+						</div>
 						<table class="table table-striped">
 							<thead>
 								<tr>

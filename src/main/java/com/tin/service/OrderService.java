@@ -49,4 +49,6 @@ public interface OrderService {
 	List<Object[]> detailReceipt();
 	
 	List<Object[]> detailReceiptStatus(String orderStatus);
+
+	List<Order> findAll();
 }
