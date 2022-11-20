@@ -43,7 +43,8 @@
         </div> -->
         <!-- <input style="display:none" type="text" th:value="${order.order_id}" name="orderId">
 		<input style="display:none" type="text" th:value="${order.totalPrice}" name="price"> -->
-           <section class="h-100 h-custom" style="background-color: #c4c4c4;">
+           <section class="h-100 h-custom" style="background: rgb(135,135,135);
+background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 100%);">
 			<div class="container py-5 h-100">
 				<div class="row d-flex justify-content-center align-items-center h-100">
 					<div class="col-7">
@@ -86,13 +87,10 @@
 											      <td class="text-center">[[*{#numbers.formatInteger(totalPrice*totalQuantity,3,'POINT')}]]</td>
 											    </tr>
 											  </tbody>
-											  	<tr>
-											    	<td>Tổng thanh toán</td>
-											    	<td></td>
-											    	<td></td>
-											    	<td class="text-center"><span>[[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</span></td>
-											    </tr>
 											</table>
+											<div class="d-flex justify-content-between mb-1">
+												<h5 style="margin-left: 260px; word-spacing:1px; letter-spacing: 2px " class="font-weight-bold mb-1 mt-2 pt-1 text-uppercase">Tổng thanh toán : [[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</h5>
+											</div>
 											<hr class="my-4 bg-dark">	
 											<form method="post">
   												<input style="display:none" type="text">

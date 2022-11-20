@@ -22,7 +22,8 @@
     <!-- Breadcrumb Section End -->
 
     <!-- Checkout Section Begin -->
-    <section class="h-100 h-custom" style="background-color: #c4c4c4;">
+    <section class="h-100 h-custom" style="background: rgb(135,135,135);
+background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 100%);">
 			<div class="container py-5 h-100">
 				<div class="row d-flex justify-content-center align-items-center h-100">
 				<h3 style="word-spacing: 3px;letter-spacing: 4px" class="mb-3" th:text="#{img.detail}">CHI TIẾT ĐƠN HÀNG</h3>
@@ -97,7 +98,10 @@
 												</tr>
 										   </tbody>
 										  </table> 
-										  	<span class="h4" style="margin-left:350px">Tổng cộng: <b class="text-danger h4">[[${#numbers.formatInteger(order.totalPrice,3,'POINT')}]]</b></span>
+											<div class="d-flex justify-content-between mb-1">
+												<h4 class="fw-bold mb-1 mt-2 pt-1 text-uppercase" style="margin-left:300px;color: #d11e1e; ">Tổng cộng:
+												 [[${#numbers.formatInteger(order.totalPrice,3,'POINT')}]] </h4>
+											</div>
 											<!-- chọn hình thức thanh toán -->
 											<hr class="my-4">
 											<div>
