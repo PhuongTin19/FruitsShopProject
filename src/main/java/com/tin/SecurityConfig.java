@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			    		.antMatchers("/order/**","/cart").authenticated()
 			            .anyRequest().permitAll()
 			            .and()
-			            .exceptionHandling().accessDeniedPage("/index");
+			            .exceptionHandling().accessDeniedPage("/403");
 	        
 	        http.formLogin()
 	                .loginPage("/security/login")
@@ -74,11 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                .userInfoEndpoint()
 	                .userService(oauth2UserService)
 	                .and()
-	                .successHandler(oauthLoginSuccessHandler);
+	                .successHandler(oauthLoginSuccessHandler)
 //	                .and()
 //	                .logout().logoutSuccessUrl("/").permitAll()
-//	                .and()
-//	                .exceptionHandling().accessDeniedPage("/403");
+	                .and()
+	                .exceptionHandling().accessDeniedPage("/403");
 	         
 	        http.rememberMe();
 	        

@@ -15,11 +15,14 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 				const x = document.getElementsByName("qty");
 	            for (let i = 0; i < x.length; i++) {
 	                if (x[i].value > 20) {
-	                    alert("Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!");
+	                    //alert("Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!");
+	                    document.getElementById('quantityValid').innerHTML="Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!";
 	                    x[i].value = 1;
 	                }else if(x[i].value>item.quantity){
-						alert("Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
-						+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này");
+						//alert("Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
+						//+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này");
+						document.getElementById('quantityValid').innerHTML="Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
+						+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này";
 						x[i].value = 1;
 					}
 	            }
