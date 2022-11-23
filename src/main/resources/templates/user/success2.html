@@ -52,8 +52,8 @@ background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 10
 							style="border-radius: 25px;">
 							<div class="card-body p-0">
 								<div class="row g-0">
-									<div class="col-lg-12">
-										<div class="p-5">
+									<div class="col-lg-12" >
+										<div class="p-5" id="printContent">
 											<!-- product -->
 											<div class="d-flex justify-content-between mb-1">
 												<h3 class="fw-bold mb-1 mt-2 pt-1 text-center m-auto text-uppercase">Cảm ơn [[${account.fullname}]] đã mua sắm</h3>
@@ -92,7 +92,7 @@ background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 10
 												<h5 style="margin-left: 260px; word-spacing:1px; letter-spacing: 2px " class="font-weight-bold mb-1 mt-2 pt-1 text-uppercase">Tổng thanh toán : [[*{#numbers.formatInteger(totalPrice,3,'POINT')}]]</h5>
 											</div>
 											<hr class="my-4 bg-dark">	
-											<form method="post">
+											<form method="post" >
   												<input style="display:none" type="text">
 												<input style="display:none" type="text">
   											  <div class="form-group">
@@ -118,6 +118,7 @@ background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 10
 														Theo Dõi Đơn Hàng
 													</a>
 											  </h5>
+											  <button class="btn btn-primary" type="submit" onclick="printPDF()" >Print PDF</button>
 											  <!--</form>-->
 											  </form>
 											<!-- end product -->
@@ -130,6 +131,30 @@ background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 10
 				</div>
 			</div>
 		</section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+     integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw=="
+     crossorigin="anonymous"></script>
+   <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+  <script>
+ 	 function printPDF () {
+      alert("Số lượng quá nhiều");
+	  /**/html2canvas(document.getElementById('printContent'), {height: document.body.clientHeight, width: document.body.clientWidth}).then(function (canvas) {
+        // document.body.appendChild(canvas);
+
+         var wid;
+        var hgt;
+
+        var img = canvas.toDataURL("image/png", wid = canvas.width, hgt = canvas.height);
+        var hratio = hgt / wid
+        var doc = new jsPDF('p', 'pt', 'a4');
+        var width = doc.internal.pageSize.width;
+        var height = width * hratio
+        doc.addImage(img, 'JPEG', 20, 20, width, height);
+        doc.save('invonce.pdf'); 
+      });
+      
+    }
+ </script>
     </main>
 </body>
 </html>
