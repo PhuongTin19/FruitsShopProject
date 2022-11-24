@@ -74,9 +74,9 @@
 					<li>
 						<a style="margin-left:100px" th:href="@{/order/list}" th:text="#{nav.history}">Lịch Sử Mua Hàng</a>
 					</li>
-<!-- 					<li>
-						<a th:href="@{/order/tracking}">Theo Dõi Đơn Hàng</a>
-					</li> -->
+	 				<li th:if="${#request.isUserInRole('Admin')}">
+						<a th:href="@{/admin}">Quản Lý Admin</a>
+					</li> 
 				</ul>
 			</nav>
 		</div>

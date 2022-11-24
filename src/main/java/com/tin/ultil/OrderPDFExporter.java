@@ -18,18 +18,20 @@ public class OrderPDFExporter {
 	public OrderPDFExporter(List<Order> findAll) {
 		this.findAll = findAll;
 	}
-
+	
 	private void writeTableHeader(PdfPTable table) {
+		// style cho tiêu đề cột
 		PdfPCell cell = new PdfPCell();
 		cell.setBackgroundColor(Color.BLUE);
 		cell.setPadding(5);
-
-		Font font = FontFactory.getFont(FontFactory.HELVETICA);
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
 		font.setColor(Color.WHITE);
-
+		
+		// thêm cột && đặt tên cột
 		cell.setPhrase(new Phrase("OrderID", font));
 		table.addCell(cell);
-
+		
 		cell.setPhrase(new Phrase("AccountID", font));
 		table.addCell(cell);
 
@@ -62,19 +64,20 @@ public class OrderPDFExporter {
 		PdfWriter.getInstance(document, response.getOutputStream());
 		
 		document.open();
-		
-        Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+		//chỉnh style cho tiêu đề 
+        Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         font.setSize(18);
-        font.setColor(Color.BLUE);
-        Paragraph p = new Paragraph("List of Orders", font);
+        font.setColor(Color.BLACK);
+        Paragraph p = new Paragraph("List of All Orders", font);
         p.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(p);
-
+		// căn lề cho data 
 		PdfPTable table = new PdfPTable(6);
+		table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 		table.setWidthPercentage(100f);
 		table.setWidths(new float[] { 1.6f, 2.0f, 3.0f, 3.5f, 2.2f, 2.0f });
 		table.setSpacingBefore(10);
-
+	
 		writeTableHeader(table);
 		writeTableData(table);
 
