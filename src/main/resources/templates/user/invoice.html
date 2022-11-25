@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Five House</title>
+    <title>InvoiceFive House</title>
 <style>
         body{
             background-color: #F6F6F6; 
@@ -151,29 +151,4 @@
             <h3 class="heading">Tình Trạng Thanh Toán: [[${order.orderStatus}]]</h3>
         </div>
     </div>  
-    <button class="btn btn-primary" id="printPDF" onclick="printPDF()">Print PDF</button>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
-      integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw=="
-      crossorigin="anonymous"></script>
-    <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-    <script>
-  
-      function printPDF() {
-        html2canvas(document.getElementById('printContent'), {height: document.body.clientHeight, width: document.body.clientWidth}).then(function (canvas) {
-          // document.body.appendChild(canvas);
-          alert("dowloading pdf");
-          var wid;
-          var hgt;
-  
-          var img = canvas.toDataURL("image/png", wid = canvas.width, hgt = canvas.height);
-          var hratio = hgt / wid
-          var doc = new jsPDF('p', 'pt', 'a4');
-          var width = doc.internal.pageSize.width;
-          var height = width * hratio
-          doc.addImage(img, 'JPEG', 20, 20, width, height);
-          doc.save('hoadon.pdf');
-        });
-      }
-    </script>  -->
-</body>
 </html>
