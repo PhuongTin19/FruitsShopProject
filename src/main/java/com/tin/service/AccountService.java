@@ -54,10 +54,11 @@ public interface AccountService {
     Page<Account> accountPage(int page);
     Account create(Account account) ;
     Account updateAccountAdmin(Account account) ;
-	List<Account> findByKeyword(String keyword);
+	List<Account> findByKeyword(String keyword,Integer roleId);
 	void updateLogical(Integer id);
 	List<Account> findAllEnable();
 	String CheckOrderStatus(Integer id);
+	List<Account>findAllByRole(Integer role);
 }
 
 

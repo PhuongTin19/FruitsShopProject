@@ -98,29 +98,6 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		request.setAttribute("countCustomer", accountService.getCountCustomerInDay());
 		//Thống kê hàng tồn kho
 		request.setAttribute("Inventory", reportService.getInventoryByCategory());
-		//
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.set(Calendar.HOUR_OF_DAY, 0);
-//		calendar.set(Calendar.MINUTE, 0);
-//		calendar.set(Calendar.SECOND, 0);
-//		calendar.set(Calendar.MILLISECOND, 0);
-//		
-//		Date dataSchedule = calendar.getTime();
-//		long period = 24 * 60 * 60 * 1000;
-//		long millis=System.currentTimeMillis();  
-//		java.sql.Date date=new java.sql.Date(millis); 
-//		java.sql.Date date2 = discountService.findByDiscountId(1007).getEnd_time();
-//		TimerTask timerTask = new TimerTask() {
-//			@Override
-//			public void run() {
-//				if(date2.before(date)) {
-//            		discountService.deleteLogical(1007);
-//            	}
-//			}
-//		};
-//		Timer timer = new Timer();
-//		timer.schedule(timerTask, dataSchedule, period);
-		
 	}
 	
 }

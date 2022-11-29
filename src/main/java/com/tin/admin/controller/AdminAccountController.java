@@ -10,5 +10,19 @@ public class AdminAccountController {
 	public String adminProduct(Model model) {
 		return "/admin/Account/accounts.html";
 	}
-
+	
+	@RequestMapping("/staff")
+	public String staff(Model model) {
+		return "/admin/Account/staff.html";
+	}
+	
+	@RequestMapping("/inforAdmin")
+	public String inforAdmin(Model model) {
+		return "/admin/Account/admin.html";
+	}
+	
+	@RequestMapping("/individual")
+	public String individual(Model model) {
+		return "/admin/Account/individual.html";
+	}
 }

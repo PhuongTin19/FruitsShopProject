@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/admin/fragments :: header">
+
+</head>
+<!--
+`body` tag options:
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+  * sidebar-collapse
+  * sidebar-mini
+-->
+
+<body class="hold-transition sidebar-mini">
+	<div ng-app="myindividual" ng-controller="individual-ctrl" class="wrapper">
+		<!---->
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="/admin/fragments :: navbar">
+		</nav>
+		<aside th:replace="/admin/fragments :: sidebar">
+		</aside>
+
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- general form elements -->
+							<div id="form" class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">User Details</h3>
+								</div>
+								<form >
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+												<div style="display:none" class="form-group">
+													<label for="inputPrice">Id</label>
+													<input th:value="${account.account_id}" type="text" class="form-control"
+														 name="account_id" id="account_id">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">Username</label>
+													<input th:value="${account.username}" type="text" class="form-control"
+														 name="username" id="username" disabled>
+												</div>				
+												<div class="form-group">
+													<label for="inputName">Password</label>
+													<input  type="password" class="form-control"
+														id="password" placeholder="Bỏ trống nếu bạn không muốn đổi password!">
+												</div>
+												<div style="display:none" class="form-group">
+													<label for="inputName">Password</label>
+													<input th:value="${account.password}"  type="text" class="form-control"
+														id="oldpassword" placeholder="Bỏ trống nếu bạn không muốn đổi password!">
+												</div>
+												<div class="form-group">
+													<label for="inputName">Fullname</label>
+													<input th:value="${account.fullname}" type="text" class="form-control"
+														 name="fullname" id="fullname">
+												</div>
+												<div class="form-group">
+														<label for="inputQuantity">Email</label>
+														<input th:value="${account.email}" type="text"
+															class="form-control" id="email">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">phone</label>
+													<input th:value="${account.phone}" type="text" class="form-control"
+														id="phone">
+												</div>
+												<div class="form-group">
+													<label for="inputPrice">Address</label>
+													<input th:value="${account.address}" type="text" class="form-control"
+														id="address" name="address">
+												</div>
+												<div style="display:none" class="form-group">
+													<label for="inputPrice">role_id</label>
+													<input id="role" th:value="${account.role.role_id}"  type="number" class="form-control"
+														 name="address">
+													
+												</div>
+												<div class="form-group">
+													<label>Role:[[${account.role.name}]]</label>
+												</div>
+											<!---->	<fieldset style="display:none" class="form-group row">
+													<legend class="col-form-label col-sm-2 float-sm-left pt-0">Status:
+													</legend>
+													<div class="col-sm-8 ml-3">
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="false"
+																class="form-check-input" type="radio" 
+																name="is_enable">
+															<label class="form-check-label" for="gridRadios1">
+																Enable
+															</label>
+														</div>
+														<div class="form-check">
+															<input ng-model="form.is_enable" ng-value="true"
+																class="form-check-input" type="radio" 
+																 name="is_enable">
+															<label class="form-check-label" for="gridRadios2">
+																Disable
+															</label>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-4">
+												<!---->
+												<div class="card card-primary card-outline">
+													<div class="card-body box-profile">
+														<div class="text-center">
+															<!--<img name="image" ng-src="{{'/user/img/product/' + form.image}"  id="output" class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px" alt="User profile picture" >-->
+															<img  ng-src="{{'/photos/' + form.image}}"
+																style="max-width:100%;" height="200px">
+														</div>
+														<input type="file" class="form-control" id="image"
+															onchange="angular.element(this).scope().imageChanged(this.files)">
+														<br />
+														<input style="display:none" id="imageSub" th:value="${account.image}"  type="text" class="form-control" >
+														<div class="form-group">
+															<label for="inputFile">Avatar</label>
+															<div class="input-group">
+																<div class="custom-file">
+																	<!--    <p><input onchange="angular.element(this).scope().imageChanged(this.files)"  path="image" type="file" accept="image/*" name="imageFile" id="file"  style="display: none;"></p>
+									    							<p><label for="file" style="cursor: pointer;">Upload Image</label></p>-->
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-row p-2">
+										<button  ng-click="update()" class="btn btn-warning mr-3">
+											<b class="glyphicon glyphicon-save"></b>Update
+										</button>
+									</div>
+								</form>
+
+							</div>
+							<!-- /.card -->
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+
+		<!-- Main Footer -->
+		
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED SCRIPTS -->
+
+
+	<div th:replace="/admin/fragments :: scripts">
+	</div>
+	<script>
+		const app = angular.module("myindividual", []);
+		app.controller("individual-ctrl", function ($scope, $http) {
+			
+			$scope.items = [];
+			$scope.cates = [];
+			$scope.form = {};
+		
+			$scope.form.image=document.getElementById("imageSub").value;
+
+			//Cập nhật sản phẩm
+			$scope.update = function () {
+				var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			/*	 for (var i = 0; i < $scope.items.length; i++) {
+		             if($scope.form.username == $scope.items[i].username && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Username này đã tồn tại");
+		               	return;
+		             }else if($scope.form.email == $scope.items[i].email && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Email này đã tồn tại");
+		               	return;
+		             }else if($scope.form.phone == $scope.items[i].phone && $scope.form.account_id != $scope.items[i].account_id){
+		             	alert("Số điện thoại này đã tồn tại");
+		               	return;
+		             }
+	            }*/
+				if(document.getElementById("username").value == ""){
+					alert("Chưa nhập username");
+					return;
+				}else if(document.getElementById("username").value.length < 5){
+					alert("Username phải ít nhất 5 kí tự");
+					return;
+				}else if(document.getElementById("password").value.length >= 1 && document.getElementById("password").value.length < 6){
+					alert("Password quá ngắn");
+					return;
+				}else if(document.getElementById("fullname").value == ""){
+					alert("Chưa nhập họ tên")
+					return;
+				}else if(document.getElementById("email").value == ""){
+					alert("Chưa nhập email");
+					return;
+				}else if(!document.getElementById("email").value.match(mailformat)){
+					alert("Email không hợp lệ");
+					return;
+				}else if(document.getElementById("phone").value == ""){
+					alert("Chưa nhập số điện thoại");
+					return;
+				}else if(!document.getElementById("phone").value.match(/^\d{10}$/)){
+					alert("Số điện thoại không hợp lệ");
+					return;
+				}else if(document.getElementById("address").value == ""){
+					alert("Chưa nhập địa chỉ");
+					return;
+				}
+			/*	else if(document.getElementById("image").value == ""){
+					alert("Chưa chọn hình");
+					return;
+				}*/
+				else{
+					if(document.getElementById("password").value == ""){
+						$scope.form.account_id = document.getElementById("account_id").value;
+						$scope.form.password = document.getElementById("oldpassword").value;
+						$scope.form.username = document.getElementById("username").value;
+						$scope.form.fullname = document.getElementById("fullname").value;
+						$scope.form.email = document.getElementById("email").value;
+						$scope.form.phone = document.getElementById("phone").value;
+						$scope.form.address = document.getElementById("address").value;
+						$scope.form.is_enable = false;
+						//$scope.form.image = document.getElementById("image").value;
+						$scope.form.role={role_id:document.getElementById("role").value};
+						var item = angular.copy($scope.form);
+					}else{
+						$scope.form.account_id = document.getElementById("account_id").value;
+						$scope.form.username = document.getElementById("username").value;
+						$scope.form.fullname = document.getElementById("fullname").value;
+						$scope.form.email = document.getElementById("email").value;
+						$scope.form.phone = document.getElementById("phone").value;
+						$scope.form.address = document.getElementById("address").value;
+						$scope.form.password = document.getElementById("password").value;
+						$scope.form.is_enable = false;
+						//$scope.form.image = document.getElementById("image").value;
+						$scope.form.role={role_id:document.getElementById("role").value};
+						var item = angular.copy($scope.form);
+					}
+				}
+				var item = angular.copy($scope.form);
+				$http.put(`/rest/accounts/${item.account_id}`, item).then(resp => {
+					var index = $scope.items.findIndex(p => p.id == item.id);
+					$scope.items[index] = item;
+					alert("Cập nhật người dùng thành công!");
+					location.reload();
+				})
+				.catch(error => {
+					alert("Người dùng hiện đang sử dụng dịch vụ!");
+					console.log("Error", error);
+				});
+			}
+
+			//Upload hình
+			$scope.imageChanged = function (files) {
+				var data = new FormData();
+				data.append('file', files[0]);
+				$http.post('/rest/upload/photos/images', data, {
+					transformRequest: angular.identity,
+					headers: {'Content-Type': undefined}
+				}).then(resp => {
+					$scope.form.image = resp.data.name;
+				}).catch(error => {
+					alert("Lỗi upload hình ảnh");
+					console.log("Error", error);
+				})
+			}
+
+		});
+	</script>
+</body>
+
+</html>

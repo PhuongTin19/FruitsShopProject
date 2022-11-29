@@ -28,7 +28,7 @@
 				<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
 			</li>
 			<li class="nav-item d-none d-sm-inline-block">
-				<a href="index3.html" class="nav-link">Home</a>
+				<a href="/index" class="nav-link">Home</a>
 			</li>
 			<li class="nav-item d-none d-sm-inline-block">
 				<a href="#" class="nav-link">Contact</a>
@@ -163,7 +163,7 @@
 	<aside  class="main-sidebar sidebar-dark-primary elevation-4"
 		th:fragment="sidebar">
 		<!-- Brand Logo -->
-		<a href="index3.html" class="brand-link">
+		<a href="/index" class="brand-link">
 			<span class="brand-text font-weight-light ml-4"><img th:src="@{/user/img/logo3.png}" height="33px"></span>
 		</a>
 
@@ -211,17 +211,43 @@
 					<li class="nav-header">Quản Lý</li>
 
 						<!--<ul class="nav nav-treeview">-->
-							<li class="nav-item">
+							<li th:if="${#request.isUserInRole('Admin')}" class="nav-item">
 								<a th:href="@{/admin}" class="nav-link">
 									<i class="nav-icon fas fa-flag"></i>
 									<p>Thống Kê</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a th:href="@{/admin/accounts}" class="nav-link">
+								<a  class="nav-link">
 									<i class="nav-icon fas fa-user"></i>
-									<p>Quản lý Tài Khoản</p>
+									<p>Quản lý Tài Khoản<i class="right fas fa-angle-left"></i></p>
 								</a>
+								<ul class="nav nav-treeview">
+					              <li th:if="${#request.isUserInRole('Admin') or #request.isUserInRole('Staff')}" class="nav-item">
+					                <a th:href="@{/admin/accounts}" class="nav-link">
+					                  <i class="far fa-circle nav-icon"></i>
+					                  <p>Thông tin khách hàng</p>
+					                </a>
+					              </li>
+					              <li th:if="${#request.isUserInRole('Admin')}" class="nav-item">
+					                <a th:href="@{/staff}"  class="nav-link">
+					                  <i class="far fa-circle nav-icon"></i>
+					                  <p>Thông tin nhân viên</p>
+					                </a>
+					              </li>
+					            <!--  <li th:if="${#request.isUserInRole('Admin')}" class="nav-item">
+					                <a th:href="@{/inforAdmin}" class="nav-link">
+					                  <i class="far fa-circle nav-icon"></i>
+					                  <p>Thông tin admin</p>
+					                </a>
+					              </li>-->
+					              <li  class="nav-item">
+					                <a th:href="@{/individual}" class="nav-link">
+					                  <i class="far fa-circle nav-icon"></i>
+					                  <p>Thông tin cá nhân</p>
+					                </a>
+					              </li>
+					            </ul>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{/admin/blogs}" class="nav-link">
@@ -266,11 +292,16 @@
 									<p>Quản Lý Đơn Hàng</p>
 								</a>
 							</li>
-							
-							<li class="nav-item">
+							<li th:if="${#request.isUserInRole('Admin')}"  class="nav-item">
 								<a th:href="@{/admin-behavior}" class="nav-link">
 									<i class="nav-icon fas fa-edit"></i>
-									<p>Theo Dõi Admin</p>
+									<p>Theo Dõi</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/security/logoff}" class="nav-link">
+									<i class="nav-icon fas fa-edit"></i>
+									<p>Đăng Xuất</p>
 								</a>
 							</li>
 						<!--</ul>-->

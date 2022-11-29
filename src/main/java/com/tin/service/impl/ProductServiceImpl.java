@@ -132,6 +132,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product update(Product product) {
+//		Product product2 = productRepo.findByProductId(product.getProduct_id());
+//		product.setQuantity(product.getQuantity() + product2.getQuantity());
 		return productRepo.save(product);
 	}
 

@@ -20,26 +20,41 @@ public class adminDiscount {
 	
 	@RequestMapping("/admin/discounts")
 	public String adminDiscount(Model model) {
-//		disableDiscountAuto();
+		try {
+			disableDiscountAuto(); 
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		return "admin/Discount/discounts";
 	}
 	
 	public void disableDiscountAuto() {
-		long millis=System.currentTimeMillis();   
-		List<Discount>discounts = discountService.findAll();
-		java.sql.Date date=new java.sql.Date(millis); 
-		TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-            	for (int i = 0; i < discounts.size(); i++) {
-            		if(discounts.get(i).getEnd_time().before(date)) {
-                		discountService.deleteLogical(discounts.get(i).getDiscount_id());
-                	}
-				} 
-            }
-        };
-        long delay = 100000L;
-        Timer timer = new Timer("Timer");
-        timer.schedule(timerTask, 0, delay);
+		try {
+			long millis=System.currentTimeMillis();   
+			List<Discount>discounts = discountService.findAll();
+			java.sql.Date date=new java.sql.Date(millis); 
+			TimerTask timerTask = new TimerTask() {
+	            @Override
+	            public void run() {
+	            	for (int i = 0; i < discounts.size(); i++) {
+	            		//ngày kết thúc = ngày hiện tại thì disable
+	            		if(discounts.get(i).getEnd_time().before(date)) {
+	                		discountService.deleteLogical(discounts.get(i).getDiscount_id());
+	                	}else if(discounts.get(i).getStart_time().after(date)) {
+	                		discountService.deleteLogical(discounts.get(i).getDiscount_id());
+	                	}else if(discounts.get(i).getStart_time().before(date)) {
+	                		discountService.updateLogical(discounts.get(i).getDiscount_id());
+	                	}
+					} 
+	            }
+	        };
+	        long delay = 100000L;
+	        Timer timer = new Timer("Timer");
+	        timer.schedule(timerTask, 0, delay);
+		} catch (Exception e) {
+			System.out.println("");
+		} 
+		
 	}
 }

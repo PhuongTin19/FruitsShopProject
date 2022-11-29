@@ -231,12 +231,15 @@ public class AuthController {
 		for (int i = 0; i < account2.size(); i++) {
 			if(userRequest.getEmail().equals(account2.get(i).getEmail()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
 				model.addAttribute("emailValid", "Email đã tồn tại");
+				userRequest.setImage(account.getImage());
 				return "/user/EditInformationCustomer";
 			}if(userRequest.getPhone().equals(account2.get(i).getPhone()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
 				model.addAttribute("phoneValid", "Số điện thoại đã tồn tại");
+				userRequest.setImage(account.getImage());
 				return "/user/EditInformationCustomer";
 			}if(userRequest.getUsername().equals(account2.get(i).getUsername()) && userRequest.getAccount_id().equals(account2.get(i).getAccount_id())==false) {
 				model.addAttribute("usernameValid", "Username đã tồn tại");
+				userRequest.setImage(account.getImage());
 				return "/user/EditInformationCustomer";
 			}
 		}
@@ -253,6 +256,7 @@ public class AuthController {
 			}if(userRequest.getPhone().length() != 10) {
 				model.addAttribute("phoneValid", "Số điện thoại phải là 10 số");
 			}
+			userRequest.setImage(account.getImage());
 			return "/user/EditInformationCustomer";
 		}else {
 			try {

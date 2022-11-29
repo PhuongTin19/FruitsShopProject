@@ -41,17 +41,18 @@ public class AccountServiceImpl implements AccountService {
     //Cập nhật Tài Khoản
     @Override
     public Account updateAccount(Account account) {
-		Account a = accDao.findById(account.getAccount_id()).get();
-    	boolean checkPassword = account.getPassword().equals(a.getPassword());
-    	if(checkPassword) {
-    		account.setPassword(a.getPassword());
-    		return AccountRepo.save(account);
-    	}else {
-    		 account.setPassword(bcrypt.encode(account.getPassword()));
-    		 return AccountRepo.save(account);
-    	}  
+    		Account a = accDao.findById(account.getAccount_id()).get();
+        	boolean checkPassword = account.getPassword().equals(a.getPassword());
+        	System.out.println("check:"+checkPassword);
+        	if(checkPassword) {
+        		account.setPassword(a.getPassword());
+        		return AccountRepo.save(account);
+        	}else {
+        		 account.setPassword(bcrypt.encode(account.getPassword()));
+        		 return AccountRepo.save(account);
+        	}  
     }
-    
+     
     //Xác định mã code của account
     @Override
     public Account findByVerificationCode(String code) {
@@ -160,9 +161,15 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account create(Account account) {
-		account.setReliability(0);
-		account.setProvider(Provider.DATABASE);
-		return accDao.save(account);
+		try {
+			account.setReliability(0);
+			account.setProvider(Provider.DATABASE);
+			return accDao.save(account);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -184,8 +191,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-	public List<Account> findByKeyword(String keyword) {
-		return accDao.findByKeyword(keyword);
+	public List<Account> findByKeyword(String keyword,Integer roleId) {
+		return accDao.findByKeyword(keyword,roleId);
 	}
 
 	@Override
@@ -213,5 +220,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account findByPhone(String phone) {
 		return accDao.findByPhone(phone);
+	}
+
+	@Override
+	public List<Account> findAllByRole(Integer role) {
+		return accDao.findAllByRole(role);
 	}
 }

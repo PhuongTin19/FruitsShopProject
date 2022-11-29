@@ -65,8 +65,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
     @Query(value = "{CALL sp_getCountCustomerInDay()}", nativeQuery = true)
 	Integer getCountCustomerInDay();
     
-	@Query(value = "select a from Account a where a.username like %?1%")
-	List<Account> findByKeyword(String keyword);
+	@Query(value = "select a from Account a where a.username like %?1% and a.role.role_id = ?2")
+	List<Account> findByKeyword(String keyword,Integer roleId);
 	
 	@Modifying
 	@Query(value="update Accounts set reliability=5 where account_id=?", nativeQuery=true)
@@ -78,6 +78,8 @@ public interface AccountRepo extends JpaRepository<Account,Integer> {
 	
 	@Query(value="SELECT top 1 orderStatus from Orders where account_id = ?1  order by orderDate desc", nativeQuery=true)
 	String CheckOrderStatus(Integer id);
-
+	//account theo role
+	@Query("SELECT a from Account a where a.role.role_id = ?1")
+	List<Account>findAllByRole(Integer role);
 }
 

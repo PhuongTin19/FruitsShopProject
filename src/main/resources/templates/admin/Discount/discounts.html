@@ -295,6 +295,7 @@
 		               	return;
 		             }
 	            }
+	             var d = new Date();
 				if(document.getElementById("name").value == ""){
 					alert("Chưa nhập tên khuyến mãi!");
 					return;
@@ -313,6 +314,10 @@
 					return;
 				}else if(document.getElementById("endTime").value < document.getElementById("startTime").value){
 					alert("Ngày kết thúc không được lớn hơn ngày bắt đầu!");
+					return;
+				}else if(document.getElementById("startTime").value < d.toLocaleDateString("en-CA") 
+								|| document.getElementById("endTime").value < d.toLocaleDateString("en-CA")){
+					alert("Không được chọn thời điểm trong quá khứ!");
 					return;
 				}else{
 					$scope.form.is_enable = false;

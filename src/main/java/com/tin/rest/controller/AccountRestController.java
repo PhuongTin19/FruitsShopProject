@@ -38,7 +38,17 @@ public class AccountRestController {
 	
 	@GetMapping()
 	public List<Account> getAll() {
-		return accountService.findAll();
+		return accountService.findAllByRole(2);
+	}
+	
+	@GetMapping("/staff")
+	public List<Account> getAllStaff() {
+		return accountService.findAllByRole(1);
+	}
+	   
+	@GetMapping("/admin")  
+	public List<Account> getAllAdmin() {
+		return accountService.findAllByRole(3);
 	}
 	
 	@GetMapping("/enable")
@@ -68,17 +78,13 @@ public class AccountRestController {
 	}
 	@PutMapping("{id}")
 	public Account update(@PathVariable("id")Integer id,@RequestBody Account account) {
-		try {
-			Account accountRecord = accountService.findByUsername(request.getRemoteUser());
-			Behavior behavior = new Behavior();
-			behavior.setAccount(accountRecord);
-			accountService.updateAccount(account);
-			behavior.setDescription(accountRecord.getUsername() + " Đã cập nhật user " + account.getUsername());
-			behaviorService.save(behavior);
-			return account;
-		} catch (Exception e) {
-			return null;
-		}
+		Account accountRecord = accountService.findByUsername(request.getRemoteUser());
+		accountService.updateAccount(account);
+		Behavior behavior = new Behavior();
+		behavior.setAccount(accountRecord);
+		behavior.setDescription(accountRecord.getUsername() + " Đã cập nhật user " + account.getUsername());
+		behaviorService.save(behavior);
+		return account;
 	}
 	@PutMapping("/deleteLogical/{id}")
 	public void delete(@PathVariable("id")Integer id,@RequestBody Account account) {
@@ -98,8 +104,8 @@ public class AccountRestController {
 	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Account account) {
 		accountService.updateLogical(id);
 	}
-	@GetMapping("/keyword/{keyword}")
-	public List<Account> getMany(@PathVariable("keyword") String keyword) {
-		return accountService.findByKeyword(keyword);
+	@GetMapping("/keyword/{keyword}/{roleId}")
+	public List<Account> getMany(@PathVariable("keyword") String keyword,@PathVariable("roleId") Integer roleId) {
+		return accountService.findByKeyword(keyword,roleId);
 	}
 }

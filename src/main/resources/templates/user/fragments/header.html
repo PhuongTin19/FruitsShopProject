@@ -72,9 +72,9 @@
 				</ul>
 				<ul sec:authorize="isAuthenticated()">
 					<li>
-						<a style="margin-left:100px" th:href="@{/order/list}" th:text="#{nav.history}">Lịch Sử Mua Hàng</a>
+						<a style="margin-left:100px" th:href="@{/order/list}" th:text="#{nav.history}">Thông Tin Mua Hàng</a>
 					</li>
-	 				<li th:if="${#request.isUserInRole('Admin')}">
+	 				<li th:if="${#request.isUserInRole('Admin') or #request.isUserInRole('Staff')}">
 						<a th:href="@{/admin}">Quản Lý Admin</a>
 					</li> 
 				</ul>
