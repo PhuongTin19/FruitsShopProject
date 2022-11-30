@@ -47,6 +47,33 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
+								<tr>
+									<th class="shoping__product">#</th>
+									<th>Name</th>
+									<th>Status</th>
+									<th>Edit</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in pager.items">
+									<td>{{item.category_id}}</td>
+									<td>{{item.name}}</td>
+									<td class="badge badge-success mt-3" ng-if="item.is_enable == false">
+										Is Enable
+									</td>
+									<td class="badge badge-danger mt-3" ng-if="item.is_enable == true">
+										Is Disable
+									</td>
+									<td>
+										<a class="btn btn-primary my-2 align-center" ng-click="edit(item)"
+											th:text="'Edit'"></a>
+									</td>
+								</tr>
+								</tbody>
+						</table>
+			<!-------------------------------------->
+		     		<!--<table class="table table-striped">
+							<thead>
 								<tr class="h4">
 									<th class="align-middle" scope="col">#</th>
 									<th class="align-middle" scope="col">Name</th>
@@ -70,7 +97,7 @@
 									</td>
 								</tr>
 							</tbody>
-						</table>
+						</table> -->
 						<div class="panel-footer" style="margin-left:400px;margin-bottom:20px">
 							<button ng-click="pager.first()" class="btn btn-danger">
 								<< </button>

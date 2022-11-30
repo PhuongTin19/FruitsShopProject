@@ -45,18 +45,18 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
-									<th class="align-middle" scope="col">#</th>
-									<th class="align-middle" scope="col">Name</th>
-									<th class="align-middle" scope="col">Discount</th>
-									<th class="align-middle" scope="col">Start time</th>
-									<th class="align-middle" scope="col">End time</th>
-									<th class="align-middle" scope="col">Status</th>
-									<th class="align-middle" scope="col">Edit</th>
+								<tr class="h5">
+									<th class="shoping__product">#</th>
+									<th>Name</th>
+									<th>Discount</th>
+									<th>Star time</th>
+									<th>End time</th>
+									<th>Status</th>
+									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr>
 									<th class="align-middle" scope="row">{{item.product_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="align-middle">{{item.discount}}</td>

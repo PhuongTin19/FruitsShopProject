@@ -47,15 +47,15 @@
 					<div class="row">
 						<table class="table table-striped">
 							<thead>
-								<tr class="h4">
-									<th class="align-middle" scope="col">#</th>
-									<th class="align-middle" scope="col">Name</th>
-									<th class="align-middle" scope="col">Status</th>
-									<th class="align-middle" scope="col">Edit</th>
+								<tr class="h5">
+									<th class="shoping__product">#</th>
+									<th>Name</th>
+									<th>Status</th>
+									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody ng-repeat="item in pager.items">
-								<tr class="h5">
+								<tr>
 									<th class="align-middle" scope="row">{{item.brand_id}}</th>
 									<td class="align-middle">{{item.name}}</td>
 									<td class="badge badge-success mt-4" ng-if="item.is_enable == false">
