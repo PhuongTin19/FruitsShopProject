@@ -100,7 +100,6 @@ public class PageController {
 		Pageable pageable = PageRequest.of(page.orElse(0), 9);
 		Page<Product> listProductCate = productService.filterByCate(cateId, pageable);
 		model.addAttribute("discountList", listProductCate);
-		System.out.println(listProductCate);
 		return "/user/shop-grid";
 	}
 
@@ -145,7 +144,6 @@ public class PageController {
 	@GetMapping("/user/favorite/like")
 	public String doGetLike(Model model,@RequestParam("pid") Integer pid,
 			@RequestParam("id") Integer id) {
-		
 		List<Favorite>favorites = favoriteService.CheckExistProducts(id);
 		for (int i = 0; i < favorites.size(); i++) {
 			System.out.println(pid); 
@@ -157,8 +155,7 @@ public class PageController {
 				favoriteService.LikeProducts(id,pid,timestamp);
 			}
 		}
-		
-		return "redirect:/user/favorite";
+		return "redirect:/index";
 	}
 
 	 
