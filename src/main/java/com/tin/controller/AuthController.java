@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,11 +72,19 @@ public class AuthController {
 	@Autowired
 	RoleService roleService;
 
-	@Autowired
-	AccountRepo accountRepo;
 	
 	@Autowired
 	ServletContext app;
+	
+	private final PasswordEncoder passwordEncoder;
+
+
+	@Autowired
+	public AuthController(AccountService accountService, UserServices userServices, PasswordEncoder passwordEncoder) {
+		this.accountService = accountService;
+		this.userServices = userServices;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
@@ -119,19 +128,24 @@ public class AuthController {
 	}
 
 	@PostMapping("/user/change-password")
-	public String doPostChange(Model model, HttpServletRequest request) {
-			String username = request.getParameter("username");
-			String getPassword = accountService.findByPassword(username);
+	public String doPostChange(Model model, HttpServletRequest request, Authentication authentication) {
 			String oldPassword = request.getParameter("oldPassword");
 			String newPassword = request.getParameter("newPassword");
 			String password = request.getParameter("password");
-			
-//			if(oldPassword.isEmpty() || newPassword.isEmpty() || password.isEmpty()) {
-//				model.addAttribute("errorBlank", "Không để trống ô nhập");
-//			}else if(newPassword.length() < 6 || password.length() < 6) {
-//				model.addAttribute("errorLength", "Mật khẩu phải ít nhất 6 kí tự");
-//			}else 
-			if (getPassword == null) {
+			Account account = accountService.findByUsername(request.getRemoteUser()); // remote
+			String username = null;
+
+			if (account == null){
+				CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
+				Account accountOauth = accountService.findByEmail(oauth2User.getEmail());
+				username = accountOauth.getUsername();
+			}
+			else {
+				username = account.getUsername();
+			}
+			Account acc = accountService.findByUsername(username);
+			System.out.println(acc.getPassword());
+			if (!passwordEncoder.matches(oldPassword, acc.getPassword())) {
 				model.addAttribute("errorOld", "Mật khẩu cũ không đúng");
 			} else if (oldPassword.equals(newPassword)) {
 				model.addAttribute("error", "Mật khẩu mới không được trùng mật khẩu cũ");

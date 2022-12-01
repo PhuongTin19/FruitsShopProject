@@ -54,7 +54,6 @@
 									<li th:if="${account==null}" sec:authorize="isAuthenticated()" th:object="${session.currentUser}">
 										<a th:href="@{|/user/favorite/like?pid=${p.product_id}&id=*{account_id}|}"><i
 														class="fa fa-heart"></i></a>
-
 									</li>
 									<li><a th:attr="ng-click=@{|cart.add(${p.product_id})|}"><i class="fa fa-shopping-cart"  onclick="myFunction()"></i></a></li>
 								</ul>

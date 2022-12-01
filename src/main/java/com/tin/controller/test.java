@@ -33,8 +33,8 @@ public class test {
 	//test azure
 	static BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	public static void main(String[] args) {
-		boolean checkPassword = bcrypt.matches("","$2a$10$q9gbaErqW6S1BgtW8gqMfuk5RH9rzHElGUh7bbpaP8whw90bLIMJS");
-		System.out.println(checkPassword);
+		String passwordString = bcrypt.encode("123");
+		System.out.println(passwordString);
 		
 	}
 

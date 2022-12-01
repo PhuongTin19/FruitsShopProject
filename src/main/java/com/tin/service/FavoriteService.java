@@ -21,4 +21,6 @@ public interface FavoriteService {
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
 	
 	List<Favorite>favorites(Integer id);
+		
+	List<Favorite> CheckExistProducts(Integer account_id);
 }

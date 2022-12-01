@@ -100,6 +100,7 @@ public class PageController {
 		Pageable pageable = PageRequest.of(page.orElse(0), 9);
 		Page<Product> listProductCate = productService.filterByCate(cateId, pageable);
 		model.addAttribute("discountList", listProductCate);
+		System.out.println(listProductCate);
 		return "/user/shop-grid";
 	}
 
@@ -144,12 +145,23 @@ public class PageController {
 	@GetMapping("/user/favorite/like")
 	public String doGetLike(Model model,@RequestParam("pid") Integer pid,
 			@RequestParam("id") Integer id) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		favoriteService.LikeProducts(id,pid,timestamp);
+		
+		List<Favorite>favorites = favoriteService.CheckExistProducts(id);
+		for (int i = 0; i < favorites.size(); i++) {
+			System.out.println(pid); 
+			System.out.println("list:"+favorites.get(i).getProduct().getProduct_id());
+			if(pid == favorites.get(i).getProduct().getProduct_id()) {
+				favoriteService.deleteFavorites(id,pid);
+			}else {
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				favoriteService.LikeProducts(id,pid,timestamp);
+			}
+		}
+		
 		return "redirect:/user/favorite";
 	}
 
-	
+	 
 	//Unlike
 	@GetMapping("/user/favorite/unlike/{pid}")
 	public String doGetUnLike(Model model,@PathVariable("pid") Integer pid,

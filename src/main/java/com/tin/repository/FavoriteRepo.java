@@ -51,6 +51,9 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	@Modifying
 	@Query(value = "insert into favorites(account_id,product_id,likedate) values(?1,?2,?3)",nativeQuery = true)
 	void LikeProducts(Integer account_id, Integer product_id,Timestamp likedate);
+	//Check list favorite của account có những sản phẩm nào
+	@Query(value = "select * from favorites where account_id = ?1",nativeQuery = true)
+	List<Favorite> CheckExistProducts(Integer account_id);
 	
 	//Những sản phẩm được thích bởi account
 	@Query(value = "select * from Favorites where account_id = ?1",nativeQuery = true)

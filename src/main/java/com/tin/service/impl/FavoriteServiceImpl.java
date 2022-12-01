@@ -57,6 +57,11 @@ public class FavoriteServiceImpl implements FavoriteService{
 		return favoriteRepo.favorites(id);
 	}
 
+	@Override
+	public List<Favorite> CheckExistProducts(Integer account_id) {
+		return favoriteRepo.CheckExistProducts(account_id);
+	}
+
 
 	
 }

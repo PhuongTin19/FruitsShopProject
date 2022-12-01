@@ -39,11 +39,11 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	List<Product> findAllProduct(Integer number);
 
 	// Lọc sản phẩm theo giá - trang khuyến mãi
-	@Query(value = "select p from Product p where p.discount.discount_id = 1 and p.is_enable = 0 and (p.price - (p.price * p.discount.discount/100)) between ?1 and ?2")
+	@Query(value = "select p from Product p where p.is_enable = 0 and (p.price - (p.price * p.discount.discount/100)) between ?1 and ?2")
 	Page<Product> filterByPrice(Double min, Double max, Pageable pageable);
 
 	// Lọc sản phẩm theo loại - trang khuyến mãi
-	@Query(value = " select p from Product p where p.discount.discount_id = 1 and p.is_enable = 0 and p.category.category_id = ?1")
+	@Query(value = " select p from Product p where p.is_enable = 0 and p.category.category_id = ?1")
 	Page<Product> filterByCate(Integer id, Pageable pageable);
 
 	// Sản phẩm mới nhất - Trang chủ
