@@ -145,6 +145,12 @@ public class PageController {
 	public String doGetLike(Model model,@RequestParam("pid") Integer pid,
 			@RequestParam("id") Integer id) {
 		List<Favorite>favorites = favoriteService.CheckExistProducts(id);
+		System.out.println("pid:"+pid);
+		System.out.println("fs:"+favorites.size());
+		if(favorites.size() == 0) {
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			favoriteService.LikeProducts(id,pid,timestamp);
+		}
 		for (int i = 0; i < favorites.size(); i++) {
 			System.out.println(pid); 
 			System.out.println("list:"+favorites.get(i).getProduct().getProduct_id());
@@ -153,7 +159,7 @@ public class PageController {
 			}else {
 				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 				favoriteService.LikeProducts(id,pid,timestamp);
-			}
+			} 
 		}
 		return "redirect:/index";
 	}

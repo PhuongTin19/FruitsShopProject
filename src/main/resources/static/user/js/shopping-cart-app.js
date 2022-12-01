@@ -24,6 +24,9 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 						document.getElementById('quantityValid').innerHTML="Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
 						+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này";
 						x[i].value = 1;
+					}else{
+						document.getElementById('quantityValid').innerHTML="";
+						this.saveToLocalStorage();
 					}
 	            }
 		},
