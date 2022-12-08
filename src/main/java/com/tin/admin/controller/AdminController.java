@@ -16,11 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lowagie.text.DocumentException;
 import com.tin.entity.Discount;
 import com.tin.entity.Order;
+import com.tin.entity.Report;
+import com.tin.repository.ProductRepo;
 import com.tin.service.DiscountService;
 import com.tin.service.OrderService;
 import com.tin.ultil.OrderExcelExporter;
@@ -34,6 +37,9 @@ public class AdminController {
 	
 	@Autowired
 	private DiscountService discountService;
+	
+	@Autowired
+	private ProductRepo productRepo;
 	
 	// export data to excel
 		@GetMapping("/admin-order/export/excel")
@@ -115,6 +121,15 @@ public class AdminController {
 		}
 		return "/admin/index";
 	}
+	
+	
+	@RequestMapping({"/admin/inventory/{cName}"})
+	public String adminReportDetail(Model model,HttpServletRequest request,@PathVariable("cName") String categoryName) { 
+		List<Report>inventoryDetail = productRepo.getInventoryByCategoryDetail(categoryName);
+		model.addAttribute("inventoryDetail",inventoryDetail);
+		return "/admin/index2";
+	}
+	
 	public void disableDiscountAuto() {
 		try {
 			long millis=System.currentTimeMillis();   
@@ -139,8 +154,7 @@ public class AdminController {
 	        Timer timer = new Timer("Timer");
 	        timer.schedule(timerTask, 0, delay);
 		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+			System.out.println("");
+		} 
 	}
 }

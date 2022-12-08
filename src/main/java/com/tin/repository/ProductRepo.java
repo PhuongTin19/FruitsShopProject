@@ -86,9 +86,13 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	Product findByProductId(Integer id);
 
 	// Thống kê tồn kho
-	@Query("SELECT new Report(o.category.name, sum(o.price), count(o)) " + " FROM Product o " + " GROUP BY o.category.name"
+	@Query("SELECT new Report(o.category.name, sum(o.price), sum(o.quantity)) " + " FROM Product o " + " GROUP BY o.category.name"
 			+ " ORDER BY sum(o.price) DESC")
 	List<Report> getInventoryByCategory();
+	
+	@Query("SELECT new Report(o.name, sum(o.price), sum(o.quantity)) " + " FROM Product o WHERE o.category.name = ?1" + " GROUP BY o.name"
+			+ " ORDER BY sum(o.price) DESC ")
+	List<Report> getInventoryByCategoryDetail(String categoryName);
 	
 	@Query(value = "select p from Product p where p.name like %?1%")
 	List<Product> findByKeyword(String keyword);

@@ -17,15 +17,18 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 	                if (x[i].value > 20) {
 	                    //alert("Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!");
 	                    document.getElementById('quantityValid').innerHTML="Số lượng mua giới hạn là 20.Để mua nhiều hơn vui lòng liên hệ đến số điện thoại 0901301277 hoặc đến trực tiếp của hàng để trao đổi.Xin cảm ơn!";
-	                    x[i].value = 1;
+	                    //x[i].value = 1;
+	                    item.qty = 1;
 	                }else if(x[i].value>item.quantity){
 						//alert("Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
 						//+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này");
 						document.getElementById('quantityValid').innerHTML="Hết hàng! Số lượng "+ item.name+ " chỉ còn lại "+ item.quantity 
 						+". Bạn vui lòng quay lại sau.Thông cảm cho sự bất tiện này";
-						x[i].value = 1;
+						//x[i].value = 1;
+						item.qty = 1;
 					}else{
 						document.getElementById('quantityValid').innerHTML="";
+						//$scope.cart.loadFromLocalStorage();
 						this.saveToLocalStorage();
 					}
 	            }
@@ -110,9 +113,10 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 		saveToLocalStorage() {
 			//đổi các mặt hàng sang json
 			//dùng angular để copy xong 
-			//dùng json để để lưu vào jason có tên là cart
+			//dùng json để để lưu vào json có tên là cart
 			var json = JSON.stringify(angular.copy(this.items));
 			localStorage.setItem("cart", json);
+			
 		},
 		// đọc giỏ hàng từ local storage
 		loadFromLocalStorage() {

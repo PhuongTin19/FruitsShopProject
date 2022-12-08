@@ -44,6 +44,8 @@ public class AccountServiceImpl implements AccountService {
     		Account a = accDao.findById(account.getAccount_id()).get();
         	boolean checkPassword = account.getPassword().equals(a.getPassword());
         	System.out.println("check:"+checkPassword);
+        	account.setProvider(a.getProvider());
+        	account.setReliability(a.getReliability());
         	if(checkPassword) {
         		account.setPassword(a.getPassword());
         		return AccountRepo.save(account);

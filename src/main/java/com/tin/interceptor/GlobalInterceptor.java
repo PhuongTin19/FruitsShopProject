@@ -22,6 +22,7 @@ import com.tin.entity.Account;
 import com.tin.entity.Category;
 import com.tin.entity.Favorite;
 import com.tin.entity.Product;
+import com.tin.repository.ProductRepo;
 import com.tin.service.AccountService;
 import com.tin.service.BlogService;
 import com.tin.service.CategoryService;

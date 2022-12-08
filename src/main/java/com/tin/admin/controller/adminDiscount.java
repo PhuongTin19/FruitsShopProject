@@ -55,6 +55,5 @@ public class adminDiscount {
 		} catch (Exception e) {
 			System.out.println("");
 		} 
-		
 	}
 }

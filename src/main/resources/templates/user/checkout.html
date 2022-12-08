@@ -135,7 +135,8 @@ background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(194,188,188,1) 10
 										    <tr ng-repeat="item in cart.items">
 										      <td>{{item.name}}</td>
 										      <td>{{item.qty}}</td>
-										      <td>{{item.price - ((item.discount.discount * item.price)/100)|number:0}} <sup>đ</sup></td>
+										      <td>{{item.qty*(item.price - ((item.discount.discount *
+														item.price)/100)) |number:0}} <sup>đ</sup></td>
 										    </tr>
 										   </tbody>
 										  </table> 
