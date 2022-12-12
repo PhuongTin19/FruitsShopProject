@@ -232,21 +232,6 @@
 										</tr>
 									</table>
 								</div>
-								<div class="card-body">
-									<h3>TỒN KHO THEO LOẠI</h3>
-									<table class="table table-bordered table-striped " border="1" style="width:100%">
-										<tr>
-											<th class="table-dark">Tên hàng</th>
-											<th class="table-dark">Tổng giá</th>
-											<th class="table-dark">Số sản phẩm</th>
-										</tr>
-										<tr th:each="item:${inventoryDetail}">
-											<td>[[${item.group}]]</td>
-											<td>[[${#numbers.formatDecimal(item.sum, 0, 'COMMA', 0, 'POINT')}]]đ</td>
-											<td>[[${item.count}]]</td>
-										</tr>
-									</table>
-								</div>
 						</section>
 					</div>
 				</div>
