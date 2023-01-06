@@ -177,14 +177,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public void deleteLogical(Integer id) {
-		String orderStatus = accDao.CheckOrderStatus(id);
-		if(orderStatus.equals("Chưa thanh toán")) {
-			System.out.println("Người dùng đang sử dụng dịch vụ");
-			throw new RuntimeException();
-		}else {
-			accDao.deleteLogical(id);
-		}
-		
+		accDao.deleteLogical(id);
 	}
 
 	@Override

@@ -232,6 +232,19 @@
 										</tr>
 									</table>
 								</div>
+								<div class="card-body">
+									<h3>Lượt yêu thích sản phẩm</h3>
+									<table class="table table-bordered table-striped " border="1" style="width:100%">
+										<tr>
+											<th class="table-dark">Tên sản phẩm</th>
+											<th class="table-dark">Lượt yêu thích</th>
+										</tr>
+										<tr th:each="item2:${statsFavorite}">
+											<td>[[${item2[0]}]]</td>
+											<td>[[${item2[1]}]]</td>
+										</tr>
+									</table>
+								</div>
 						</section>
 					</div>
 				</div>

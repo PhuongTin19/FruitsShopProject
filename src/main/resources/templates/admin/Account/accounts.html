@@ -417,20 +417,20 @@
 					alert("Cập nhật người dùng thành công!");
 					location.reload();
 				})
-					.catch(error => {
+				.catch(error => {
 						alert("Người dùng hiện đang sử dụng dịch vụ!");
 						console.log("Error", error);
-					});
+				});
 			}
 
 			//Xóa sản phẩm
-			$scope.delete = function (item) {
+			$scope.delete = function () {
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn xóa người dùng này?")) {
 					$http.put(`/rest/accounts/deleteLogical/${item.account_id}`, item).then(resp => {
 						var index = $scope.items.findIndex(p => p.id == item.id);
 						$scope.items[index] = item;
-						$scope.reset();
+						//$scope.reset();
 						alert("Xóa người dùng thành công!");
 						location.reload();
 					}).catch(error => {
@@ -441,7 +441,7 @@
 			}
 
 			//Cập nhật tình trạng
-			$scope.updateLogical = function (item) {
+			$scope.updateLogical = function () {
 				//$scope.form.is_enable = true;
 				var item = angular.copy($scope.form);
 				if (confirm("Bạn muốn khôi phục người dùng này?")) {

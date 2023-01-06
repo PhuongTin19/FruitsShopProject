@@ -99,6 +99,8 @@ public class GlobalInterceptor implements HandlerInterceptor{
 		request.setAttribute("countCustomer", accountService.getCountCustomerInDay());
 		//Thống kê hàng tồn kho
 		request.setAttribute("Inventory", reportService.getInventoryByCategory());
+		//Thống kê lượt yêu thích sản phẩm
+		request.setAttribute("statsFavorite", favoriteService.statsFavorite());
 	}
 	
 }

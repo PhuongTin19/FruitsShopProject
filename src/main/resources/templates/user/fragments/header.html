@@ -20,7 +20,7 @@
 					</div>
 					<div class="col-lg-6 col-md-6 ">
 						<div class="header__top__right">
-							<div class="header__top__right__language">
+							<!--<div class="header__top__right__language">
 
 								<img th:src="@{/user/img/language.png}" alt="">
 								<div>Tiếng Anh</div>
@@ -29,7 +29,7 @@
 									<li><a href="?lang=vi">Tiếng Việt</a></li>
 									<li><a href="?lang=en">Tiếng Anh</a></li>
 								</ul>
-							</div>
+							</div>-->
 							<div class="header__top__right__language">
 								<div sec:authorize="!isAuthenticated()">
 									<a style="font-size: 14px;color: #1c1c1c;" th:href="@{/security/login}" th:text="#{nav.login}">Đăng

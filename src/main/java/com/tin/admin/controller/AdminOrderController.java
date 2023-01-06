@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,9 @@ public class AdminOrderController {
 	ProductService productService;
 	
 	@Autowired
+	OrderRepo orderRepo;
+	
+	@Autowired
 	UserServices userServices;
 	
 	@Autowired
@@ -63,7 +67,6 @@ public class AdminOrderController {
 			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
 		userServices.getUserName(request, authentication);
 		//Danh sách đơn hàng đã đặt
-		
 		String day1 = request.getParameter("day"); 
 		String end1 = request.getParameter("end");
 		model.addAttribute("day",day1);
@@ -75,12 +78,31 @@ public class AdminOrderController {
 			orderList = orderService.findByOrder(Date.valueOf("2022-01-01"),Date.valueOf("2022-12-31"),page-1,10);
 			model.addAttribute("orders", orderList.getContent());
 			model.addAttribute("totalPage", orderList.getTotalPages());
+			model.addAttribute("totalElement", orderList.getTotalElements());
 			model.addAttribute("currentPage", page);
 		}else {
 			orderList = orderService.findByOrder(Date.valueOf(day1),Date.valueOf(end1),page-1,10);
 			model.addAttribute("orders", orderList.getContent());
 			model.addAttribute("totalPage", orderList.getTotalPages());
+			model.addAttribute("totalElement", orderList.getTotalElements());
 			model.addAttribute("currentPage", page);
+		}
+//		tìm theo mã
+		try {
+			Integer oid = Integer.parseInt(request.getParameter("oid"));
+//			Pageable pageable = PageRequest.of(page.orElse(0),9);
+			Page<Order> orderList1 = orderService.findByOrderID(oid, page-1,10);
+			model.addAttribute("orders", orderList1);
+			model.addAttribute("totalElement", orderList1.getTotalElements());
+			if(orderList1 == null) {
+				model.addAttribute("orders", orderList);
+			}else if (!orderRepo.existsById(oid)) {
+				model.addAttribute("noOrder","Không có đơn hàng bạn tìm");
+			}else if (oid == null) {
+				model.addAttribute("orders", orderList);
+			}
+		} catch (Exception e) {
+//			e.printStackTrace();
 		}
 		return "admin/Order/Order";
 	}
@@ -134,7 +156,7 @@ public class AdminOrderController {
 		be.setDescription(request.getRemoteUser() + " đã xác nhận đơn hàng " + order.getOrder_id());
 		behaviorService.save(be);
 		//
-		userServices.getUserName(request, authentication);
+userServices.getUserName(request, authentication);
 		//Danh sách đơn hàng đã đặt
 		Page<Order> orderList = orderService.findByOrder(page-1,10);
 		model.addAttribute("orders", orderList.getContent());
@@ -198,7 +220,7 @@ public class AdminOrderController {
 		List<OrderDetail>details = orderDetailsService.findByDetailId(order.getOrder_id());
 		for (int i = 0; i < details.size(); i++) {
 			Product product = productService.findById(details.get(i).getProduct().getProduct_id());
-			Integer newQuanity = product.getQuantity() + details.get(i).getTotalQuantity();
+Integer newQuanity = product.getQuantity() + details.get(i).getTotalQuantity();
 			productService.updateQuantity(newQuanity, details.get(i).getProduct().getProduct_id());
 		}
 		//
@@ -264,7 +286,7 @@ public class AdminOrderController {
 			@RequestParam(name="page",defaultValue = "1") int page) throws ParseException {		
 		userServices.getUserName(request, authentication);
 		List<Object[]>orderList = orderService.detailReceipt();
-		model.addAttribute("ordersAll", orderList);
+model.addAttribute("ordersAll", orderList);
 		List<Object[]>orderListStatus1 = orderService.detailReceiptStatus("Chưa thanh toán");
 		model.addAttribute("orderListStatus1", orderListStatus1);
 		List<Object[]>orderListStatus2 = orderService.detailReceiptStatus("Hoàn thành");
@@ -276,5 +298,4 @@ public class AdminOrderController {
 		return "admin/Order/DetailReceipt";
 	}
 
-	
 }

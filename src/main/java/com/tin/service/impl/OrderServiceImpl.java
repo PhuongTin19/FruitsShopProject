@@ -265,4 +265,14 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> findAll() {
 		return orderRepo.findAll(Sort.by("orderdate").descending());
 	}
+	
+	@Override
+	public Page<Order> findByOrderID(Integer oid, Pageable page) {
+		return orderRepo.findByOrderID(oid, page);
+	}
+
+	@Override
+	public Page<Order> findByOrderID(Integer oid, int page, int size) {
+		return orderRepo.findByOrderID(oid,PageRequest.of(page, size));
+	}
 }

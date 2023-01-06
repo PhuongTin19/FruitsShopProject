@@ -30,6 +30,10 @@ public interface OrderService {
 	
 	Double getRevenue();
 	
+	Page<Order> findByOrderID(Integer oid, int page, int size);
+	
+	Page<Order> findByOrderID(Integer oid, Pageable page);
+	
 	Page<Order>findByOrder(Date startDate,Date endDate,int page, int size);
 	
 	Page<Order>findByOrder(int page, int size);

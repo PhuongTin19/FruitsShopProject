@@ -154,7 +154,7 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 				alert("Chưa nhập số điện thoại")
 				return;
 			}if(!document.getElementById("phone").value.match(/^\d{10}$/)){
-				alert("Số điện thoại không hợp lệ")
+				alert("Số điện thoại không hợp lệ");
 				return;
 			} if (document.getElementById("address").value == "") {
 				alert("Chưa nhập địa chỉ")
@@ -177,7 +177,12 @@ app.controller("shopping-cart-ctrl", function($scope, $http) {
 			$http.post("/rest/orders", order).then(resp => {
 				alert("Đặt hàng thành công!");
 				//$scope.cart.clear();
-				location.href = "/order/detail/" + resp.data.order_id;
+			//	if(document.getElementById("acc-or").checked === true){
+					location.href = "/order/detail/" + resp.data.order_id;
+			//}else if(document.getElementById("paypal").checked === true){
+				//	location.href = "/thanh-toan";
+				//}
+				
 			}).catch(error => {
 				alert("Đặt hàng lỗi!")
 				console.log(error)

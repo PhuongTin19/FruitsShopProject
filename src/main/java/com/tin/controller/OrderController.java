@@ -42,9 +42,11 @@ import com.tin.entity.Account;
 import com.tin.entity.Blog;
 import com.tin.entity.Order;
 import com.tin.entity.Product;
+import com.tin.repository.OrderRepo;
 import com.tin.service.AccountService;
 import com.tin.service.OrderService;
 import com.tin.service.PaymentService;
+import com.tin.service.SessionService;
 
 import javassist.expr.NewArray;
 
@@ -56,13 +58,19 @@ public class OrderController {
 
 	@Autowired
 	OrderService orderService;
-
+	
+	@Autowired
+	SessionService sessionService;
+	
 	@Autowired
 	AccountService accountService;
 
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	OrderRepo orderRepo;
+	
 	@Autowired
 	UserServices userServices;
 
@@ -83,7 +91,7 @@ public class OrderController {
  
 	@RequestMapping("/order/tracking")
 	public String tracking(Model model, HttpServletRequest request) {
-		String username = request.getRemoteUser();
+String username = request.getRemoteUser();
 		model.addAttribute("ordersTracking", orderService.findByUsernameTracking(username));
 		return "user/trackingorder";
 	}
@@ -107,6 +115,23 @@ public class OrderController {
 		if(orderList.isEmpty()) {
 			model.addAttribute("noOrder","Chưa có đơn hàng"); 
 		}
+		//tim
+		try {
+			Integer oid = Integer.parseInt(request.getParameter("oid"));
+			Pageable pageable = PageRequest.of(p.orElse(0),9);
+			Page<Order> orderList1 = orderService.findByOrderID(oid, pageable);
+			model.addAttribute("orders", orderList1);
+			if(orderList1 == null) {  
+				model.addAttribute("orders", orderList);
+			}else if (!orderRepo.existsById(oid)) {
+				model.addAttribute("noOrder","Không có đơn hàng bạn tìm");
+			}else if (oid == null) {
+				model.addAttribute("orders", orderList);
+			}
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		
 		return "user/listorder";
 	}
 
@@ -144,7 +169,7 @@ public class OrderController {
 		return "user/cancel2";
 	}
 
-	@GetMapping(URL_PAYPAL_SUCCESS)
+	@GetMapping(URL_PAYPAL_SUCCESS) 
 	public String successPay(Model model,@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paymentService.executePayment(paymentId, payerId);

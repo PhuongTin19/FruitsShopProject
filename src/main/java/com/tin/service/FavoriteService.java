@@ -23,4 +23,6 @@ public interface FavoriteService {
 	List<Favorite>favorites(Integer id);
 		
 	List<Favorite> CheckExistProducts(Integer account_id);
+	
+	List<Object[]> statsFavorite();
 }
