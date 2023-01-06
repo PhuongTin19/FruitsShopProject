@@ -63,5 +63,11 @@ public class FavoriteServiceImpl implements FavoriteService{
 	}
 
 
+	@Override
+	public List<Object[]> statsFavorite() {
+		return favoriteRepo.statsFavorite();
+	}
+
+
 	
 }

@@ -88,17 +88,19 @@ public class AccountRestController {
 	}
 	@PutMapping("/deleteLogical/{id}")
 	public void delete(@PathVariable("id")Integer id,@RequestBody Account account) {
-		try {
-			accountService.deleteLogical(id);
-			Account accountRecord = accountService.findByUsername(request.getRemoteUser());
-			Behavior behavior = new Behavior();
-			behavior.setAccount(accountRecord);
-			behavior.setDescription(accountRecord.getUsername() + " Đã tắt trạng thái hoạt động user " 
-					+ account.getUsername());
-			behaviorService.save(behavior);
-		} catch (Exception e) {
-			
-		}
+			String orderStatus = accountService.CheckOrderStatus(id);
+//			if(orderStatus.equals("Chưa thanh toán")) {
+//				System.out.println("Người dùng đang sử dụng dịch vụ");
+//				throw new RuntimeException();
+//			}else {
+				accountService.deleteLogical(id);
+				Account accountRecord = accountService.findByUsername(request.getRemoteUser());
+				Behavior behavior = new Behavior();
+				behavior.setAccount(accountRecord);
+				behavior.setDescription(accountRecord.getUsername() + " Đã tắt trạng thái hoạt động user " 
+						+ account.getUsername());
+				behaviorService.save(behavior);
+//			}
 	}
 	@PutMapping("/updateLogical/{id}")
 	public void updateLogical(@PathVariable("id")Integer id,@RequestBody Account account) {

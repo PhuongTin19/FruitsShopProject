@@ -58,5 +58,9 @@ public interface FavoriteRepo extends JpaRepository<Favorite,Integer> {
 	//Những sản phẩm được thích bởi account
 	@Query(value = "select * from Favorites where account_id = ?1",nativeQuery = true)
 	List<Favorite>favorites(Integer id);
+	
+	//Thống kê các sản phẩm được yêu thích
+	@Query(value = "{CALL sp_statsFavorite()}", nativeQuery = true)
+	List<Object[]> statsFavorite();
 
 }

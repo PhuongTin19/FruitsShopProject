@@ -63,7 +63,7 @@ public class ImageRestController {
 		Account account = accountService.findByUsername(request.getRemoteUser());
 		Behavior be = new Behavior();
 		be.setAccount(account);
-		be.setDescription(account.getUsername() + " Đã thêm mới một hình ảnh tên " + image.getName());
+		be.setDescription(account.getUsername() + " Đã sửa một hình ảnh tên " + image.getName());
 		behaviorService.save(be);
 		return image;
 	}
@@ -82,7 +82,7 @@ public class ImageRestController {
 		 Account account = accountService.findByUsername(request.getRemoteUser()); 
 		 Behavior be = new Behavior();
 		 be.setAccount(account);
-		 be.setDescription(account.getUsername() + " Đã thêm mới một hình ảnh tên " + image.getName());
+		 be.setDescription(account.getUsername() + " Đã xóa một hình ảnh tên " + image.getName());
 		 behaviorService.save(be);
 	}
 }

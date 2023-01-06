@@ -24,10 +24,16 @@
         	<center th:if="${noOrder}!=null">
 	        	<img th:src="@{/photos/order.png}" height="80px"/>
 	        	<h3>[[${noOrder}]]</h3>
+	        	 <!-- <h3>[[${noKW}]]</h3> -->
+	        	 <a th:href="@{/order/list}" class="btn btn-warning text-uppercase">quay lại</a>
         	</center>
             <div class="row" th:if="${noOrder}==null">
                 <div class="col-lg-12">
                     <div class="shoping__cart__table">
+                        <form th:action="@{/order/list}" class="form-inline my-2 my-lg-0">
+					      <input name="oid" th:value="${oid}" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm</button>
+					    </form>
                         <table>
                             <thead class="bg-warning">
                                 <tr>
@@ -49,7 +55,7 @@
                                     <td>[[${order.address}]]</td>
                                     <td>[[${order.payment_method.name}]]</td>
                                     <td>
-										<h4 th:if="${order.orderStatus == 'Hoàn thành'}"><span class="badge badge-success" id="status">[[${order.orderStatus}]]</span></h4>
+<h4 th:if="${order.orderStatus == 'Hoàn thành'}"><span class="badge badge-success" id="status">[[${order.orderStatus}]]</span></h4>
 										<h4 th:if="${order.orderStatus == 'Đã hủy đơn'}"><span class="badge badge-danger" id="status">[[${order.orderStatus}]]</span></h4>
 										<h4 th:if="${order.orderStatus == 'Chưa thanh toán'}"><span class="badge badge-warning" id="status">[[${order.orderStatus}]]</span></h4>
                                     </td>
@@ -62,7 +68,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="col-lg-12" style="margin-left:500px">
+                        <div th:if="${orders.getTotalElements()} > 10" class="col-lg-12" style="margin-left:500px">
 							<div class="product__pagination blog__pagination">
 								<a th:href="@{/order/list?page=0}">
 										<i class="bi bi-chevron-double-left"></i>

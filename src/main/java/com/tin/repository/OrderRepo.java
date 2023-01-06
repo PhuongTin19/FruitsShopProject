@@ -21,7 +21,9 @@ public interface OrderRepo extends JpaRepository<Order, Integer> {
 
 	@Query("SELECT o FROM Order o WHERE o.account.username=?1 Order by o.order_id DESC")
 	List<Order> findByUsernameList(String username);
-
+	
+	@Query("select o from Order o where order_id=?1")
+	Page<Order> findByOrderID(Integer oid, Pageable page);
 	// Tất cả đơn đặt hàng
 	@Query("SELECT o FROM Order o WHERE o.orderdate between ?1 and ?2 Order by o.orderdate DESC")
 	Page<Order> findByOrder(Date startDate, Date endDate, Pageable page);
@@ -67,7 +69,7 @@ public interface OrderRepo extends JpaRepository<Order, Integer> {
 			+ "			inner join Products p \r\n"
 			+ "			on c.category_id = p.category_id\r\n"
 			+ "			inner join Oder_details od \r\n"
-			+ "			on od.product_id = p.product_id\r\n"
++ "			on od.product_id = p.product_id\r\n"
 			+ "			inner join Orders o\r\n"
 			+ "			on od.order_id = o.order_id\r\n"
 			+ "			where o.orderStatus = 'Hoàn thành' and o.orderDate between ?1 and ?2\r\n"

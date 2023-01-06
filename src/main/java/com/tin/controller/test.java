@@ -41,8 +41,8 @@ public class test {
 	//test azure
 	static BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	public static void main(String[] args) {
-		String passwordString = bcrypt.encode("123");
-		System.out.println(passwordString);
+//		String passwordString = bcrypt.encode("123");
+//		System.out.println(passwordString);
 	}
 
 	 @GetMapping("/st") public String change() {

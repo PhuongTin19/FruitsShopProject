@@ -84,18 +84,17 @@
 								</div>
 							</form>
 						</div>
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
-						  <label class="btn btn-success">
-						    <a th:href="@{|/admin-order/export/excel|}" class="text-white">
-							Export XLX
-							</a>
-						  </label>
-						  <!-- <label class="btn btn-danger">
-						    <a th:href="@{|/admin-order/export/pdf|}" class="text-white">
-									Export 	PDF
-							</a>
-						  </label> -->
-						</div>
+						<label class="btn btn-success">
+							    <a th:href="@{|/admin-order/export/excel|}" class="text-white">
+								Export XLX
+								</a>
+						</label>
+<div class="m-1">
+						<form th:action="@{/admin-order}" class="form-inline my-2 my-lg-0">
+					      <input name="oid" th:value="${oid}" class="form-control mr-sm-2" type="search" placeholder="Tìm theo mã" aria-label="Search">
+					      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm</button>
+					    </form>
+					    </div>
 						<table class="table table-striped">
 							<thead>
 								<tr>
@@ -134,7 +133,7 @@
 										<a th:if="${order.orderStatus == 'Chưa thanh toán' && order.payment_method.payment_method_id == 1}" 
 											th:href="@{|/admin-cancelOrder/${order.order_id}|}" class="btn btn-danger"><span
 												class="icon_close">Hủy</span></a>
-										<a th:if="${order.orderStatus == 'Đã hủy đơn' && order.payment_method.payment_method_id == 1}" 
+										<a th:if="${order.orderStatus == 'Đã hủy đơn'}" 
 											th:href="@{|/admin-restoreOrder/${order.order_id}|}"
 											class="btn btn-success">Khôi phục</a>
 										<a th:href="@{|/admin-detailOrder/${order.order_id}|}" class="btn btn-warning">
@@ -145,8 +144,14 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="text-center" style="margin-left:450px">
-							<nav aria-label="Page navigation example" th:if="${totalPage >1}">
+						<center class="m-auto" th:if="${noOrder}!=null">
+				        	<img th:src="@{/photos/order.png}" height="80px"/>
+				        	<h3>[[${noOrder}]]</h3>
+				        	<!-- <h3>[[${noKW}]]</h3> -->
+				        	<a th:href="@{/admin-order}" class="btn btn-warning text-uppercase">quay lại</a>
+			        	</center>
+						<div th:if="${totalElement} > 10" class="text-center" style="margin-left:450px">
+							<nav aria-label="Page navigation example">
 								<ul class="pagination justify-content-center">
 									<li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
 										<a th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage-1)} :''}"

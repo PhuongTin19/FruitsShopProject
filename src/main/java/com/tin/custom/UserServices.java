@@ -409,8 +409,8 @@ public class UserServices {
         String content = "Thân chào <b>[[name]]</b>,<br>"
         		+"Chúng tôi nhận thấy tài khoản của bạn có dấu hiệu bất thường<br>"
                 + "Có vẻ tài khoản của bạn đã vi phạm các điều khoản của FiveHouse."
-                + "Các hành vi vi phạm có thể bao gồm spam,hủy đơn nhiều lần.<br>"
-                + "Mọi thắc mắc xin liên hệ đến số 0901301277.<br>"
+                + "Các hành vi vi phạm có thể bao gồm spam,hủy đơn nhiều lần,...<br>"
+                + "Mọi thắc mắc xin liên hệ đến số hotline 0901301277 hoặc email:tin63711@gmail để được hỗ trợ.<br>"
                 +"Cảm ơn<br>"
                 + "Five House.<br>"
                 + "<a href='http://localhost:8080'><img src='file:C:/Users/USUS/eclipse-workspace/FruitsShopProject2/src/main/resources/static/user/img/logo3.png' /></a>";
